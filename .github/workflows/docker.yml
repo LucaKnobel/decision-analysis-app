@@ -1,4 +1,4 @@
-name: Build & Push Docker Image
+name: Build, Push and deploy Docker Image
 
 on:
   push:
@@ -30,4 +30,9 @@ jobs:
         run: |
           docker push "${IMAGE}"
           docker push "ghcr.io/${GITHUB_REPOSITORY,,}:latest"
+      
+      - name: Redeploy on Jelastic
+        run: |
+          curl -X POST \
+            "https://${{ secrets.JELASTIC_HOST }}/1.0/environment/control/rest/redeploycontainerbyid?envName=${{ secrets.JELASTIC_ENV }}&session=${{ secrets.JELASTIC_SESSION }}&nodeId=${{ secrets.JELASTIC_NODE_ID }}&tag=latest&useExistingVolumes=true"
 
