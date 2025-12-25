@@ -13,15 +13,21 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Login to GHCR
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
+      - name: Set image name (lowercase)
+        run: |
+          echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}:${GITHUB_SHA}" >> $GITHUB_ENV
+
       - name: Build image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/nuxt-app:${{ github.sha }} .
+          docker build -t "${IMAGE}" -t "ghcr.io/${GITHUB_REPOSITORY,,}:latest" .
 
       - name: Push image
         run: |
-          docker push ghcr.io/${{ github.repository }}/nuxt-app:${{ github.sha }}
+          docker push "${IMAGE}"
+          docker push "ghcr.io/${GITHUB_REPOSITORY,,}:latest"
+
