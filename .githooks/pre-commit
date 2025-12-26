@@ -1,0 +1,35 @@
+#!/bin/bash
+# Git Pre-Commit Hook - Typecheck, Lint, Tests
+# Installation: git config core.hooksPath .githooks
+
+set -e
+
+echo "### Pre-commit checks..."
+
+# 1) Run Lint
+echo "### Linting..."
+npm run lint > /dev/null 2>&1 || {
+    echo "### Lint errors found"
+    exit 1
+}
+echo "### Lint OK"
+
+# 2) TypeScript Check
+echo "### TypeScript typecheck..."
+npm run typecheck > /dev/null 2>&1 || {
+    echo "### TypeScript errors"
+    exit 1
+}
+echo "### TypeScript OK"
+
+# 3) Tests
+# Using 'nuxt test' which runs test suite via @nuxt/test-utils (Nuxt's official recommended method) :contentReference[oaicite:1]{index=1}
+echo "### Running tests..."
+npm test > /dev/null 2>&1 || {
+    echo "### Tests failed"
+    exit 1
+}
+echo "### Tests passed"
+
+echo "### Pre-commit checks passed — ready to commit!"
+exit 0
