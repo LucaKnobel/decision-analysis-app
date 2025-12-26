@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>Dashboard</p>
-    <slot />
+    <p>Demo</p>
   </div>
 </template>
