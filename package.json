@@ -7,7 +7,7 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
+    "postinstall": "nuxt prepare && git config core.hooksPath .githooks",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
     "test": "nuxt test"
