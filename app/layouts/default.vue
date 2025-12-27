@@ -1,18 +1,16 @@
+<script setup lang="ts">
+import Footer from '~/components/ui/Footer.vue'
+import Header from '~/components/ui/Header.vue'
+</script>
+
 <template>
-  <div>
-    <p>{{ $t('pages.index.title') }}</p>
-    <slot />
+  <div class="min-h-screen flex flex-col">
+    <Header />
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <Footer class="fixed bottom-0 left-0 right-0" />
   </div>
-  <UFooter>
-    <template #left>
-      <p class="text-muted text-sm">
-        {{ $t('footer.copyright') }} {{ new Date().getFullYear() }}
-      </p>
-    </template>
-    <template #right>
-      <NuxtLink :to="$localePath('demo')">{{ $t('nav.demo') }}</NuxtLink>
-      <NuxtLink :to="$localePath('privacy-policy')">{{ $t('footer.privacy') }}</NuxtLink>
-      <NuxtLink :to="$localePath('imprint')">{{ $t('footer.imprint') }}</NuxtLink>
-    </template>
-  </UFooter>
 </template>
