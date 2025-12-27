@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "demo": "Demo",
+    "login": "Login"
+  },
+  "footer": {
+    "privacy": "Privacy Policy",
+    "imprint": "Imprint",
+    "copyright": "Copyright"
+  },
+  "pages": {
+    "index": {
+      "title": "Welcome"
+    }
+  }
+}

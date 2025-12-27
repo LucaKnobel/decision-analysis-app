@@ -1,6 +1,27 @@
+<!-- <script setup lang="ts">
+import { en, de } from '@nuxt/ui/locale'
+
+const locale = ref('en')
+</script>
+
 <template>
-  <div>
-    <h1>Welcome to the Home Page</h1>
-    <p>This is the main landing page of the application.</p>
-  </div>
+  <ULocaleSelect
+    v-model="locale"
+    :locales="[en, de]"
+  />
+</template>
+ -->
+
+<script setup lang="ts">
+import * as locales from '@nuxt/ui/locale'
+
+const locale = ref('en')
+</script>
+
+<template>
+  <ULocaleSelect
+    v-model="locale"
+    :locales="Object.values(locales)"
+    class="w-48"
+  />
 </template>
