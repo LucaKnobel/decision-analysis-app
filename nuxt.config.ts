@@ -6,12 +6,21 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     'nuxt-security'
   ],
-
   devtools: {
     enabled: true
   },
 
   css: ['~/assets/css/main.css'],
+  runtimeConfig: {
+    // The private keys which are only available server-side
+    apiSecret: '',
+    databaseUrl: '',
+    securityEnabled: '',
+    // Keys within public are also exposed client-side
+    public: {
+      apiBase: ''
+    }
+  },
 
   routeRules: {
     '/': { prerender: true }
@@ -39,5 +48,8 @@ export default defineNuxtConfig({
       { code: 'en', name: 'English', file: 'en.json' },
       { code: 'de', name: 'Deutsch', file: 'de.json' }
     ]
+  },
+  security: {
+    enabled: process.env.NODE_ENV === 'production'
   }
 })

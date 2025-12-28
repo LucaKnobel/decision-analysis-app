@@ -18,6 +18,7 @@ RUN npm run build
 
 # Environment variables that our app will use
 ENV NODE_ENV=production
+ENV NITRO_HOST=0.0.0.0
 ENV PORT=3000
 
 # Expose the Nuxt runtime port

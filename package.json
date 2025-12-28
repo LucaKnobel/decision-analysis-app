@@ -5,9 +5,9 @@
   "scripts": {
     "start": "node .output/server/index.mjs",
     "build": "nuxt build",
-    "dev": "nuxt dev",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare && git config core.hooksPath .githooks",
+    "dev": "nuxt dev --dotenv .env",
+    "preview": "nuxt preview --dotenv .env",
+    "postinstall": "nuxt prepare && [ -d .git ] && git config core.hooksPath .githooks || true",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
     "test": "nuxt test"
