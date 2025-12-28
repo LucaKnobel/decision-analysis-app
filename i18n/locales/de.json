@@ -11,8 +11,10 @@
   },
   "pages": {
     "index": {
-      "title": "Willkommen"
-      
+      "title": "Bessere Entscheidungen. Systematisch getroffen.",
+      "description": "Dezizio unterstützt strukturierte Entscheidungsprozesse durch transparente Nutzwertanalysen – nachvollziehbar, reproduzierbar und klar dokumentiert.",
+      "getStarted": "Loslegen",
+      "learnMore": "Mehr erfahren"
     }
   }
 }

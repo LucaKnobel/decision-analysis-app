@@ -23,5 +23,8 @@ const footerItems: NavigationMenuItem[] = [{
       </p>
     </template>
     <UNavigationMenu :items="footerItems" />
+    <template #right>
+      <AppLocaleSelect />
+    </template>
   </UFooter>
 </template>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>sälüi</p>
-    <UButton>Click me</UButton>
+    <LandingCTA />
   </div>
 </template>
