@@ -1,10 +1,11 @@
+<script setup lang="ts">
+const localePath = useLocalePath()
+</script>
+
 <template>
   <UHeader>
     <template #left>
-      <NuxtLink to="/">
-        <AppLogo />
-      </NuxtLink>
-      <TemplateMenu />
+      <AppLogo />
     </template>
 
     <template #right>
@@ -14,7 +15,7 @@
         icon="i-lucide-log-in"
         color="neutral"
         variant="ghost"
-        to="/auth/login"
+        :to="localePath('/auth/login')"
         class="lg:hidden"
       />
 
@@ -22,7 +23,7 @@
         :label="$t('nav.login')"
         color="neutral"
         variant="outline"
-        to="/auth/login"
+        :to="localePath('/auth/login')"
         class="hidden lg:inline-flex"
       />
 
@@ -31,7 +32,7 @@
         color="neutral"
         trailing-icon="i-lucide-arrow-right"
         class="hidden lg:inline-flex"
-        to="/auth/register"
+        :to="localePath('/auth/register')"
       />
     </template>
 
@@ -40,14 +41,14 @@
         :label="$t('nav.login')"
         color="neutral"
         variant="subtle"
-        to="/auth/login"
+        :to="localePath('/auth/login')"
         block
         class="mb-3"
       />
       <UButton
         :label="$t('nav.register')"
         color="neutral"
-        to="/auth/register"
+        :to="localePath('/auth/login')"
         block
       />
     </template>
