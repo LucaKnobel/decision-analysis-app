@@ -1,6 +1,7 @@
 name: Pull Request CI Checks
 
-# Run this workflow for pull requests targeting the main or dev branch
+# Trigger: Run quality checks, security scans, and tests on PRs to main or dev
+# Ensures code meets standards before merging
 on:
   pull_request:
     branches:
@@ -16,28 +17,28 @@ jobs:
     name: Code Quality
     runs-on: ubuntu-latest
 
-    # Skip running for Dependabot PRs
+    # Skip for Dependabot: Its PRs are dependency updates, already security-checked
     if: github.actor != 'dependabot[bot]'
 
     steps:
-      # Check out the code
+      # Clone repository at PR commit
       - uses: actions/checkout@v6
 
-      # Set up Node.js runtime
+      # Install Node.js 24 for build tooling
       - uses: actions/setup-node@v6
         with:
           node-version: 24
 
-      # Install dependencies
+      # Install dependencies from lock file (ensures reproducible builds)
       - run: npm ci
 
-      # Run basic security report on dependencies
+      # Check dependencies for known vulnerabilities (fail on moderate+ severity)
       - run: npm audit --audit-level=moderate
 
-      # Run static code linting
+      # Verify code style and catch common errors
       - run: npm run lint
 
-      # Run TypeScript type checking
+      # Validate TypeScript types to prevent runtime errors
       - run: npm run typecheck
 
       - name: Run tests (skipping if none present)
@@ -69,40 +70,41 @@ jobs:
     permissions:
       contents: read
 
-    # Provide the Semgrep App Token from secrets
+    # Authenticate with Semgrep Cloud for rule updates and findings sync
     env:
       SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
-    # Use Semgrep container image to run CI
+    # Run in official Semgrep container for consistent environment
     container:
       image: semgrep/semgrep
 
-    # Skip this job for Dependabot PRs
+    # Skip for Dependabot: Semgrep analyzes first-party code, not dependencies
     if: github.actor != 'dependabot[bot]'
 
     steps:
-      # Check out the code for analysis
+      # Clone code for static analysis
       - uses: actions/checkout@v6
 
-      # Run Semgrep security and quality scans
+      # Scan for security vulnerabilities and code quality issues
       - run: semgrep ci
 
   trivy:
     name: Security Scan
     runs-on: ubuntu-latest
 
-    # Skip this job for Dependabot PRs
+    # Skip for Dependabot: Separate dependency scanning already covered
     if: github.actor != 'dependabot[bot]'
 
     steps:
-      # Retrieve code for scanning
+      # Clone repository for comprehensive security scan
       - uses: actions/checkout@v6
 
-      # Install Trivy vulnerability scanner
+      # Install Trivy scanner from official source
       - name: Install Trivy
         run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
 
-      # Scan filesystem for vulnerabilities, secrets, and misconfigurations
+      # Scan for vulnerabilities, leaked secrets, and IaC misconfigurations
+      # Fails CI on medium+ severity findings to enforce security standards
       - name: Run Trivy scan
         run: |
           trivy fs \

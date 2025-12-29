@@ -1,0 +1,53 @@
+name: CD Deploy Production
+
+# Trigger: Auto-deploy to production on every push to main branch
+# Assumes main is protected and requires PR approval + passing CI checks
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+
+    # Uses production environment config (must be configured in repo settings)
+    # Recommended: Enable required reviewers and deployment delays
+    environment: production
+
+    permissions:
+      contents: read      # Read source code
+      packages: write     # Push to GitHub Container Registry
+
+    steps:
+      # Clone repository at triggering commit
+      - uses: actions/checkout@v6
+
+      # Authenticate with GitHub Container Registry using auto-generated token
+      - name: Login to GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      # Generate image tags: SHA-specific (immutable) and latest (mutable pointer)
+      # Lowercase required by Docker registry naming conventions
+      - name: Set image name (lowercase)
+        run: |
+          echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}:${GITHUB_SHA}" >> $GITHUB_ENV
+
+      # Build production Docker image with both SHA and latest tags
+      - name: Build image
+        run: |
+          docker build -t "${IMAGE}" -t "ghcr.io/${GITHUB_REPOSITORY,,}:latest" .
+
+      # Push both image tags to registry for deployment and rollback capability
+      - name: Push images
+        run: |
+          docker push "${IMAGE}"
+          docker push "ghcr.io/${GITHUB_REPOSITORY,,}:latest"
+
+      # Trigger Jelastic to pull and redeploy latest image in production
+      - name: Redeploy on Jelastic
+        run: |
+          curl -X POST \
+            "https://${{ secrets.JELASTIC_HOST }}/1.0/environment/control/rest/redeploycontainerbyid?envName=${{ secrets.JELASTIC_ENV }}&session=${{ secrets.JELASTIC_SESSION }}&nodeId=${{ secrets.JELASTIC_NODE_ID }}&tag=latest&useExistingVolumes=true"
