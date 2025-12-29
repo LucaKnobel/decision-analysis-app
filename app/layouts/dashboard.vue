@@ -1,5 +1,6 @@
 <template>
   <div>
-    <LandingCTA />
+    <p>Dashboard</p>
+    <slot />
   </div>
 </template>

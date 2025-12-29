@@ -1,0 +1,49 @@
+#!/bin/bash
+# Git Pre-Commit Hook - Typecheck, Lint, Tests (skip if no tests exist)
+# Installation: git config core.hooksPath .githooks
+
+set -e
+
+echo "### Pre-commit checks..."
+
+# 1) Lint
+echo "### Linting..."
+npm run lint > /dev/null 2>&1 || {
+    echo "### Lint errors found"
+    echo "Commit failed — fix lint errors and try again"
+    exit 1
+}
+echo "### Lint OK"
+
+# 2) TypeScript Check
+echo "### TypeScript typecheck..."
+npm run typecheck > /dev/null 2>&1 || {
+    echo "### TypeScript errors"
+    echo "Commit failed — fix TypeScript errors and try again"
+    exit 1
+}
+echo "### TypeScript OK"
+
+# 3) Run tests but tolerate "no test files found"
+echo "### Running tests (if present)..."
+
+TEST_OUTPUT=$(npm test 2>&1) || TEST_EXIT=$?
+
+# If tests exited with error
+if [ "$TEST_EXIT" != "" ] && [ "$TEST_EXIT" -ne 0 ]; then
+    # Check for "No test files found" message
+    if echo "$TEST_OUTPUT" | grep -q "No test files found"; then
+        echo "### No test files found — skipping tests"
+    else
+        # Real test failure
+        echo "$TEST_OUTPUT"
+        echo "### Tests failed"
+        echo "Commit failed — fix test failures and try again"
+        exit 1
+    fi
+else
+    echo "### Tests passed"
+fi
+
+echo "### Pre-commit checks passed — ready to commit!"
+exit 0

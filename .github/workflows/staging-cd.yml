@@ -1,0 +1,52 @@
+name: CD Deploy Staging
+
+# Trigger: Auto-deploy to staging environment on every push to dev branch
+on:
+  push:
+    branches:
+      - "dev"
+
+jobs:
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+
+    # Uses staging environment config (must be configured in repo settings)
+    # Enables environment protection rules and deployment tracking
+    environment: staging
+
+    permissions:
+      contents: read      # Read source code
+      packages: write     # Push to GitHub Container Registry
+
+    steps:
+      # Clone repository at triggering commit
+      - uses: actions/checkout@v6
+
+      # Authenticate with GitHub Container Registry using auto-generated token
+      - name: Login to GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      # Generate image tags: SHA-specific (immutable) and latest (mutable pointer)
+      # Lowercase required by Docker registry naming conventions
+      - name: Set image name (lowercase)
+        run: |
+          echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}:${GITHUB_SHA}" >> $GITHUB_ENV
+
+      # Build production Docker image with both SHA and latest tags
+      - name: Build image
+        run: |
+          docker build -t "${IMAGE}" -t "ghcr.io/${GITHUB_REPOSITORY,,}:latest" .
+
+      # Push both image tags to registry for deployment and rollback capability
+      - name: Push images
+        run: |
+          docker push "${IMAGE}"
+          docker push "ghcr.io/${GITHUB_REPOSITORY,,}:latest"
+
+      # Trigger Jelastic to pull and redeploy latest image
+      - name: Redeploy on Jelastic
+        run: |
+          curl -X POST \
+            "https://${{ secrets.JELASTIC_HOST }}/1.0/environment/control/rest/redeploycontainerbyid?envName=${{ secrets.JELASTIC_ENV }}&session=${{ secrets.JELASTIC_SESSION }}&nodeId=${{ secrets.JELASTIC_NODE_ID }}&tag=latest&useExistingVolumes=true"

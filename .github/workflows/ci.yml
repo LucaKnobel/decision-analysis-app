@@ -1,0 +1,115 @@
+name: Pull Request CI Checks
+
+# Trigger: Run quality checks, security scans, and tests on PRs to main or dev
+# Ensures code meets standards before merging
+on:
+  pull_request:
+    branches:
+      - "main"
+      - "dev"
+
+# Give read access to repository contents for jobs
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+
+    # Skip for Dependabot: Its PRs are dependency updates, already security-checked
+    if: github.actor != 'dependabot[bot]'
+
+    steps:
+      # Clone repository at PR commit
+      - uses: actions/checkout@v6
+
+      # Install Node.js 24 for build tooling
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      # Install dependencies from lock file (ensures reproducible builds)
+      - run: npm ci
+
+      # Check dependencies for known vulnerabilities (fail on moderate+ severity)
+      - run: npm audit --audit-level=moderate
+
+      # Verify code style and catch common errors
+      - run: npm run lint
+
+      # Validate TypeScript types to prevent runtime errors
+      - run: npm run typecheck
+
+      - name: Run tests (skipping if none present)
+        run: |
+          echo "### Running tests (if present)..."
+
+          # Run tests and capture output/exit code
+          TEST_OUTPUT=$(npm test 2>&1) || TEST_EXIT=$?
+
+          # If tests exited with a nonzero exit code
+          if [ "$TEST_EXIT" != "" ] && [ "$TEST_EXIT" -ne 0 ]; then
+              # Detect “No test files found” — skip if present
+              if echo "$TEST_OUTPUT" | grep -q "No test files found"; then
+                  echo "### No test files found — skipping tests"
+              else
+                  # Real test failure — print output and exit with error
+                  echo "$TEST_OUTPUT"
+                  echo "### Tests failed"
+                  exit 1
+              fi
+          else
+              echo "### Tests passed"
+          fi
+
+  semgrep:
+    name: semgrep/ci
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    # Authenticate with Semgrep Cloud for rule updates and findings sync
+    env:
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
+    # Run in official Semgrep container for consistent environment
+    container:
+      image: semgrep/semgrep
+
+    # Skip for Dependabot: Semgrep analyzes first-party code, not dependencies
+    if: github.actor != 'dependabot[bot]'
+
+    steps:
+      # Clone code for static analysis
+      - uses: actions/checkout@v6
+
+      # Scan for security vulnerabilities and code quality issues
+      - run: semgrep ci
+
+  trivy:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    # Skip for Dependabot: Separate dependency scanning already covered
+    if: github.actor != 'dependabot[bot]'
+
+    steps:
+      # Clone repository for comprehensive security scan
+      - uses: actions/checkout@v6
+
+      # Install Trivy scanner from official source
+      - name: Install Trivy
+        run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+      # Scan for vulnerabilities, leaked secrets, and IaC misconfigurations
+      # Fails CI on medium+ severity findings to enforce security standards
+      - name: Run Trivy scan
+        run: |
+          trivy fs \
+            --scanners vuln,secret,misconfig \
+            --severity CRITICAL,HIGH,MEDIUM \
+            --exit-code 1 \
+            --no-progress \
+            .
