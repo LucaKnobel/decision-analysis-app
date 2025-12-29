@@ -1,0 +1,113 @@
+name: Pull Request CI Checks
+
+# Run this workflow for pull requests targeting the main or dev branch
+on:
+  pull_request:
+    branches:
+      - "main"
+      - "dev"
+
+# Give read access to repository contents for jobs
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+
+    # Skip running for Dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
+    steps:
+      # Check out the code
+      - uses: actions/checkout@v6
+
+      # Set up Node.js runtime
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      # Install dependencies
+      - run: npm ci
+
+      # Run basic security report on dependencies
+      - run: npm audit --audit-level=moderate
+
+      # Run static code linting
+      - run: npm run lint
+
+      # Run TypeScript type checking
+      - run: npm run typecheck
+
+      - name: Run tests (skipping if none present)
+        run: |
+          echo "### Running tests (if present)..."
+
+          # Run tests and capture output/exit code
+          TEST_OUTPUT=$(npm test 2>&1) || TEST_EXIT=$?
+
+          # If tests exited with a nonzero exit code
+          if [ "$TEST_EXIT" != "" ] && [ "$TEST_EXIT" -ne 0 ]; then
+              # Detect “No test files found” — skip if present
+              if echo "$TEST_OUTPUT" | grep -q "No test files found"; then
+                  echo "### No test files found — skipping tests"
+              else
+                  # Real test failure — print output and exit with error
+                  echo "$TEST_OUTPUT"
+                  echo "### Tests failed"
+                  exit 1
+              fi
+          else
+              echo "### Tests passed"
+          fi
+
+  semgrep:
+    name: semgrep/ci
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    # Provide the Semgrep App Token from secrets
+    env:
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
+    # Use Semgrep container image to run CI
+    container:
+      image: semgrep/semgrep
+
+    # Skip this job for Dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
+    steps:
+      # Check out the code for analysis
+      - uses: actions/checkout@v6
+
+      # Run Semgrep security and quality scans
+      - run: semgrep ci
+
+  trivy:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    # Skip this job for Dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
+    steps:
+      # Retrieve code for scanning
+      - uses: actions/checkout@v6
+
+      # Install Trivy vulnerability scanner
+      - name: Install Trivy
+        run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+      # Scan filesystem for vulnerabilities, secrets, and misconfigurations
+      - name: Run Trivy scan
+        run: |
+          trivy fs \
+            --scanners vuln,secret,misconfig \
+            --severity CRITICAL,HIGH,MEDIUM \
+            --exit-code 1 \
+            --no-progress \
+            .

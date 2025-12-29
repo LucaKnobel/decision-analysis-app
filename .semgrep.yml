@@ -1,0 +1,80 @@
+# Semgrep Custom Security Rules
+# Documentation: https://semgrep.dev/docs/writing-rules/rule-syntax/
+
+rules:
+  # Prevent eval() usage - code injection risk
+  - id: no-eval
+    patterns:
+      - pattern: eval(...)
+    message: "Detected use of 'eval()'. This is dangerous as it can lead to code injection vulnerabilities."
+    severity: ERROR
+    languages: [typescript, javascript]
+
+  # Detect hardcoded credentials
+  - id: no-hardcoded-credentials
+    patterns:
+      - pattern-either:
+          - pattern: password = "..."
+          - pattern: api_key = "..."
+          - pattern: secret = "..."
+          - pattern: const $VAR = "sk_live_..."
+          - pattern: const $VAR = "ghp_..."
+          - pattern: const $VAR = "AKIA..."
+    message: "Hardcoded credentials detected. Use environment variables or secure secret management."
+    severity: ERROR
+    languages: [typescript, javascript]
+    metadata:
+      category: security
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+
+  # Prevent XSS via dangerous HTML rendering
+  - id: no-dangerous-html
+    patterns:
+      - pattern-either:
+          - pattern: set:html={...}
+          - pattern: v-html="..."
+    message: "Use of dangerouslySetInnerHTML/v-html can lead to XSS vulnerabilities."
+    severity: ERROR
+    languages: [typescript, javascript]
+    metadata:
+      category: security
+      cwe: "CWE-79: Cross-site Scripting (XSS)"
+      owasp: "A03:2021 - Injection"
+
+  # Require input validation in POST handlers
+  - id: require-input-validation
+    patterns:
+      - pattern: |
+          router.post($PATH, async ($REQ, $RES) => {
+            ...
+            $DB.insert(...)
+            ...
+          })
+      - pattern-not: |
+          router.post($PATH, async ($REQ, $RES) => {
+            ...
+            $VALIDATOR.parse(...)
+            ...
+            $DB.insert(...)
+            ...
+          })
+    message: "POST handler should validate input (e.g., using Zod) before database operations."
+    severity: WARNING
+    languages: [typescript, javascript]
+    metadata:
+      category: security
+      cwe: "CWE-20: Improper Input Validation"
+
+  # Prevent SQL injection
+  - id: sql-injection-prevention
+    patterns:
+      - pattern-either:
+          - pattern: db.execute(`SELECT * FROM users WHERE id = ${$VAR}`)
+          - pattern: db.query("... " + $VAR + " ...")
+    message: "Potential SQL injection. Use prepared statements or parameterized queries."
+    severity: ERROR
+    languages: [typescript, javascript]
+    metadata:
+      category: security
+      cwe: "CWE-89: SQL Injection"
+      owasp: "A03:2021 - Injection"

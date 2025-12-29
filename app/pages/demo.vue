@@ -1,5 +1,5 @@
 <template>
   <div>
-    <LandingCTA />
+    <p>Demo</p>
   </div>
 </template>

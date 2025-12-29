@@ -5,9 +5,9 @@
   "scripts": {
     "start": "node .output/server/index.mjs",
     "build": "nuxt build",
-    "dev": "nuxt dev",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare && git config core.hooksPath .githooks",
+    "dev": "nuxt dev --dotenv .env",
+    "preview": "nuxt preview --dotenv .env",
+    "postinstall": "nuxt prepare && [ -d .git ] && git config core.hooksPath .githooks || true",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
     "test": "nuxt test"
@@ -16,7 +16,9 @@
     "@iconify-json/lucide": "^1.2.82",
     "@iconify-json/simple-icons": "^1.2.63",
     "@nuxt/ui": "^4.3.0",
-    "nuxt": "^4.2.2"
+    "@nuxtjs/i18n": "10.2.1",
+    "nuxt": "^4.2.2",
+    "nuxt-security": "2.5.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.12.1",

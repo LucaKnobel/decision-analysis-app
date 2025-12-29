@@ -1,5 +1,5 @@
 <template>
   <div>
-    <LandingCTA />
+    <p>Dashboard Index</p>
   </div>
 </template>

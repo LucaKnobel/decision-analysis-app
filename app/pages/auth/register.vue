@@ -1,5 +1,5 @@
 <template>
   <div>
-    <LandingCTA />
+    <p>register</p>
   </div>
 </template>

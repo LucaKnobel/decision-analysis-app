@@ -1,0 +1,98 @@
+# This workflow triggers on pushes to "main" (Production) and "dev" (Staging)
+name: Build, Push and Deploy Docker Image to Given Environment
+
+on:
+  push:
+    branches:
+      - "main"
+      - "dev"
+
+jobs:
+  build:
+    # Use the latest Ubuntu runner
+    runs-on: ubuntu-latest
+
+    # Grant permissions:
+    # - contents: read => allows fetching code
+    # - packages: write => allows pushing images to GHCR
+    permissions:
+      contents: read
+      packages: write
+
+    # Dynamically assign the GitHub Environment based on branch
+    # This ensures that the correct environment-specific secrets are loaded:
+    # - "production" if on main branch
+    # - "staging" if on dev branch
+    #
+    # The environment name must match one created under:
+    # Settings => Environments => production / staging
+    environment: ${{ 
+      github.ref == 'refs/heads/main' && 'production' ||
+      github.ref == 'refs/heads/dev' && 'staging'
+    }}
+
+    steps:
+      ########################################
+      # Step 1: Checkout the repository code #
+      ########################################
+      - uses: actions/checkout@v6
+
+      ##################################################
+      # Step 2: Login to GitHub Container Registry (GHCR)
+      #
+      # We use the built-in GITHUB_TOKEN, which has
+      # permissions to authenticate and push images.
+      ##################################################
+      - name: Login to GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      ##################################################
+      # Step 3: Set image name variable
+      #
+      # We store two image tags in an environment variable:
+      # - One using the commit SHA
+      # - One using "latest"
+      ##################################################
+      - name: Set image name (lowercase)
+        run: |
+          echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}:${GITHUB_SHA}" >> $GITHUB_ENV
+
+      ##################################################
+      # Step 4: Build Docker image
+      #
+      # Use previously set IMAGE variable and tag with both:
+      # - The commit SHA
+      # - The "latest" tag
+      ##################################################
+      - name: Build image
+        run: |
+          docker build -t "${IMAGE}" -t "ghcr.io/${GITHUB_REPOSITORY,,}:latest" .
+
+      ##################################################
+      # Step 5: Push Docker image to GHCR
+      ##################################################
+      - name: Push image
+        run: |
+          docker push "${IMAGE}"
+          docker push "ghcr.io/${GITHUB_REPOSITORY,,}:latest"
+
+      ##################################################
+      # Step 6: Redeploy on Jelastic
+      #
+      # This uses the Jelastic API to redeploy the container
+      # to the "latest" tag using environment-specific secrets.
+      # Secrets must be stored under:
+      # - Settings => Environments => staging
+      # - Settings => Environments => production
+      #
+      # Expected secrets (per environment):
+      # - JELASTIC_HOST       => Hostname of your Jelastic API
+      # - JELASTIC_ENV        => Name of the Jelastic environment/application
+      # - JELASTIC_SESSION    => API session token or PAT
+      # - JELASTIC_NODE_ID    => ID of container to redeploy
+      ##################################################
+      - name: Redeploy on Jelastic
+        run: |
+          curl -X POST \
+            "https://${{ secrets.JELASTIC_HOST }}/1.0/environment/control/rest/redeploycontainerbyid?envName=${{ secrets.JELASTIC_ENV }}&session=${{ secrets.JELASTIC_SESSION }}&nodeId=${{ secrets.JELASTIC_NODE_ID }}&tag=latest&useExistingVolumes=true"

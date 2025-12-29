@@ -1,0 +1,20 @@
+{
+  "nav": {
+    "demo": "Demo",
+    "login": "Sign in",
+    "register": "Sign up"
+  },
+  "footer": {
+    "privacy": "Privacy Policy",
+    "imprint": "Imprint",
+    "copyright": "Copyright"
+  },
+  "pages": {
+    "index": {
+      "title": "Better decisions. Made systematically.",
+      "description": "Dezizio supports structured decision-making through transparent value analysis – traceable, reproducible and clearly documented.",
+      "getStarted": "Get Started",
+      "learnMore": "Learn More"
+    }
+  }
+}

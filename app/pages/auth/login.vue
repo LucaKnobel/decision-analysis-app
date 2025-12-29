@@ -1,5 +1,5 @@
 <template>
   <div>
-    <LandingCTA />
+    <p>Login</p>
   </div>
 </template>
