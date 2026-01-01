@@ -1,29 +1,19 @@
 <script setup lang="ts">
-import * as z from 'zod'
 import type { RegisterRequestDTO } from '#shared/dtos/auth/register.request.dto'
-import type { RegisterResponseDTO } from '#shared/dtos/auth/register.response.dto'
 import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui'
+import type { RegisterForm } from '~/composables/useValidation'
 
 definePageMeta({
   layout: 'auth'
 })
 
-const RegisterFormSchema = z.object({
-  email: z.email({ error: $t('validation.email.invalid') }),
-  password: z.string({ error: $t('validation.password.required') })
-    .min(12, { error: $t('validation.password.min') })
-    .max(256, { error: $t('validation.password.max') })
-    .regex(/[A-Z]/, { error: $t('validation.passwordUppercase') })
-    .regex(/[a-z]/, { error: $t('validation.passwordLowercase') })
-    .regex(/[0-9]/, { error: $t('validation.passwordNumber') })
-    .regex(/[^A-Za-z0-9]/, { error: $t('validation.passwordSpecial') }),
-  passwordConfirm: z.string({ error: $t('validation.password.required') })
-}).refine(data => data.password === data.passwordConfirm, {
-  error: $t('validation.passwordsMatch'),
-  path: ['passwordConfirm']
-})
+const { createRegisterFormSchema } = useValidation()
+const schema = createRegisterFormSchema()
+const { registerUser } = useAuthApi()
+const { hasError, errorTitle, errorText, resetError, handleRegistrationError } = useErrorHandler()
+const toast = useToast()
 
-export type RegisterForm = z.infer<typeof RegisterFormSchema>
+const isSubmitting = ref(false)
 
 const fields: AuthFormField[] = [{
   name: 'email',
@@ -45,45 +35,31 @@ const fields: AuthFormField[] = [{
   required: true
 }]
 
-const isSubmitting = ref(false)
-const submitErrorKey = ref<string | null>(null)
-
-// Falls Nuxt UI Toast verfügbar ist:
-const toast = useToast()
+const handleSuccess = async (): Promise<void> => {
+  toast.add({
+    title: $t('pages.register.successMessageTitle'),
+    description: $t('pages.register.successMessage'),
+    color: 'success'
+  })
+  await navigateTo('/auth/login')
+}
 
 const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => {
-  submitErrorKey.value = null
-
   if (isSubmitting.value) {
     return
   }
+  resetError()
   isSubmitting.value = true
 
   try {
-    const payload: RegisterRequestDTO = {
+    const dto: RegisterRequestDTO = {
       email: event.data.email,
       password: event.data.password
     }
-
-    await $fetch<RegisterResponseDTO>('/api/auth/register', {
-      method: 'POST',
-      body: payload
-    })
-
-    // 1) Erfolgs-Toast anzeigen
-    toast.add({
-      title: 'Erfolgreich registriert',
-      description: 'Bitte jetzt einloggen.'
-      // color/variant je nach Nuxt UI Version möglich:
-      // color: 'green'
-    })
-
-    // 2) Weiterleiten (kleiner Tick, damit Toast sicher gerendert wird)
-    await nextTick()
-    await navigateTo('auth/login')
-  } catch (_err: unknown) {
-    console.error('Registration failed', _err) // draffft
-    submitErrorKey.value = 'registration.failed'
+    await registerUser(dto)
+    await handleSuccess()
+  } catch (error: unknown) {
+    handleRegistrationError(error)
   } finally {
     isSubmitting.value = false
   }
@@ -92,12 +68,13 @@ const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => 
 
 <template>
   <UAuthForm
-    :schema="RegisterFormSchema"
+    :schema="schema"
     :fields="fields"
     :title="$t('pages.register.title')"
     :submit="{
       label: $t('pages.register.createAccount'),
-      color: 'primary'
+      color: 'primary',
+      loading: isSubmitting
     }"
     @submit="onSubmit"
   >
@@ -107,7 +84,7 @@ const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => 
         class="text-primary font-medium"
       >
         {{ $t('nav.login') }}
-      </NuxtLinkLocale>.
+      </NuxtLinkLocale>
     </template>
     <template #password-hint>
       <NuxtLinkLocale
@@ -118,12 +95,13 @@ const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => 
       </NuxtLinkLocale>
     </template>
     <template #validation>
-      <!-- <UAlert
-        v-if="error"
+      <UAlert
+        v-if="hasError"
         color="error"
         icon="i-lucide-alert-circle"
-        :title="error"
-      /> -->
+        :title="errorTitle"
+        :description="errorText"
+      />
     </template>
     <template #footer>
       {{ $t('pages.register.termsHint') }}

@@ -27,17 +27,21 @@
       "placeHolderConfirmPassword": "Bestätigen Sie Ihr Passwort",
       "errorSigningUp": "Fehler beim Registrieren. Bitte versuchen Sie es erneut.",
       "createAccount": "Konto erstellen",
-      "termsHint": "Mit der Registrierung stimmen Sie unseren Nutzungsbedingungen zu."
+      "termsHint": "Mit der Registrierung stimmen Sie unseren Nutzungsbedingungen zu.",
+      "successMessageTitle": "Konto erfolgreich erstellt!",
+      "successMessage": "Sie können sich jetzt anmelden."
     }
   },
-  "validation": {    "email": {
+  "validation": {
+    "email": {
       "invalid": "Ungültige E-Mail-Adresse"
     },
     "password": {
       "required": "Passwort ist erforderlich",
       "min": "Passwort muss mindestens 12 Zeichen lang sein",
       "max": "Passwort darf maximal 256 Zeichen lang sein"
-    },    "passwordUppercase": "Muss mindestens einen Grossbuchstaben enthalten",
+    },
+    "passwordUppercase": "Muss mindestens einen Grossbuchstaben enthalten",
     "passwordLowercase": "Muss mindestens einen Kleinbuchstaben enthalten",
     "passwordNumber": "Muss mindestens eine Zahl enthalten",
     "passwordSpecial": "Muss mindestens ein Sonderzeichen enthalten",
@@ -47,5 +51,19 @@
     "privacyPolicy": "Datenschutzerklärung",
     "termsOfService": "Nutzungsbedingungen",
     "imprint": "Impressum"
+  },
+  "errors": {
+    "registration": {
+      "title": "Registrierung nicht möglich",
+      "text": "Die Registrierung konnte nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen."
+    },
+    "network": {
+      "title": "Verbindung nicht möglich",
+      "text": "Es konnte keine Verbindung zum Server hergestellt werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut."
+    },
+    "serviceUnavailable": {
+      "title": "Dienst nicht verfügbar",
+      "text": "Der Dienst ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut."
+    }
   }
 }

@@ -27,7 +27,9 @@
       "placeHolderConfirmPassword": "Confirm your password",
       "errorSigningUp": "Error signing up. Please try again.",
       "createAccount": "Create Account",
-      "termsHint": "By signing up, you agree to our Terms of Service."
+      "termsHint": "By signing up, you agree to our Terms of Service.",
+      "successMessageTitle": "Account successfully created!",
+      "successMessage": "You can now sign in."
     }
   },
   "validation": {
@@ -49,5 +51,19 @@
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
     "imprint": "Imprint"
+  },
+  "errors": {
+    "registration": {
+      "title": "Registration not possible",
+      "text": "The registration could not be completed. Please check your inputs or try again later."
+    },
+    "network": { 
+      "title": "Connection unavailable",
+      "text": "The connection to the server could not be established. Please check your internet connection and try again."
+    },
+    "serviceUnavailable": {
+      "title": "Service unavailable",
+      "text": "The service is currently unavailable. Please try again later."
+    }
   }
 }
