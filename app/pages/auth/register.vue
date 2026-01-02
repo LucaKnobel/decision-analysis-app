@@ -8,11 +8,11 @@ definePageMeta({
 })
 
 const { createRegisterFormSchema } = useValidation()
-const schema = createRegisterFormSchema()
 const { registerUser } = useAuthApi()
 const { hasError, errorTitle, errorText, resetError, handleRegistrationError } = useErrorHandler()
 const toast = useToast()
 
+const schema = createRegisterFormSchema()
 const isSubmitting = ref(false)
 
 const fields: AuthFormField[] = [{
