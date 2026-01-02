@@ -1,4 +1,4 @@
-import { RegisterRequestSchema } from '../../schemas/auth/register.request.schema'
+import { RegisterRequestSchema } from '../schemas/auth/register.request.schema'
 
 export default defineEventHandler(async (event) => {
   const _dto = await readValidatedBody(event, RegisterRequestSchema.parse)

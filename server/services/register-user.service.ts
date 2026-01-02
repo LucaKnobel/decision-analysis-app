@@ -21,7 +21,7 @@ export interface UserRepository {
 
 export interface Hasher {
   hashPassword(password: string): Promise<string>
-  hashEmail(email: string): string
+  comparePassword(password: string, hash: string): Promise<boolean>
 }
 
 export type RegisterUserDeps = {
@@ -39,11 +39,10 @@ export const registerUserService = async (
     throw new EmailAlreadyRegisteredError()
   }
 
-  const emailHash = hasher.hashEmail(input.email)
   const passwordHash = await hasher.hashPassword(input.password)
 
   const { id } = await userRepository.create({
-    email: emailHash,
+    email: input.email,
     passwordHash
   })
 
