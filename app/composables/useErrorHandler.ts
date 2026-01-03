@@ -1,11 +1,12 @@
 export const useErrorHandler = () => {
+  const { t } = useI18n()
   const hasError = ref(false)
   const errorTitle = ref<string | undefined>(undefined)
   const errorText = ref<string | undefined>(undefined)
 
   const setError = (titleKey: string, textKey: string): void => {
-    errorTitle.value = $t(titleKey)
-    errorText.value = $t(textKey)
+    errorTitle.value = t(titleKey)
+    errorText.value = t(textKey)
     hasError.value = true
   }
 

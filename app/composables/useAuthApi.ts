@@ -1,7 +1,7 @@
-import type { RegisterRequestDTO } from '#shared/dtos/auth/register.request.dto'
+import type { RegisterUserRequestDTO } from '#shared/types/register-user'
 
 export const useAuthApi = () => {
-  const registerUser = async (dto: RegisterRequestDTO) => {
+  const registerUser = async (dto: RegisterUserRequestDTO) => {
     return await $fetch('/api/auth/register', {
       method: 'POST',
       body: dto

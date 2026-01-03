@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { RegisterRequestDTO } from '#shared/dtos/auth/register.request.dto'
 import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui'
 import type { RegisterForm } from '~/composables/useValidation'
 
@@ -52,11 +51,11 @@ const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => 
   isSubmitting.value = true
 
   try {
-    const dto: RegisterRequestDTO = {
+    const payload: RegisterUserRequestDTO = {
       email: event.data.email,
       password: event.data.password
     }
-    await registerUser(dto)
+    await registerUser(payload)
     await handleSuccess()
   } catch (error: unknown) {
     handleRegistrationError(error)

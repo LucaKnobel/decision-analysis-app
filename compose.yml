@@ -22,6 +22,8 @@ services:
     build: .
     image: decision-analysis-app:local
     restart: unless-stopped
+    env_file:
+      - .env.docker
     depends_on:
       db:
         condition: service_healthy
