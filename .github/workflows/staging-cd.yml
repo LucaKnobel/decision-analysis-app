@@ -50,7 +50,7 @@ jobs:
         run: |
           docker run --rm \
             -e DATABASE_URL="${{ secrets.STAGING_DATABASE_URL }}" \
-            "ghcr.io/${{ github.repository }}:${{ github.sha }}" \
+            "${IMAGE}" \
             npx prisma migrate deploy
 
       # Trigger Jelastic to pull and redeploy latest image
