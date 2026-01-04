@@ -4,6 +4,8 @@ services:
   db:
     image: postgres:17.7
     restart: unless-stopped
+    env_file:
+      - .env.test
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -23,12 +25,10 @@ services:
     image: decision-analysis-app:local
     restart: unless-stopped
     env_file:
-      - .env.docker
+      - .env.test
     depends_on:
       db:
         condition: service_healthy
-    environment:
-      DATABASE_URL: ${NUXT_DATABASE_URL}
     ports:
       - "3000:3000"
 

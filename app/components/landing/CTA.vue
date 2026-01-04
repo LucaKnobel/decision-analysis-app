@@ -2,14 +2,15 @@
 import type { ButtonProps } from '#ui/types'
 
 const localePath = useLocalePath()
+const { t } = useI18n()
 
 const links: ButtonProps[] = [
   {
-    label: $t('pages.index.getStarted'),
+    label: t('pages.index.getStarted'),
     to: localePath('/auth/register')
   },
   {
-    label: $t('pages.index.learnMore'),
+    label: t('pages.index.learnMore'),
     to: localePath('/demo'),
     color: 'neutral',
     variant: 'outline',

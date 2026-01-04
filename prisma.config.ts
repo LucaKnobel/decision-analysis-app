@@ -7,6 +7,6 @@ export default defineConfig({
     path: 'prisma/migrations'
   },
   datasource: {
-    url: process.env['NUXT_DATABASE_URL']
+    url: process.env['DATABASE_URL']
   }
 })

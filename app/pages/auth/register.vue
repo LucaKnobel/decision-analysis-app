@@ -9,6 +9,7 @@ definePageMeta({
 const { createRegisterFormSchema } = useValidation()
 const { registerUser } = useAuthApi()
 const { hasError, errorTitle, errorText, resetError, handleRegistrationError } = useErrorHandler()
+const { t } = useI18n()
 const toast = useToast()
 
 const schema = createRegisterFormSchema()
@@ -17,27 +18,27 @@ const isSubmitting = ref(false)
 const fields: AuthFormField[] = [{
   name: 'email',
   type: 'email',
-  label: $t('pages.register.email'),
-  placeholder: $t('pages.register.placeHolderEmail'),
+  label: t('pages.register.email'),
+  placeholder: t('pages.register.placeHolderEmail'),
   required: true
 }, {
   name: 'password',
-  label: $t('pages.register.password'),
+  label: t('pages.register.password'),
   type: 'password',
-  placeholder: $t('pages.register.placeHolderPassword'),
+  placeholder: t('pages.register.placeHolderPassword'),
   required: true
 }, {
   name: 'passwordConfirm',
-  label: $t('pages.register.confirmPassword'),
+  label: t('pages.register.confirmPassword'),
   type: 'password',
-  placeholder: $t('pages.register.placeHolderConfirmPassword'),
+  placeholder: t('pages.register.placeHolderConfirmPassword'),
   required: true
 }]
 
 const handleSuccess = async (): Promise<void> => {
   toast.add({
-    title: $t('pages.register.successMessageTitle'),
-    description: $t('pages.register.successMessage'),
+    title: t('pages.register.successMessageTitle'),
+    description: t('pages.register.successMessage'),
     color: 'success'
   })
   await navigateTo('/auth/login')
