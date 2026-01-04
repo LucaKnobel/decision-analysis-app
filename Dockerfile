@@ -5,10 +5,19 @@ FROM node:24-slim AS builder
 
 WORKDIR /app
 
+# Install OpenSSL for Prisma
+RUN apt-get update -y \
+&& apt-get install -y --no-install-recommends openssl \
+&& rm -rf /var/lib/apt/lists/*
+
 COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
+
+# Generate Prisma Client for Docker environment
+RUN npx prisma generate
+
 RUN npm run build
 
 
