@@ -47,9 +47,8 @@ COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 # Install production dependencies (includes Prisma CLI for migrations)
 RUN npm ci --omit=dev
 
-# Copy pre-generated Prisma Client from build stage
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma/client ./node_modules/@prisma/client
+# Generate Prisma Client
+RUN npx prisma generate
 
 RUN chown -R appuser:appuser /app
 USER appuser
