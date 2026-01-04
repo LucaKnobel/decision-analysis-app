@@ -49,7 +49,7 @@ jobs:
       #Apply database migrations using the newly built image
       - name: Apply Prisma Migrations
         run: |
-          docker run --rm \
+          docker run --rm --user root \
             -e DATABASE_URL="${{ secrets.PRODUCTION_DATABASE_URL }}" \
             "${IMAGE}" \
             npx prisma migrate deploy
