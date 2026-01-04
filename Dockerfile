@@ -33,10 +33,23 @@ ENV PORT=3000
 
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
+# Install OpenSSL for Prisma
+RUN apt-get update -y \
+&& apt-get install -y --no-install-recommends openssl \
+&& rm -rf /var/lib/apt/lists/*
+
 COPY --from=builder /app/.output ./.output
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package-lock.json ./package-lock.json
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
+
+# Install production dependencies (includes Prisma CLI for migrations)
+RUN npm ci --omit=dev
+
+# Copy pre-generated Prisma Client from build stage
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma/client ./node_modules/@prisma/client
 
 RUN chown -R appuser:appuser /app
 USER appuser
