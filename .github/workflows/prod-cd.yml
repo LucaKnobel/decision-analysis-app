@@ -39,7 +39,7 @@ jobs:
       - name: Build image
         run: |
           docker build \
-            --build-arg DATABASE_URL="${{ secrets.STAGING_DATABASE_URL }}" \
+            --build-arg DATABASE_URL="${{ secrets.PRODUCTION_DATABASE_URL }}" \
             -t "${IMAGE}" \
             -t "ghcr.io/${GITHUB_REPOSITORY,,}:latest" .
 
