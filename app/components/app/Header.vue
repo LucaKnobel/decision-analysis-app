@@ -48,7 +48,7 @@ const localePath = useLocalePath()
       <UButton
         :label="$t('nav.register')"
         color="neutral"
-        :to="localePath('/auth/login')"
+        :to="localePath('/auth/register')"
         block
       />
     </template>

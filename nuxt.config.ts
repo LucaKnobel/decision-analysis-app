@@ -1,27 +1,33 @@
+import { fileURLToPath } from 'node:url'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxtjs/i18n',
+    '@nuxt/test-utils/module',
     'nuxt-security'
   ],
   devtools: {
     enabled: true
   },
-
   css: ['~/assets/css/main.css'],
-  runtimeConfig: {
+  /* runtimeConfig: {
     // The private keys which are only available server-side
-    apiSecret: '',
-    databaseUrl: '',
-    securityEnabled: '',
+    databaseUrl: ''
     // Keys within public are also exposed client-side
     public: {
       apiBase: ''
     }
+  }, */
+  alias: {
+    '@server': fileURLToPath(new URL('./server', import.meta.url)),
+    '@contracts': fileURLToPath(new URL('./server/contracts', import.meta.url)),
+    '@services': fileURLToPath(new URL('./server/services', import.meta.url)),
+    '@infrastructure': fileURLToPath(new URL('./server/infrastructure', import.meta.url)),
+    '@generated': fileURLToPath(new URL('./generated', import.meta.url))
   },
-
   routeRules: {
     '/': { prerender: true }
   },
@@ -48,8 +54,5 @@ export default defineNuxtConfig({
       { code: 'en', name: 'English', file: 'en.json' },
       { code: 'de', name: 'Deutsch', file: 'de.json' }
     ]
-  },
-  security: {
-    enabled: process.env.NODE_ENV === 'production'
   }
 })

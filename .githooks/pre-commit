@@ -27,7 +27,7 @@ echo "### TypeScript OK"
 # 3) Run tests but tolerate "no test files found"
 echo "### Running tests (if present)..."
 
-TEST_OUTPUT=$(npm test 2>&1) || TEST_EXIT=$?
+TEST_OUTPUT=$(npm run test:unit 2>&1) || TEST_EXIT=$?
 
 # If tests exited with error
 if [ "$TEST_EXIT" != "" ] && [ "$TEST_EXIT" -ne 0 ]; then
