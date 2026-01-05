@@ -21,7 +21,10 @@ services:
       retries: 10
 
   app:
-    build: .
+    build:
+      context: .
+      args:
+        DATABASE_URL: ${DATABASE_URL}
     image: decision-analysis-app:local
     restart: unless-stopped
     env_file:

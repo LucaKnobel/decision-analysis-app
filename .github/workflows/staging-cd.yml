@@ -37,7 +37,10 @@ jobs:
       # Build production Docker image with both SHA and latest tags
       - name: Build image
         run: |
-          docker build -t "${IMAGE}" -t "ghcr.io/${GITHUB_REPOSITORY,,}:latest" .
+          docker build \
+            --build-arg DATABASE_URL="${{ secrets.STAGING_DATABASE_URL }}" \
+            -t "${IMAGE}" \
+            -t "ghcr.io/${GITHUB_REPOSITORY,,}:latest" .
 
       # Push both image tags to registry for deployment and rollback capability
       - name: Push images
