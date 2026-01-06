@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { RegisterUserRequestSchema } from '../../server/api/schemas/auth/register-user.request.schema'
-/* TC-UT-02 & TC-UT-03 */
+
 describe('RegisterUserRequestSchema', () => {
+  /* TC-UT-02 & TC-UT-03 */
   describe('email validation', () => {
     it('should accept valid email addresses', () => {
       const validEmails = [
@@ -48,7 +49,6 @@ describe('RegisterUserRequestSchema', () => {
       })
     })
   })
-
   /* TC-UT-01 */
   describe('password validation', () => {
     it('should accept valid passwords', () => {
