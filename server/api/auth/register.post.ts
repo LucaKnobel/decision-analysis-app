@@ -14,8 +14,18 @@ export default defineEventHandler(async (event) => {
       setResponseStatus(event, 400)
       return
     }
-    console.error('Error during user registration:', error)
     setResponseStatus(event, 500)
   }
   return
 })
+
+// To Do : change errod handling to h3 util function createError(), something like this:
+/* if (error instanceof EmailAlreadyExistsError) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Bad Request',
+      })
+    }
+ */
+
+// also ste response staus to 204 on success

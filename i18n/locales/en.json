@@ -8,6 +8,14 @@
     "copyright": "Copyright"
   },
   "pages": {
+     "common": {
+      "email": "E-Mail",
+      "password": "Password",
+      "placeHolderEmail": "Enter your email",
+      "placeHolderPassword": "Enter your password",
+      "placeHolderConfirmPassword": "Confirm your password",
+      "confirmPassword": "Passwort bestätigen"
+    },
     "index": {
       "title": "Better decisions. Made systematically.",
       "description": "Dezizio supports structured decision-making through transparent value analysis – traceable, reproducible and clearly documented.",
@@ -17,19 +25,21 @@
      "register": {
       "title": "Create an Account",
       "alreadyHaveAccount": "Already have an account?",
-      "bySigningUp": "By signing in, you agree to our",
       "forgotPassword": "Forgot password?",
-      "email": "E-Mail",
-      "password": "Password",
-      "confirmPassword": "Confirm Password",
-      "placeHolderEmail": "Enter your email",
-      "placeHolderPassword": "Enter your password",
       "placeHolderConfirmPassword": "Confirm your password",
-      "errorSigningUp": "Error signing up. Please try again.",
       "createAccount": "Create Account",
       "termsHint": "By signing up, you agree to our Terms of Service.",
       "successMessageTitle": "Account successfully created!",
       "successMessage": "You can now sign in."
+    },
+    "login": {
+     "title": "Welcome back!",
+     "dontHaveAccount": "Don't have an account?",
+     "forgotPassword": "Forgot password?",
+     "loginAccount": "Login",
+     "termsHint": "By signing in, you agree to our Terms of Service.",
+     "successMessageTitle": "Success!",
+     "successMessage": "You are now logged in."
     }
   },
   "validation": {
@@ -56,6 +66,10 @@
     "registration": {
       "title": "Registration not possible",
       "text": "The registration could not be completed. Please check your inputs or try again later."
+    },
+    "login": {
+      "title": "Login not possible",
+      "text": "Login could not be completed. Please check your inputs."
     },
     "network": { 
       "title": "Connection unavailable",
