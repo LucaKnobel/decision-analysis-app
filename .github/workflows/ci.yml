@@ -73,6 +73,7 @@ jobs:
       - name: Run integration tests
         env:
           DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
+          NUXT_SESSION_PASSWORD: ${{ secrets.CI_NUXT_SESSION_PASSWORD }}
         run: npm run test:nuxt
 
   semgrep:
