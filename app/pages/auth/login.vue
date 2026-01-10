@@ -6,6 +6,7 @@ definePageMeta({
   layout: 'auth'
 })
 
+const localePath = useLocalePath()
 const { fetch: refreshSession } = useUserSession()
 const { createLoginFormSchema } = useValidation()
 const { loginUser } = useAuthApi()
@@ -37,7 +38,7 @@ const handleSuccess = async (): Promise<void> => {
     color: 'success'
   })
   await refreshSession()
-  await navigateTo('/dashboard')
+  await navigateTo(localePath('/dashboard'))
 }
 
 const onSubmit = async (event: FormSubmitEvent<LoginForm>): Promise<void> => {
