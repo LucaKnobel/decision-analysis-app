@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxtjs/i18n',
     '@nuxt/test-utils/module',
-    'nuxt-security'
+    'nuxt-security',
+    'nuxt-auth-utils'
   ],
   devtools: {
     enabled: true

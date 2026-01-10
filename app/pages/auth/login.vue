@@ -6,6 +6,7 @@ definePageMeta({
   layout: 'auth'
 })
 
+const { fetch: refreshSession } = useUserSession()
 const { createLoginFormSchema } = useValidation()
 const { loginUser } = useAuthApi()
 const { hasError, errorTitle, errorText, resetError, handleLoginError } = useErrorHandler()
@@ -35,6 +36,7 @@ const handleSuccess = async (): Promise<void> => {
     description: t('pages.login.successMessage'),
     color: 'success'
   })
+  await refreshSession()
   await navigateTo('/dashboard')
 }
 

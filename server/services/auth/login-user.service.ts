@@ -1,7 +1,9 @@
 import type { LoginUserRequestDTO } from '@server/api/schemas/auth/login-user.request.schema'
 import type { UserRepository } from '@contracts/repositories/user-repository'
 import type { PasswordHasher } from '@contracts/security/password-hasher'
-import { UserDoesntExistError } from './login-user.errors'
+import { InvalidCredentialsError } from './login-user.errors'
+
+const DUMMY_PASSWORD_HASH = '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5oCa2hSEHSzXu'
 
 export async function loginUser(
   deps: {
@@ -9,13 +11,12 @@ export async function loginUser(
     passwordHasher: PasswordHasher
   },
   input: LoginUserRequestDTO
-): Promise<void> {
-  const exists = await deps.userRepository.existsByEmail(input.email)
-  if (!exists) {
-    throw new UserDoesntExistError()
+): Promise<string> {
+  const user = await deps.userRepository.getUserByEmail(input.email)
+  const hashToVerify = user?.passwordHash ?? DUMMY_PASSWORD_HASH
+  const isPasswordValid = await deps.passwordHasher.verify(input.password, hashToVerify)
+  if (!user || !isPasswordValid) {
+    throw new InvalidCredentialsError()
   }
-  // if user exists, check password hash
-  // if valid, proceed with login
-  // return user
-  // initialize session handling etc.
+  return user.id
 }
