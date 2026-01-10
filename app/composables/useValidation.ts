@@ -19,7 +19,10 @@ export const useValidation = () => {
   })
 
   const createLoginFormSchema = () => z.object({
-    email: z.email({ error: t('validation.email.invalid') }),
+    email: z.string()
+      .trim()
+      .toLowerCase()
+      .pipe(z.email({ error: t('validation.email.invalid') })),
     password: z.string({ error: t('validation.password.required') })
       .max(256, { error: t('validation.password.max') })
   })
