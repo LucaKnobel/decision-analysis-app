@@ -6,12 +6,12 @@ definePageMeta({
   layout: 'auth'
 })
 
-const localePath = useLocalePath()
 const { fetch: refreshSession } = useUserSession()
 const { createLoginFormSchema } = useValidation()
 const { loginUser } = useAuthApi()
 const { hasError, errorTitle, errorText, resetError, handleLoginError } = useErrorHandler()
 const { t } = useI18n()
+const localePath = useLocalePath()
 const toast = useToast()
 
 const schema = createLoginFormSchema()

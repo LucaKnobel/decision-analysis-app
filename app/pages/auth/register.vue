@@ -10,6 +10,7 @@ const { createRegisterFormSchema } = useValidation()
 const { registerUser } = useAuthApi()
 const { hasError, errorTitle, errorText, resetError, handleRegistrationError } = useErrorHandler()
 const { t } = useI18n()
+const localePath = useLocalePath()
 const toast = useToast()
 
 const schema = createRegisterFormSchema()
@@ -41,7 +42,7 @@ const handleSuccess = async (): Promise<void> => {
     description: t('pages.register.successMessage'),
     color: 'success'
   })
-  await navigateTo('/auth/login')
+  await navigateTo(localePath('/auth/login'))
 }
 
 const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => {
