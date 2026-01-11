@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { createBcryptHasher } from '../../server/infrastructure/security/password-hasher.bcrypt'
 
 describe('BcryptPasswordHasher', () => {
-  const hasher = createBcryptHasher(10) // Lower rounds for faster tests
+  const hasher = createBcryptHasher(4) // Lower rounds for faster tests
   /* TC-UT-04 */
   describe('hash', () => {
     it('should hash a password', async () => {

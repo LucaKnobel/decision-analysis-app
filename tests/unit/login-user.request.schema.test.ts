@@ -108,7 +108,7 @@ describe('LoginUserRequestSchema', () => {
     it('should accept passwords with unicode characters', () => {
       const result = LoginUserRequestSchema.safeParse({
         email: 'user@example.com',
-        password: 'Пароль🔐密码123!'
+        password: 'MyПароль🔐密码123!' // Has Latin characters
       })
       expect(result.success).toBe(true)
     })

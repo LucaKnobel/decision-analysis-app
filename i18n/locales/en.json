@@ -44,6 +44,7 @@
   },
   "validation": {
     "email": {
+      "required": "Email is required",
       "invalid": "Invalid email address"
     },
     "password": {
