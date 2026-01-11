@@ -6,9 +6,6 @@ definePageMeta({
 
 <template>
   <div>
-    <p>Dashboard Index</p>
+    <p>Dashboard test</p>
   </div>
-  <NuxtLinkLocale to="/dashboard/test">
-    Go to Dashboard Test
-  </NuxtLinkLocale>
 </template>

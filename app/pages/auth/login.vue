@@ -37,7 +37,6 @@ const handleSuccess = async (): Promise<void> => {
     description: t('pages.login.successMessage'),
     color: 'success'
   })
-  await refreshSession()
   await navigateTo(localePath('/dashboard'))
 }
 
@@ -54,6 +53,7 @@ const onSubmit = async (event: FormSubmitEvent<LoginForm>): Promise<void> => {
       password: event.data.password
     }
     await loginUser(payload)
+    await refreshSession()
     await handleSuccess()
   } catch (error: unknown) {
     handleLoginError(error)
