@@ -5,6 +5,7 @@ import { loadEnv } from 'vite'
 export default defineConfig({
   test: {
     env: loadEnv('', process.cwd(), ''),
+    fileParallelism: false,
     projects: [
       {
         test: {

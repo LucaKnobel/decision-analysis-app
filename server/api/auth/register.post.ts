@@ -2,12 +2,12 @@ import { RegisterUserRequestSchema } from '@server/api/schemas/auth/register-use
 import { registerUser } from '@services/auth/register-user.service'
 import { EmailAlreadyExistsError } from '@services/auth/register-user.errors'
 import { userRepository } from '@infrastructure/repositories/user-repository.prisma'
-import { createBcryptHasher } from '@infrastructure/security/password-hasher.bcrypt'
+import { bcryptHasher } from '@infrastructure/security/password-hasher.bcrypt'
 
 export default defineEventHandler(async (event) => {
   const dto = await readValidatedBody(event, RegisterUserRequestSchema.parse)
   try {
-    await registerUser({ userRepository, passwordHasher: createBcryptHasher(12) }, dto)
+    await registerUser({ userRepository, passwordHasher: bcryptHasher }, dto)
     setResponseStatus(event, 201)
   } catch (error: unknown) {
     if (error instanceof EmailAlreadyExistsError) {
@@ -28,4 +28,4 @@ export default defineEventHandler(async (event) => {
     }
  */
 
-// also ste response staus to 204 on success
+// also ste response staus to 204 on success ev.

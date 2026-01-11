@@ -2,12 +2,12 @@ import { LoginUserRequestSchema } from '@server/api/schemas/auth/login-user.requ
 import { loginUser } from '@services/auth/login-user.service'
 import { InvalidCredentialsError } from '@services/auth/login-user.errors'
 import { userRepository } from '@infrastructure/repositories/user-repository.prisma'
-import { createBcryptHasher } from '@infrastructure/security/password-hasher.bcrypt'
+import { bcryptHasher } from '@infrastructure/security/password-hasher.bcrypt'
 
 export default defineEventHandler(async (event) => {
   const dto = await readValidatedBody(event, LoginUserRequestSchema.parse)
   try {
-    const userId = await loginUser({ userRepository, passwordHasher: createBcryptHasher(12) }, dto)
+    const userId = await loginUser({ userRepository, passwordHasher: bcryptHasher }, dto)
     await setUserSession(event, { userId })
     setResponseStatus(event, 204)
     return

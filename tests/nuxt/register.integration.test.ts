@@ -12,10 +12,11 @@ describe('Integration Tests — User Registration /api/auth/register', async () 
     // Clean up users table before each test
     await prisma.user.deleteMany({})
   })
+
   /* TC-IT-01 */
   it('should successfully register a new user (201)', async () => {
     const payload = {
-      email: 'newuser@example.com',
+      email: `newuser-${Date.now()}@example.com`,
       password: 'SecurePassword123!'
     }
 
@@ -44,16 +45,17 @@ describe('Integration Tests — User Registration /api/auth/register', async () 
 
   /* TC-IT-02 */
   it('should reject registration with already registered email (400)', async () => {
+    const email = `it-${Date.now()}@example.com`
     // Precondition: Create existing user
     await prisma.user.create({
       data: {
-        email: 'it@example.com',
+        email,
         passwordHash: '$2a$10$hashedPasswordExample'
       }
     })
 
     const payload = {
-      email: 'it@example.com',
+      email,
       password: 'TestPasswort!23'
     }
 
@@ -78,7 +80,7 @@ describe('Integration Tests — User Registration /api/auth/register', async () 
   /* TC-IT-03 */
   it('should reject registration with password below minimum length (400)', async () => {
     const payload = {
-      email: 'shortpw@example.com',
+      email: `shortpw-${Date.now()}@example.com`,
       password: 'Short1!'
     }
 
