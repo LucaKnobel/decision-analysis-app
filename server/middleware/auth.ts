@@ -1,7 +1,8 @@
 export default defineEventHandler(async (event) => {
   const publicRoutes = [
     '/api/auth/register',
-    '/api/auth/login'
+    '/api/auth/login',
+    '/api/_auth/session'
   ]
 
   if (publicRoutes.some(route => event.path.startsWith(route))) {
@@ -10,7 +11,7 @@ export default defineEventHandler(async (event) => {
 
   if (event.path.startsWith('/api/')) {
     const session = await getUserSession(event)
-    if (!session.userId) {
+    if (!session.user) {
       throw createError({
         statusCode: 401,
         message: 'Authentication required'

@@ -8,7 +8,11 @@ export default defineEventHandler(async (event) => {
   const dto = await readValidatedBody(event, LoginUserRequestSchema.parse)
   try {
     const userId = await loginUser({ userRepository, passwordHasher: bcryptHasher }, dto)
-    await setUserSession(event, { userId })
+    await setUserSession(event, {
+      user: {
+        id: userId
+      }
+    })
     setResponseStatus(event, 204)
     return
   } catch (error: unknown) {
