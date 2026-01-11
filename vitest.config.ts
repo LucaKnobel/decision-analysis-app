@@ -6,6 +6,13 @@ export default defineConfig({
   test: {
     env: loadEnv('', process.cwd(), ''),
     fileParallelism: false,
+    watch: false,
+    pool: 'forks',
+    poolOptions: {
+      forks: {
+        singleFork: true
+      }
+    },
     projects: [
       {
         test: {
@@ -26,6 +33,13 @@ export default defineConfig({
           name: 'nuxt',
           include: ['tests/nuxt/*.{test,spec}.ts'],
           environment: 'nuxt'
+        },
+        server: {
+          watch: {
+            usePolling: true,
+            interval: 1000
+          },
+          hmr: false
         }
       })
     ]
