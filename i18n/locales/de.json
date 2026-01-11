@@ -43,6 +43,7 @@
   },
   "validation": {
     "email": {
+      "required": "E-Mail ist erforderlich",
       "invalid": "Ungültige E-Mail-Adresse"
     },
     "password": {

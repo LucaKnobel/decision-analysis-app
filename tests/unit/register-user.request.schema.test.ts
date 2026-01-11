@@ -48,6 +48,22 @@ describe('RegisterUserRequestSchema', () => {
         expect(result.success).toBe(false)
       })
     })
+
+    it('should trim whitespace from email', () => {
+      const result = RegisterUserRequestSchema.parse({
+        email: '  test@example.com  ',
+        password: 'ValidPass123!'
+      })
+      expect(result.email).toBe('test@example.com')
+    })
+
+    it('should handle empty string email', () => {
+      const result = RegisterUserRequestSchema.safeParse({
+        email: '',
+        password: 'ValidPass123!'
+      })
+      expect(result.success).toBe(false)
+    })
   })
   /* TC-UT-01 */
   describe('password validation', () => {
@@ -131,6 +147,39 @@ describe('RegisterUserRequestSchema', () => {
       if (!result.success) {
         expect(result.error.issues[0].message).toBe('Password must contain at least one special character')
       }
+    })
+
+    it('should accept password with exactly 12 characters', () => {
+      const result = RegisterUserRequestSchema.safeParse({
+        email: 'user@example.com',
+        password: 'ValidPass12!' // Exactly 12 chars
+      })
+      expect(result.success).toBe(true)
+    })
+
+    it('should accept password with exactly 256 characters', () => {
+      const validPassword = 'A' + 'a'.repeat(252) + '1!' // Exactly 256 chars
+      const result = RegisterUserRequestSchema.safeParse({
+        email: 'user@example.com',
+        password: validPassword
+      })
+      expect(result.success).toBe(true)
+    })
+
+    it('should accept passwords with unicode characters', () => {
+      const result = RegisterUserRequestSchema.safeParse({
+        email: 'user@example.com',
+        password: 'MyПароль🔐密码1!' // Latin + Unicode
+      })
+      expect(result.success).toBe(true)
+    })
+
+    it('should handle empty password', () => {
+      const result = RegisterUserRequestSchema.safeParse({
+        email: 'test@example.com',
+        password: ''
+      })
+      expect(result.success).toBe(false)
     })
   })
   /* TC-UT-01, TC-UT-02, TC-UT-03 */

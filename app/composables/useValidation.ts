@@ -4,7 +4,10 @@ export const useValidation = () => {
   const { t } = useI18n()
 
   const createRegisterFormSchema = () => z.object({
-    email: z.email({ error: t('validation.email.invalid') }),
+    email: z.string({ error: t('validation.email.required') })
+      .trim()
+      .toLowerCase()
+      .pipe(z.email({ error: t('validation.email.invalid') })),
     password: z.string({ error: t('validation.password.required') })
       .min(12, { error: t('validation.password.min') })
       .max(256, { error: t('validation.password.max') })
@@ -19,7 +22,7 @@ export const useValidation = () => {
   })
 
   const createLoginFormSchema = () => z.object({
-    email: z.string()
+    email: z.string({ error: t('validation.email.required') })
       .trim()
       .toLowerCase()
       .pipe(z.email({ error: t('validation.email.invalid') })),
