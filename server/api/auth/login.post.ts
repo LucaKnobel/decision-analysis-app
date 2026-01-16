@@ -3,25 +3,27 @@ import { loginUser } from '@services/auth/login-user.service'
 import { InvalidCredentialsError } from '@services/auth/login-user.errors'
 import { userRepository } from '@infrastructure/repositories/user-repository.prisma'
 import { bcryptHasher } from '@infrastructure/security/password-hasher.bcrypt'
+import { logger } from '@infrastructure/logging/logger.pino'
 
 export default defineEventHandler(async (event) => {
   const dto = await readValidatedBody(event, LoginUserRequestSchema.parse)
   try {
-    const userId = await loginUser({ userRepository, passwordHasher: bcryptHasher }, dto)
+    const userId = await loginUser({ userRepository, passwordHasher: bcryptHasher, logger }, dto)
     await setUserSession(event, {
       user: {
         id: userId
       }
     })
     setResponseStatus(event, 204)
-    return
   } catch (error: unknown) {
     if (error instanceof InvalidCredentialsError) {
+      logger.warn('Login failed: invalid credentials')
       throw createError({
         statusCode: 401,
         message: 'Invalid credentials'
       })
     }
+    logger.error('Unexpected error during login', {}, error instanceof Error ? error : undefined)
     throw createError({
       statusCode: 500,
       message: 'Internal server error'

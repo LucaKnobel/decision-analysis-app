@@ -14,14 +14,14 @@ export default defineNuxtConfig({
     enabled: true
   },
   css: ['~/assets/css/main.css'],
-  /* runtimeConfig: {
+  runtimeConfig: {
     // The private keys which are only available server-side
-    databaseUrl: ''
+    logLevel: 'info'
     // Keys within public are also exposed client-side
-    public: {
+    /* public: {
       apiBase: ''
-    }
-  }, */
+    } */
+  },
   alias: {
     '@server': fileURLToPath(new URL('./server', import.meta.url)),
     '@contracts': fileURLToPath(new URL('./server/contracts', import.meta.url)),
