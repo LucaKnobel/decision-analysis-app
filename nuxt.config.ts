@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   /* runtimeConfig: {
     // The private keys which are only available server-side
-    databaseUrl: ''
+    logLevel: 'info',
     // Keys within public are also exposed client-side
     public: {
       apiBase: ''
