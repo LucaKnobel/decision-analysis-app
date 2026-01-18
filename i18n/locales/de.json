@@ -2,6 +2,7 @@
   "nav": {
     "demo": "Demo",
     "login": "Login",
+    "logout": "Abmelden",
     "register": "Registrieren"
   },
   "footer": {
