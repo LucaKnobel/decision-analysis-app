@@ -56,12 +56,32 @@ export const useErrorHandler = () => {
     }
   }
 
+  const handleAnalysisError = (error: unknown): void => {
+    const statusCode = getStatusCode(error)
+
+    if (!statusCode) {
+      setError('errors.network.title', 'errors.network.text')
+      return
+    }
+
+    if (statusCode >= 500) {
+      setError('errors.serviceUnavailable.title', 'errors.serviceUnavailable.text')
+      return
+    }
+
+    if (statusCode === 401) {
+      setError('errors.analysis.title', 'errors.analysis.text')
+      return
+    }
+  }
+
   return {
     hasError,
     errorTitle,
     errorText,
     resetError,
     handleRegistrationError,
-    handleLoginError
+    handleLoginError,
+    handleAnalysisError
   }
 }

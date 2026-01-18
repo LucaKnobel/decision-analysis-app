@@ -56,7 +56,17 @@
     "passwordLowercase": "Muss mindestens einen Kleinbuchstaben enthalten",
     "passwordNumber": "Muss mindestens eine Zahl enthalten",
     "passwordSpecial": "Muss mindestens ein Sonderzeichen enthalten",
-    "passwordsMatch": "Passwörter müssen übereinstimmen"
+    "passwordsMatch": "Passwörter müssen übereinstimmen",
+    "analysis": {
+      "title": {
+        "required": "Titel ist erforderlich",
+        "min": "Titel muss mindestens 1 Zeichen lang sein",
+        "max": "Titel darf maximal 100 Zeichen lang sein"
+      },
+      "description": {
+        "max": "Beschreibung darf maximal 500 Zeichen lang sein"
+      }
+    }
   },
   "legal": {
     "privacyPolicy": "Datenschutzerklärung",
@@ -79,6 +89,19 @@
     "serviceUnavailable": {
       "title": "Dienst nicht verfügbar",
       "text": "Der Dienst ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut."
+    },
+    "analysis": {
+      "title": "Analyseerstellung nicht möglich",
+      "text": "Die Erstellung der Analyse konnte nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen."
+    }
+  },
+  "analysis": {
+    "title": "Titel",
+    "description": "Beschreibung",
+    "create": {
+      "title": "Analyse erstellen",
+      "successTitle": "Analyse erfolgreich erstellt!",
+      "successMessage": "Ihre Analyse wurde gespeichert."
     }
   }
 }

@@ -9,7 +9,7 @@
     "copyright": "Copyright"
   },
   "pages": {
-     "common": {
+    "common": {
       "email": "E-Mail",
       "password": "Password",
       "placeHolderEmail": "Enter your email",
@@ -23,7 +23,7 @@
       "getStarted": "Get Started",
       "learnMore": "Learn More"
     },
-     "register": {
+    "register": {
       "title": "Create an Account",
       "alreadyHaveAccount": "Already have an account?",
       "forgotPassword": "Forgot password?",
@@ -34,13 +34,13 @@
       "successMessage": "You can now sign in."
     },
     "login": {
-     "title": "Welcome back!",
-     "dontHaveAccount": "Don't have an account?",
-     "forgotPassword": "Forgot password?",
-     "loginAccount": "Login",
-     "termsHint": "By signing in, you agree to our Terms of Service.",
-     "successMessageTitle": "Success!",
-     "successMessage": "You are now logged in."
+      "title": "Welcome back!",
+      "dontHaveAccount": "Don't have an account?",
+      "forgotPassword": "Forgot password?",
+      "loginAccount": "Login",
+      "termsHint": "By signing in, you agree to our Terms of Service.",
+      "successMessageTitle": "Success!",
+      "successMessage": "You are now logged in."
     }
   },
   "validation": {
@@ -57,7 +57,17 @@
     "passwordLowercase": "Must contain at least one lowercase letter",
     "passwordNumber": "Must contain at least one number",
     "passwordSpecial": "Must contain at least one special character",
-    "passwordsMatch": "Passwords must match"
+    "passwordsMatch": "Passwords must match",
+    "analysis": {
+      "title": {
+        "required": "Title is required",
+        "min": "Title must be at least 1 character long",
+        "max": "Title must not exceed 100 characters"
+      },
+      "description": {
+        "max": "Description must not exceed 500 characters"
+      }
+    }
   },
   "legal": {
     "privacyPolicy": "Privacy Policy",
@@ -73,13 +83,26 @@
       "title": "Login not possible",
       "text": "Login could not be completed. Please check your inputs."
     },
-    "network": { 
+    "network": {
       "title": "Connection unavailable",
       "text": "The connection to the server could not be established. Please check your internet connection and try again."
     },
     "serviceUnavailable": {
       "title": "Service unavailable",
       "text": "The service is currently unavailable. Please try again later."
+    },
+    "analysis": {
+      "title": "Analyseerstellung nicht möglich",
+      "text": "Die Erstellung der Analyse konnte nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen."
+    }
+  },
+  "analysis": {
+    "title": "Title",
+    "description": "Description",
+    "create": {
+      "title": "Create analysis",
+      "successTitle": "Analysis successfully created!",
+      "successMessage": "Your analysis has been saved."
     }
   }
 }

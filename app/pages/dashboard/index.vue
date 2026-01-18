@@ -3,13 +3,17 @@ definePageMeta({
   middleware: ['auth'],
   layout: 'dashboard'
 })
+
+const localePath = useLocalePath()
 </script>
 
 <template>
-  <div>
-    <p>Dashboard Index</p>
-  </div>
-  <NuxtLinkLocale to="/dashboard/test">
-    Go to Dashboard Test
-  </NuxtLinkLocale>
+  <UButton
+    :label="$t('analysis.create.title')"
+    :to="localePath('/analyses/create')"
+    icon="i-lucide-plus"
+    size="md"
+    color="primary"
+    variant="solid"
+  />
 </template>
