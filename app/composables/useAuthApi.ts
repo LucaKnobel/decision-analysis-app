@@ -1,5 +1,4 @@
-import type { RegisterUserRequestDTO } from '#shared/types/register-user'
-import type { LoginUserRequestDTO } from '#shared/types/login-user'
+import type { RegisterUserRequestDTO, LoginUserRequestDTO } from '#shared/types/user'
 
 export const useAuthApi = () => {
   const registerUser = async (dto: RegisterUserRequestDTO) => {
