@@ -21,58 +21,42 @@ export const useErrorHandler = () => {
     return typeof statusCode === 'number' ? statusCode : undefined
   }
 
-  const handleRegistrationError = (error: unknown): void => {
-    const statusCode = getStatusCode(error)
-
+  const handleCommonErrors = (statusCode: number | undefined): boolean => {
     if (!statusCode) {
       setError('errors.network.title', 'errors.network.text')
-      return
+      return true
     }
 
     if (statusCode >= 500) {
       setError('errors.serviceUnavailable.title', 'errors.serviceUnavailable.text')
-      return
+      return true
     }
 
+    return false
+  }
+
+  const handleRegistrationError = (error: unknown): void => {
+    const statusCode = getStatusCode(error)
+    if (handleCommonErrors(statusCode)) {
+      return
+    }
     setError('errors.registration.title', 'errors.registration.text')
   }
 
   const handleLoginError = (error: unknown): void => {
     const statusCode = getStatusCode(error)
-
-    if (!statusCode) {
-      setError('errors.network.title', 'errors.network.text')
+    if (handleCommonErrors(statusCode)) {
       return
     }
-
-    if (statusCode >= 500) {
-      setError('errors.serviceUnavailable.title', 'errors.serviceUnavailable.text')
-      return
-    }
-
-    if (statusCode === 401) {
-      setError('errors.login.title', 'errors.login.text')
-      return
-    }
+    setError('errors.login.title', 'errors.login.text')
   }
 
   const handleAnalysisError = (error: unknown): void => {
     const statusCode = getStatusCode(error)
-
-    if (!statusCode) {
-      setError('errors.network.title', 'errors.network.text')
+    if (handleCommonErrors(statusCode)) {
       return
     }
-
-    if (statusCode >= 500) {
-      setError('errors.serviceUnavailable.title', 'errors.serviceUnavailable.text')
-      return
-    }
-
-    if (statusCode === 401) {
-      setError('errors.analysis.title', 'errors.analysis.text')
-      return
-    }
+    setError('errors.analysis.title', 'errors.analysis.text')
   }
 
   return {
