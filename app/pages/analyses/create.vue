@@ -10,10 +10,8 @@ definePageMeta({
 const { createAnalysisFormSchema } = useValidation()
 const { createAnalysis } = useAnalysisApi()
 const { hasError, errorTitle, errorText, resetError, handleAnalysisError } = useErrorHandler()
-const { t } = useI18n()
 const localePath = useLocalePath()
-const toast = useToast()
-
+const { showSuccess } = useToastNotification()
 const isSubmitting = ref(false)
 const schema = createAnalysisFormSchema()
 
@@ -22,13 +20,8 @@ const state = reactive<Partial<AnalysisForm>>({
   description: undefined
 })
 
-/* toast success function auslagern */
 const handleSuccess = async (): Promise<void> => {
-  toast.add({
-    title: t('analysis.create.successTitle'),
-    description: t('analysis.create.successMessage'),
-    color: 'success'
-  })
+  showSuccess('analysis.create.successTitle', 'analysis.create.successMessage')
   await navigateTo(localePath('/dashboard'))
 }
 
