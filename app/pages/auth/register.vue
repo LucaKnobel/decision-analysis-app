@@ -36,11 +36,6 @@ const fields: AuthFormField[] = [{
   required: true
 }]
 
-const handleSuccess = async (): Promise<void> => {
-  showSuccess('pages.register.successMessageTitle', 'pages.register.successMessage')
-  await navigateTo(localePath('/auth/login'))
-}
-
 const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => {
   if (isSubmitting.value) {
     return
@@ -54,7 +49,8 @@ const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => 
       password: event.data.password
     }
     await registerUser(payload)
-    await handleSuccess()
+    showSuccess('pages.register.successMessageTitle', 'pages.register.successMessage')
+    await navigateTo(localePath('/auth/login'))
   } catch (error: unknown) {
     handleRegistrationError(error)
   } finally {

@@ -20,11 +20,6 @@ const state = reactive<Partial<AnalysisForm>>({
   description: undefined
 })
 
-const handleSuccess = async (): Promise<void> => {
-  showSuccess('analysis.create.successTitle', 'analysis.create.successMessage')
-  await navigateTo(localePath('/dashboard'))
-}
-
 const onSubmit = async (event: FormSubmitEvent<AnalysisForm>): Promise<void> => {
   if (isSubmitting.value) {
     return
@@ -38,7 +33,8 @@ const onSubmit = async (event: FormSubmitEvent<AnalysisForm>): Promise<void> => 
       description: event.data.description
     }
     await createAnalysis(payload)
-    await handleSuccess()
+    showSuccess('analysis.create.successTitle', 'analysis.create.successMessage')
+    await navigateTo(localePath('/dashboard'))
   } catch (error: unknown) {
     handleAnalysisError(error)
   } finally {

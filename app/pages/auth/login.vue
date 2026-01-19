@@ -31,11 +31,6 @@ const fields: AuthFormField[] = [{
   required: true
 }]
 
-const handleSuccess = async (): Promise<void> => {
-  showSuccess('pages.login.successMessageTitle', 'pages.login.successMessage')
-  await navigateTo(localePath('/dashboard'))
-}
-
 const onSubmit = async (event: FormSubmitEvent<LoginForm>): Promise<void> => {
   if (isSubmitting.value) {
     return
@@ -50,7 +45,8 @@ const onSubmit = async (event: FormSubmitEvent<LoginForm>): Promise<void> => {
     }
     await loginUser(payload)
     await refreshSession()
-    await handleSuccess()
+    showSuccess('pages.login.successMessageTitle', 'pages.login.successMessage')
+    await navigateTo(localePath('/dashboard'))
   } catch (error: unknown) {
     handleLoginError(error)
   } finally {
