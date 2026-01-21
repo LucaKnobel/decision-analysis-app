@@ -23,5 +23,21 @@ export const analysisRepository: AnalysisRepository = {
     return prisma.analysis.findUnique({
       where: { id }
     })
+  },
+
+  async updateAnalysis(id, data) {
+    return prisma.analysis.update({
+      where: { id },
+      data: {
+        title: data.title,
+        description: data.description
+      }
+    })
+  },
+
+  async deleteAnalysis(id) {
+    await prisma.analysis.delete({
+      where: { id }
+    })
   }
 }

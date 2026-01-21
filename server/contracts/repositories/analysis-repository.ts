@@ -10,4 +10,11 @@ export interface AnalysisRepository {
   getAnalysesByUserId(userId: string): Promise<Analysis[]>
 
   getAnalysisById(id: string): Promise<Analysis | null>
+
+  updateAnalysis(id: string, data: {
+    title?: string
+    description?: string | null
+  }): Promise<Analysis>
+
+  deleteAnalysis(id: string): Promise<void>
 }
