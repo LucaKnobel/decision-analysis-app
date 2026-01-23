@@ -77,7 +77,6 @@ export class AnalysisService {
   ): Promise<Analysis> {
     this.logger.debug('Updating analysis', { analysisId, requestingUserId })
 
-    // Erst prüfen ob die Analysis existiert und der User berechtigt ist
     await this.getAnalysisById(analysisId, requestingUserId)
 
     const updatedAnalysis = await this.analysisRepository.updateAnalysis(
@@ -102,7 +101,6 @@ export class AnalysisService {
   ): Promise<void> {
     this.logger.debug('Deleting analysis', { analysisId, requestingUserId })
 
-    // Erst prüfen ob die Analysis existiert und der User berechtigt ist
     await this.getAnalysisById(analysisId, requestingUserId)
 
     await this.analysisRepository.deleteAnalysis(analysisId)

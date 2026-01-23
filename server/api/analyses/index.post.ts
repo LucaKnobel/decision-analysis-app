@@ -1,36 +1,22 @@
-/* import { LoginUserRequestSchema } from '@server/api/schemas/auth/login-user.request.schema'
-import { loginUser } from '@services/auth/login-user.service'
-import { InvalidCredentialsError } from '@services/auth/login-user.errors'
-import { userRepository } from '@infrastructure/repositories/user-repository.prisma'
-import { bcryptHasher } from '@infrastructure/security/password-hasher.bcrypt'
+import { CreateAnalysisRequestSchema } from '@server/api/schemas/analysis/create-analysis.request.schema'
+import { CreateAnalysisResponseSchema } from '@server/api/schemas/analysis/create-analysis.response.schema'
+import { AnalysisService } from '@services/analyses/analysis.service'
+import { analysisRepository } from '@infrastructure/repositories/analysis-repository.prisma'
 import { logger } from '@infrastructure/logging/logger.pino'
 
 export default defineEventHandler(async (event) => {
-  const dto = await readValidatedBody(event, LoginUserRequestSchema.parse)
+  const { user } = await requireUserSession(event)
+  const dto = await readValidatedBody(event, CreateAnalysisRequestSchema.parse)
   try {
-    const userId = await loginUser({ userRepository, passwordHasher: bcryptHasher, logger }, dto)
-    await setUserSession(event, {
-      user: {
-        id: userId
-      }
-    })
-    setResponseStatus(event, 204)
+    const analysisService = new AnalysisService(analysisRepository, logger)
+    const analysis = await analysisService.createAnalysis(user.id, dto)
+    setResponseStatus(event, 201)
+    return CreateAnalysisResponseSchema.parse({ id: analysis.id })
   } catch (error: unknown) {
-    if (error instanceof InvalidCredentialsError) {
-      logger.warn('Login failed: invalid credentials')
-      throw createError({
-        statusCode: 401,
-        message: 'Invalid credentials'
-      })
-    }
-    logger.error('Unexpected error during login', {}, error instanceof Error ? error : undefined)
+    logger.error('Unexpected error during analysis creation', {}, error instanceof Error ? error : undefined)
     throw createError({
       statusCode: 500,
       message: 'Internal server error'
     })
   }
-})
-*/
-export default defineEventHandler(async () => {
-  return 'Hallo'
 })
