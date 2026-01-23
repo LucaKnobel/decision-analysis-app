@@ -1,4 +1,4 @@
-import { AnalysisNotFoundError, UnauthorizedAnalysisAccessError } from '@server/services/analyses/analysis.errors'
+import { AnalysisNotFoundError, UnauthorizedAnalysisAccessError } from './analysis.errors'
 import type { CreateAnalysisRequestDTO } from '@server/api/schemas/analysis/create-analysis.request.schema'
 import type { AnalysisRepository } from '@contracts/repositories/analysis-repository'
 import type { Logger } from '@contracts/logging/logger'
