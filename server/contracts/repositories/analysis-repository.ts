@@ -7,7 +7,15 @@ export interface AnalysisRepository {
     description: string | null
   }): Promise<Analysis>
 
-  getAnalysesByUserId(userId: string): Promise<Analysis[]>
+  findAnalysesByUserId(
+    userId: string,
+    offset: number,
+    limit: number,
+    sortBy: 'createdAt' | 'updatedAt' | 'title',
+    sortOrder: 'asc' | 'desc'
+  ): Promise<Analysis[]>
+
+  countAnalysesByUserId(userId: string): Promise<number>
 
   getAnalysisById(id: string): Promise<Analysis | null>
 

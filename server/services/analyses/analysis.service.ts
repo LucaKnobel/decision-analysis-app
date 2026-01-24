@@ -1,5 +1,7 @@
 import { AnalysisNotFoundError, UnauthorizedAnalysisAccessError } from './analysis.errors'
 import type { CreateAnalysisRequestDTO } from '@server/api/schemas/analysis/create-analysis.request.schema'
+import type { GetAnalysesRequestDTO } from '@server/api/schemas/analysis/get-analyses.request.schema'
+import type { GetAnalysesResponseDTO, AnalysisItemDTO } from '@server/api/schemas/analysis/get-analyses.response.schema'
 import type { AnalysisRepository } from '@contracts/repositories/analysis-repository'
 import type { Logger } from '@contracts/logging/logger'
 import type { Analysis } from '@generated/prisma/client'
@@ -30,17 +32,59 @@ export class AnalysisService {
     return analysis
   }
 
-  async getAnalysesByUserId(userId: string): Promise<Analysis[]> {
-    this.logger.debug('Fetching analyses for user', { userId })
+  async getAnalysesPaginated(
+    userId: string,
+    params: GetAnalysesRequestDTO
+  ): Promise<GetAnalysesResponseDTO> {
+    this.logger.debug('Fetching paginated analyses', {
+      userId,
+      page: params.page,
+      limit: params.limit,
+      sortBy: params.sortBy,
+      sortOrder: params.sortOrder
+    })
 
-    const analyses = await this.analysisRepository.getAnalysesByUserId(userId)
+    const offset = (params.page - 1) * params.limit
+
+    const [analyses, total] = await Promise.all([
+      this.analysisRepository.findAnalysesByUserId(
+        userId,
+        offset,
+        params.limit,
+        params.sortBy,
+        params.sortOrder
+      ),
+      this.analysisRepository.countAnalysesByUserId(userId)
+    ])
+
+    const totalPages = Math.max(1, Math.ceil(total / params.limit))
 
     this.logger.debug('Analyses fetched successfully', {
       userId,
-      count: analyses.length
+      count: analyses.length,
+      total,
+      totalPages
     })
 
-    return analyses
+    return {
+      data: analyses.map(analysis => this.mapToAnalysisDTO(analysis)),
+      pagination: {
+        page: params.page,
+        limit: params.limit,
+        total,
+        totalPages
+      }
+    }
+  }
+
+  private mapToAnalysisDTO(analysis: Analysis): AnalysisItemDTO {
+    return {
+      id: analysis.id,
+      title: analysis.title,
+      description: analysis.description,
+      createdAt: analysis.createdAt.toISOString(),
+      updatedAt: analysis.updatedAt.toISOString()
+    }
   }
 
   async getAnalysisById(

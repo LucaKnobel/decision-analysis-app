@@ -1,2 +1,5 @@
 export type { CreateAnalysisRequestDTO } from '@server/api/schemas/analysis/create-analysis.request.schema'
 export type { CreateAnalysisResponseDTO } from '@server/api/schemas/analysis/create-analysis.response.schema'
+export type { GetAnalysesRequestDTO } from '@server/api/schemas/analysis/get-analyses.request.schema'
+export type { GetAnalysesResponseDTO } from '@server/api/schemas/analysis/get-analyses.response.schema'
+export type { AnalysisItemDTO } from '@server/api/schemas/analysis/get-analyses.response.schema'

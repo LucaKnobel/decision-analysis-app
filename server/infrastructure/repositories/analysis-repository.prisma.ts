@@ -12,10 +12,18 @@ export const analysisRepository: AnalysisRepository = {
     })
   },
 
-  async getAnalysesByUserId(userId) {
+  async findAnalysesByUserId(userId, offset, limit, sortBy, sortOrder) {
     return prisma.analysis.findMany({
       where: { userId },
-      orderBy: { createdAt: 'desc' }
+      skip: offset,
+      take: limit,
+      orderBy: { [sortBy]: sortOrder }
+    })
+  },
+
+  async countAnalysesByUserId(userId) {
+    return prisma.analysis.count({
+      where: { userId }
     })
   },
 
