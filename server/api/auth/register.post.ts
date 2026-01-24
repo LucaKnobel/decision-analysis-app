@@ -14,14 +14,14 @@ export default defineEventHandler(async (event) => {
     if (error instanceof EmailAlreadyExistsError) {
       logger.warn('Registration failed: email already exists')
       throw createError({
-        statusCode: 400,
-        message: 'Bad Request'
+        status: 400,
+        statusText: 'Bad Request'
       })
     }
     logger.error('Unexpected error during registration', {}, error instanceof Error ? error : undefined)
     throw createError({
-      statusCode: 500,
-      message: 'Internal Server Error'
+      status: 500,
+      statusText: 'Internal Server Error'
     })
   }
 })

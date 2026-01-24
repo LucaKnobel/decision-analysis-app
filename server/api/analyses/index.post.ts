@@ -15,8 +15,8 @@ export default defineEventHandler(async (event) => {
   } catch (error: unknown) {
     logger.error('Unexpected error during analysis creation', {}, error instanceof Error ? error : undefined)
     throw createError({
-      statusCode: 500,
-      message: 'Internal server error'
+      status: 500,
+      statusText: 'Internal server error'
     })
   }
 })

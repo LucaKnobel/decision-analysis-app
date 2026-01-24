@@ -19,14 +19,14 @@ export default defineEventHandler(async (event) => {
     if (error instanceof InvalidCredentialsError) {
       logger.warn('Login failed: invalid credentials')
       throw createError({
-        statusCode: 401,
-        message: 'Invalid credentials'
+        status: 401,
+        statusText: 'Invalid credentials'
       })
     }
     logger.error('Unexpected error during login', {}, error instanceof Error ? error : undefined)
     throw createError({
-      statusCode: 500,
-      message: 'Internal server error'
+      status: 500,
+      statusText: 'Internal server error'
     })
   }
 })

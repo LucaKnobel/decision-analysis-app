@@ -1,6 +1,4 @@
 import { useI18n } from 'vue-i18n'
-// @ts-expect-error - useToast is auto-imported by Nuxt
-import { useToast } from '@nuxt/ui/dist/runtime/composables/useToast'
 
 export const useToastNotification = () => {
   const { t } = useI18n()
