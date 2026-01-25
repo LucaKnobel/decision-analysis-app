@@ -1,33 +1,6 @@
 <!-- <script setup lang="ts">
-definePageMeta({
-  middleware: ['auth'],
-  layout: 'dashboard'
-})
-
-const localePath = useLocalePath()
-
-const page = ref(5)
-</script>
-
-<template>
-  <UButton
-    :label="$t('analysis.create.title')"
-    :to="localePath('/analyses/create')"
-    icon="i-lucide-plus"
-    size="md"
-    color="primary"
-    variant="solid"
-  />
-
-  <UPagination v-model:page="page"
-               :items-per-page="20"
-               :total="100"
-               active-color="neutral"
-  />
-</template> -->
-<script setup lang="ts">
-import { getPaginationRowModel } from '@tanstack/vue-table'
 import type { TableColumn } from '@nuxt/ui'
+import type { AnalysisItemDTO } from '#shared/types/analysis'
 
 definePageMeta({
   middleware: ['auth'],
@@ -35,230 +8,99 @@ definePageMeta({
 })
 
 const localePath = useLocalePath()
+const { t } = useI18n()
 
-const table = useTemplateRef('table')
+const { data: analyses, status } = await useFetch<{ data: AnalysisItemDTO[] }>('/api/analyses', {
+  key: 'dashboard-analyses',
+  transform: (response) => response.data || [],
+  lazy: true
+})
 
-type Payment = {
-  id: string
-  date: string
-  email: string
-  amount: number
-}
-const data = ref<Payment[]>([
+const columns: TableColumn<AnalysisItemDTO>[] = [
   {
-    id: '4600',
-    date: '2024-03-11T15:30:00',
-    email: 'james.anderson@example.com',
-    amount: 594
+    accessorKey: 'title',
+    header: () => t('analysis.title')
   },
   {
-    id: '4599',
-    date: '2024-03-11T10:10:00',
-    email: 'mia.white@example.com',
-    amount: 276
+    accessorKey: 'description',
+    header: () => t('analysis.description'),
+    cell: ({ row }) => row.original.description || '-'
   },
   {
-    id: '4598',
-    date: '2024-03-11T08:50:00',
-    email: 'william.brown@example.com',
-    amount: 315
-  },
-  {
-    id: '4597',
-    date: '2024-03-10T19:45:00',
-    email: 'emma.davis@example.com',
-    amount: 529
-  },
-  {
-    id: '4596',
-    date: '2024-03-10T15:55:00',
-    email: 'ethan.harris@example.com',
-    amount: 639
-  },
-  {
-    id: '4595',
-    date: '2024-03-10T13:20:00',
-    email: 'sophia.miller@example.com',
-    amount: 428
-  },
-  {
-    id: '4594',
-    date: '2024-03-10T11:05:00',
-    email: 'noah.wilson@example.com',
-    amount: 673
-  },
-  {
-    id: '4593',
-    date: '2024-03-09T22:15:00',
-    email: 'olivia.jones@example.com',
-    amount: 382
-  },
-  {
-    id: '4592',
-    date: '2024-03-09T20:30:00',
-    email: 'liam.taylor@example.com',
-    amount: 547
-  },
-  {
-    id: '4591',
-    date: '2024-03-09T18:45:00',
-    email: 'ava.thomas@example.com',
-    amount: 291
-  },
-  {
-    id: '4590',
-    date: '2024-03-09T16:20:00',
-    email: 'lucas.martin@example.com',
-    amount: 624
-  },
-  {
-    id: '4589',
-    date: '2024-03-09T14:10:00',
-    email: 'isabella.clark@example.com',
-    amount: 438
-  },
-  {
-    id: '4588',
-    date: '2024-03-09T12:05:00',
-    email: 'mason.rodriguez@example.com',
-    amount: 583
-  },
-  {
-    id: '4587',
-    date: '2024-03-09T10:30:00',
-    email: 'sophia.lee@example.com',
-    amount: 347
-  },
-  {
-    id: '4586',
-    date: '2024-03-09T08:15:00',
-    email: 'ethan.walker@example.com',
-    amount: 692
-  },
-  {
-    id: '4585',
-    date: '2024-03-08T23:40:00',
-    email: 'amelia.hall@example.com',
-    amount: 419
-  },
-  {
-    id: '4584',
-    date: '2024-03-08T21:25:00',
-    email: 'oliver.young@example.com',
-    amount: 563
-  },
-  {
-    id: '4583',
-    date: '2024-03-08T19:50:00',
-    email: 'aria.king@example.com',
-    amount: 328
-  },
-  {
-    id: '4582',
-    date: '2024-03-08T17:35:00',
-    email: 'henry.wright@example.com',
-    amount: 647
-  },
-  {
-    id: '4581',
-    date: '2024-03-08T15:20:00',
-    email: 'luna.lopez@example.com',
-    amount: 482
-  }
-])
-const columns: TableColumn<Payment>[] = [
-  {
-    accessorKey: 'id',
-    header: '#',
-    cell: ({ row }) => `#${row.getValue('id')}`
-  },
-  {
-    accessorKey: 'date',
-    header: 'Date',
+    accessorKey: 'createdAt',
+    header: () => t('analysis.columns.createdAt'),
     cell: ({ row }) => {
-      return new Date(row.getValue('date')).toLocaleString('en-US', {
+      return new Date(row.original.createdAt).toLocaleString('de-DE', {
         day: 'numeric',
         month: 'short',
+        year: 'numeric',
         hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
+        minute: '2-digit'
       })
     }
   },
   {
-    accessorKey: 'email',
-    header: 'Email'
-  },
-  {
-    accessorKey: 'amount',
-    header: 'Amount',
-    meta: {
-      class: {
-        th: 'text-right',
-        td: 'text-right font-medium'
-      }
-    },
+    accessorKey: 'updatedAt',
+    header: () => t('analysis.columns.updatedAt'),
     cell: ({ row }) => {
-      const amount = Number.parseFloat(row.getValue('amount'))
-      return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'EUR'
-      }).format(amount)
+      return new Date(row.original.updatedAt).toLocaleString('de-DE', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      })
     }
   }
 ]
 
-const pagination = ref({
-  pageIndex: 0,
-  pageSize: 5
-})
-
-const globalFilter = ref('')
+const handleRowClick = (row: AnalysisItemDTO) => {
+  navigateTo(localePath(`/analyses/${row.id}`))
+}
 </script>
 
 <template>
-  <UCard class="max-w-7xl mx-auto">
-    <template #header>
-      <div class="flex justify-between items-center">
-        <h2 class="text-xl font-semibold">
-          Meine Analysen
-        </h2>
-        <UButton
-          :label="$t('analysis.create.title')"
-          :to="localePath('/analyses/create')"
-          icon="i-lucide-plus"
-          size="md"
-          color="primary"
-          variant="solid"
-        />
-      </div>
-    </template>
+  <div class="max-w-7xl mx-auto">
+    <UCard>
+      <template #header>
+        <div class="flex justify-between items-center">
+          <h2 class="text-xl font-semibold">
+            {{ t('analysis.dashboard.title') }}
+          </h2>
+          <UButton
+            :label="$t('analysis.create.title')"
+            :to="localePath('/analyses/create')"
+            leading-icon="i-lucide-plus"
+            size="md"
+            color="primary"
+            variant="solid"
+          />
+        </div>
+      </template>
 
-    <div class="flex px-4 py-3.5 border-b border-accented">
-      <UInput v-model="globalFilter" class="max-w-sm" placeholder="Filter..." />
-    </div>
-
-    <div class="w-full space-y-4 pb-4">
       <UTable
-        ref="table"
-        v-model:pagination="pagination"
-        v-model:global-filter="globalFilter"
-        :data="data"
+        :data="analyses"
         :columns="columns"
-        :pagination-options="{
-          getPaginationRowModel: getPaginationRowModel()
-        }"
+        :loading="status === 'pending'"
         class="flex-1"
-      />
-
-      <div class="flex justify-end border-t border-default pt-4 px-4">
-        <UPagination
-          :page="(table?.tableApi?.getState().pagination.pageIndex || 0) + 1"
-          :items-per-page="table?.tableApi?.getState().pagination.pageSize"
-          :total="table?.tableApi?.getFilteredRowModel().rows.length"
-          @update:page="(p) => table?.tableApi?.setPageIndex(p - 1)"
-        />
-      </div>
-    </div>
-  </UCard>
+        @row-click="handleRowClick"
+      >
+        <template #empty>
+          <div class="flex flex-col items-center justify-center py-12">
+            <UIcon name="i-lucide-inbox" class="w-12 h-12 text-gray-400 mb-3" />
+            <p class="text-gray-500 dark:text-gray-400">
+              {{ t('analysis.dashboard.empty') }}
+            </p>
+            <UButton
+              :to="localePath('/analyses/create')"
+              class="mt-4"
+              size="sm"
+              variant="soft"
+            >
+              {{ t('analysis.dashboard.createFirst') }}
+            </UButton>
+          </div>
+        </template>
+      </UTable>
+    </UCard>
+  </div>
 </template>
+ -->

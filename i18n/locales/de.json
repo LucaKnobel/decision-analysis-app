@@ -102,6 +102,22 @@
       "title": "Analyse erstellen",
       "successTitle": "Analyse erfolgreich erstellt!",
       "successMessage": "Ihre Analyse wurde gespeichert."
+    },
+    "dashboard": {
+      "title": "Meine Analysen",
+      "totalCount": "{count} Analyse | {count} Analysen",
+      "filter": "Filtern...",
+      "empty": "Keine Analysen vorhanden",
+      "createFirst": "Erste Analyse erstellen",
+      "total": "insgesamt"
+    },
+    "detail": {
+      "title": "Analyse bearbeiten",
+      "placeholder": "Die Analyse-Bearbeitung wird hier implementiert."
+    },
+    "columns": {
+      "createdAt": "Erstellt am",
+      "updatedAt": "Aktualisiert"
     }
   }
 }

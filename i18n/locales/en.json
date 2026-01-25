@@ -103,6 +103,22 @@
       "title": "Create analysis",
       "successTitle": "Analysis successfully created!",
       "successMessage": "Your analysis has been saved."
+    },
+    "dashboard": {
+      "title": "My Analyses",
+      "totalCount": "{count} Analysis | {count} Analyses",
+      "filter": "Filter...",
+      "empty": "No analyses available",
+      "createFirst": "Create first analysis",
+      "total": "total"
+    },
+    "detail": {
+      "title": "Edit Analysis",
+      "placeholder": "Analysis editing will be implemented here."
+    },
+    "columns": {
+      "createdAt": "Created at",
+      "updatedAt": "Updated"
     }
   }
 }
