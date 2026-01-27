@@ -1,4 +1,4 @@
-<!-- <script setup lang="ts">
+<script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui'
 import type { AnalysisItemDTO } from '#shared/types/analysis'
 
@@ -10,55 +10,65 @@ definePageMeta({
 const localePath = useLocalePath()
 const { t } = useI18n()
 
-const { data: analyses, status } = await useFetch<{ data: AnalysisItemDTO[] }>('/api/analyses', {
+const { data: response, status } = await useFetch<{ data: AnalysisItemDTO[] }>('/api/analyses', {
   key: 'dashboard-analyses',
-  transform: (response) => response.data || [],
   lazy: true
 })
-
+const data = computed(() => response.value?.data || [])
 const columns: TableColumn<AnalysisItemDTO>[] = [
   {
     accessorKey: 'title',
-    header: () => t('analysis.title')
+    header: () => t('analysis.title'),
+    cell: ({ row }) => row.original.title,
+    meta: {
+      class: {
+        th: 'w-24',
+        td: 'w-24 truncate'
+      }
+    }
   },
   {
     accessorKey: 'description',
     header: () => t('analysis.description'),
-    cell: ({ row }) => row.original.description || '-'
+    cell: ({ row }) => row.original.description || '-',
+    meta: {
+      class: {
+        th: 'hidden md:table-cell',
+        td: 'hidden md:table-cell truncate max-w-md'
+      }
+    }
   },
   {
     accessorKey: 'createdAt',
     header: () => t('analysis.columns.createdAt'),
-    cell: ({ row }) => {
-      return new Date(row.original.createdAt).toLocaleString('de-DE', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      })
+    cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString('de-DE'),
+    meta: {
+      class: {
+        th: 'w-32 hidden lg:table-cell',
+        td: 'w-32 hidden lg:table-cell'
+      }
     }
   },
   {
     accessorKey: 'updatedAt',
     header: () => t('analysis.columns.updatedAt'),
-    cell: ({ row }) => {
-      return new Date(row.original.updatedAt).toLocaleString('de-DE', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-      })
+    cell: ({ row }) => new Date(row.original.updatedAt).toLocaleDateString('de-DE'),
+    meta: {
+      class: {
+        th: 'w-32 hidden md:table-cell',
+        td: 'w-32 hidden md:table-cell'
+      }
     }
   }
 ]
 
-const handleRowClick = (row: AnalysisItemDTO) => {
+/* const handleRowClick = (row: AnalysisItemDTO) => {
   navigateTo(localePath(`/analyses/${row.id}`))
-}
+} */
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto">
+  <div class="container max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
     <UCard>
       <template #header>
         <div class="flex justify-between items-center">
@@ -75,32 +85,11 @@ const handleRowClick = (row: AnalysisItemDTO) => {
           />
         </div>
       </template>
-
-      <UTable
-        :data="analyses"
-        :columns="columns"
-        :loading="status === 'pending'"
-        class="flex-1"
-        @row-click="handleRowClick"
-      >
-        <template #empty>
-          <div class="flex flex-col items-center justify-center py-12">
-            <UIcon name="i-lucide-inbox" class="w-12 h-12 text-gray-400 mb-3" />
-            <p class="text-gray-500 dark:text-gray-400">
-              {{ t('analysis.dashboard.empty') }}
-            </p>
-            <UButton
-              :to="localePath('/analyses/create')"
-              class="mt-4"
-              size="sm"
-              variant="soft"
-            >
-              {{ t('analysis.dashboard.createFirst') }}
-            </UButton>
-          </div>
-        </template>
-      </UTable>
+      <UTable :data="data"
+              :columns="columns"
+              :loading="status === 'pending'"
+              class="w-full"
+      />
     </UCard>
   </div>
 </template>
- -->
