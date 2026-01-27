@@ -17,12 +17,25 @@ const { t } = useI18n()
 const toast = useToast()
 
 const globalFilter = ref('')
+const page = ref(1)
+const limit = 20
 
-const { data: response, status } = await useFetch<{ data: AnalysisItemDTO[] }>('/api/analyses', {
+const { data: response, status } = await useFetch<{
+  data: AnalysisItemDTO[]
+  pagination: {
+    total: number
+    totalPages: number
+    currentPage: number
+    limit: number
+  }
+}>(() => `/api/analyses?page=${page.value}&limit=${limit}`, {
   key: 'dashboard-analyses',
-  lazy: true
+  lazy: true,
+  watch: [page]
 })
+
 const data = computed(() => response.value?.data || [])
+const pagination = computed(() => response.value?.pagination)
 const columns: TableColumn<AnalysisItemDTO>[] = [
   {
     accessorKey: 'title',
@@ -161,16 +174,34 @@ const getRowItems = (row: Row<AnalysisItemDTO>) => {
           />
         </div>
       </template>
-      <div class="flex px-4 py-3.5 border-b border-accented">
-        <UInput v-model="globalFilter" class="max-w-sm" :placeholder="t('common.filter')" />
-      </div>
-      <UTable v-model:global-filter="globalFilter"
-              sticky
-              :data="data"
-              :columns="columns"
-              :loading="status === 'pending'"
-              class="flex-1 max-h-[600px]"
-      />
+      <ClientOnly>
+        <div class="flex px-4 py-3.5 border-b border-accented">
+          <UInput
+            v-model="globalFilter"
+            class="max-w-sm"
+            :placeholder="t('common.filter')"
+          />
+        </div>
+        <UTable
+          v-model:global-filter="globalFilter"
+          sticky
+          :data="data"
+          :columns="columns"
+          :loading="status === 'pending'"
+          class="flex-1 max-h-[600px]"
+        />
+        <div
+          v-if="pagination && pagination.totalPages > 1"
+          class="flex justify-center px-4 py-4 border-t border-accented"
+        >
+          <UPagination
+            v-model:page="page"
+            :total="pagination.total"
+            :items-per-page="limit"
+            show-edges
+          />
+        </div>
+      </ClientOnly>
     </UCard>
   </div>
 </template>

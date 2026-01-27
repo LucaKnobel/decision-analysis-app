@@ -45,11 +45,20 @@ onMounted(async () => {
         </div>
       </template>
 
-      <div v-if="isLoading" class="flex items-center justify-center py-12">
-        <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-primary" />
+      <div
+        v-if="isLoading"
+        class="flex items-center justify-center py-12"
+      >
+        <UIcon
+          name="i-lucide-loader-2"
+          class="w-8 h-8 animate-spin text-primary"
+        />
       </div>
 
-      <div v-else class="space-y-6">
+      <div
+        v-else
+        class="space-y-6"
+      >
         <!-- TODO: Analysis content will be implemented here -->
         <div class="text-center py-12 text-muted">
           <p>{{ t('analysis.detail.placeholder') }}</p>
