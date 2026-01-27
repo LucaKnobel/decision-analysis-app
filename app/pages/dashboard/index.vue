@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { h, resolveComponent } from 'vue'
 import type { TableColumn } from '@nuxt/ui'
+import type { Row } from '@tanstack/vue-table'
 import type { AnalysisItemDTO } from '#shared/types/analysis'
+
+const UButton = resolveComponent('UButton')
+const UDropdownMenu = resolveComponent('UDropdownMenu')
 
 definePageMeta({
   middleware: ['auth'],
@@ -9,6 +14,9 @@ definePageMeta({
 
 const localePath = useLocalePath()
 const { t } = useI18n()
+const toast = useToast()
+
+const globalFilter = ref('')
 
 const { data: response, status } = await useFetch<{ data: AnalysisItemDTO[] }>('/api/analyses', {
   key: 'dashboard-analyses',
@@ -59,12 +67,80 @@ const columns: TableColumn<AnalysisItemDTO>[] = [
         td: 'w-32 hidden md:table-cell'
       }
     }
+  },
+  {
+    id: 'actions',
+    header: '',
+    meta: {
+      class: {
+        th: 'w-10',
+        td: 'text-right'
+      }
+    },
+    cell: ({ row }) => {
+      return h(
+        UDropdownMenu,
+        {
+          'content': {
+            align: 'end'
+          },
+          'items': getRowItems(row),
+          'aria-label': t('common.actions')
+        },
+        () =>
+          h(UButton, {
+            'icon': 'i-lucide-ellipsis-vertical',
+            'color': 'neutral',
+            'variant': 'ghost',
+            'size': 'sm',
+            'aria-label': t('common.actions')
+          })
+      )
+    }
   }
 ]
 
-/* const handleRowClick = (row: AnalysisItemDTO) => {
-  navigateTo(localePath(`/analyses/${row.id}`))
-} */
+const getRowItems = (row: Row<AnalysisItemDTO>) => {
+  return [
+    {
+      type: 'label',
+      label: t('common.actions')
+    },
+    {
+      label: t('common.view'),
+      icon: 'i-lucide-eye',
+      onSelect() {
+        navigateTo(localePath(`/analyses/${row.original.id}`))
+      }
+    },
+    {
+      label: t('common.edit'),
+      icon: 'i-lucide-pencil',
+      onSelect() {
+        // TODO: Implement edit
+        toast.add({
+          title: t('common.comingSoon'),
+          color: 'info'
+        })
+      }
+    },
+    {
+      type: 'separator'
+    },
+    {
+      label: t('common.delete'),
+      icon: 'i-lucide-trash-2',
+      color: 'error',
+      onSelect() {
+        // TODO: Implement delete
+        toast.add({
+          title: t('common.comingSoon'),
+          color: 'info'
+        })
+      }
+    }
+  ]
+}
 </script>
 
 <template>
@@ -85,10 +161,15 @@ const columns: TableColumn<AnalysisItemDTO>[] = [
           />
         </div>
       </template>
-      <UTable :data="data"
+      <div class="flex px-4 py-3.5 border-b border-accented">
+        <UInput v-model="globalFilter" class="max-w-sm" :placeholder="t('common.filter')" />
+      </div>
+      <UTable v-model:global-filter="globalFilter"
+              sticky
+              :data="data"
               :columns="columns"
               :loading="status === 'pending'"
-              class="w-full"
+              class="flex-1 max-h-[600px]"
       />
     </UCard>
   </div>

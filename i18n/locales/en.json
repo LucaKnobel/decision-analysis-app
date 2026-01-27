@@ -1,4 +1,11 @@
 {
+  "common": {
+    "actions": "Actions",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "filter": "Filter..."
+  },
   "nav": {
     "demo": "Demo",
     "login": "Sign in",
