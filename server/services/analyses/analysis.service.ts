@@ -41,7 +41,8 @@ export class AnalysisService {
       page: params.page,
       limit: params.limit,
       sortBy: params.sortBy,
-      sortOrder: params.sortOrder
+      sortOrder: params.sortOrder,
+      search: params.search
     })
 
     const offset = (params.page - 1) * params.limit
@@ -49,12 +50,15 @@ export class AnalysisService {
     const [analyses, total] = await Promise.all([
       this.analysisRepository.findAnalysesByUserId(
         userId,
-        offset,
-        params.limit,
-        params.sortBy,
-        params.sortOrder
+        {
+          offset,
+          limit: params.limit,
+          sortBy: params.sortBy,
+          sortOrder: params.sortOrder,
+          search: params.search
+        }
       ),
-      this.analysisRepository.countAnalysesByUserId(userId)
+      this.analysisRepository.countAnalysesByUserId(userId, { search: params.search })
     ])
 
     const totalPages = Math.max(1, Math.ceil(total / params.limit))

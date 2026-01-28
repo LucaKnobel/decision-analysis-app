@@ -1,5 +1,6 @@
 import { prisma } from '../db/prisma'
 import type { AnalysisRepository } from '@contracts/repositories/analysis-repository'
+import type { Prisma } from '@generated/prisma/client'
 
 export const analysisRepository: AnalysisRepository = {
   async createAnalysis(data) {
@@ -12,18 +13,20 @@ export const analysisRepository: AnalysisRepository = {
     })
   },
 
-  async findAnalysesByUserId(userId, offset, limit, sortBy, sortOrder) {
+  async findAnalysesByUserId(userId, params) {
+    const where = buildWhere(userId, params.search)
     return prisma.analysis.findMany({
-      where: { userId },
-      skip: offset,
-      take: limit,
-      orderBy: { [sortBy]: sortOrder }
+      where,
+      skip: params.offset,
+      take: params.limit,
+      orderBy: { [params.sortBy]: params.sortOrder }
     })
   },
 
-  async countAnalysesByUserId(userId) {
+  async countAnalysesByUserId(userId, params = {}) {
+    const where = buildWhere(userId, params.search)
     return prisma.analysis.count({
-      where: { userId }
+      where
     })
   },
 
@@ -46,6 +49,18 @@ export const analysisRepository: AnalysisRepository = {
   async deleteAnalysis(id) {
     await prisma.analysis.delete({
       where: { id }
+    })
+  }
+}
+
+function buildWhere(userId: string, search?: string): Prisma.AnalysisWhereInput {
+  return {
+    userId,
+    ...(search && {
+      OR: [
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } }
+      ]
     })
   }
 }

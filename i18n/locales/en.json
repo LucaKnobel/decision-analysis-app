@@ -4,7 +4,8 @@
     "view": "View",
     "edit": "Edit",
     "delete": "Delete",
-    "filter": "Filter..."
+    "search": "Search",
+    "noData": "No data available"
   },
   "nav": {
     "demo": "Demo",

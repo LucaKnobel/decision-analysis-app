@@ -4,7 +4,8 @@
     "view": "Ansehen",
     "edit": "Bearbeiten",
     "delete": "Löschen",
-    "filter": "Filtern..."
+    "search": "Suche",
+    "noData": "Keine Daten verfügbar"
   },
   "nav": {
     "demo": "Demo",

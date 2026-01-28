@@ -16,9 +16,10 @@ const localePath = useLocalePath()
 const { t } = useI18n()
 const toast = useToast()
 
-const globalFilter = ref('')
+const searchInput = ref('')
+const activeSearch = ref('')
 const page = ref(1)
-const limit = 20
+const limit = 10
 
 const { data: response, status } = await useFetch<{
   data: AnalysisItemDTO[]
@@ -28,11 +29,16 @@ const { data: response, status } = await useFetch<{
     currentPage: number
     limit: number
   }
-}>(() => `/api/analyses?page=${page.value}&limit=${limit}`, {
-  key: 'dashboard-analyses',
-  lazy: true,
-  watch: [page]
-})
+}>(
+  '/api/analyses',
+  {
+    query: computed(() => ({
+      page: page.value,
+      limit,
+      search: activeSearch.value || undefined
+    }))
+  }
+)
 
 const data = computed(() => response.value?.data || [])
 const pagination = computed(() => response.value?.pagination)
@@ -154,6 +160,17 @@ const getRowItems = (row: Row<AnalysisItemDTO>) => {
     }
   ]
 }
+
+const onSearch = () => {
+  activeSearch.value = searchInput.value || ''
+  page.value = 1
+}
+
+const clearSearch = () => {
+  searchInput.value = ''
+  activeSearch.value = ''
+  page.value = 1
+}
 </script>
 
 <template>
@@ -170,38 +187,66 @@ const getRowItems = (row: Row<AnalysisItemDTO>) => {
             leading-icon="i-lucide-plus"
             size="md"
             color="primary"
-            variant="solid"
+            variant="subtle"
           />
         </div>
       </template>
       <ClientOnly>
-        <div class="flex px-4 py-3.5 border-b border-accented">
+        <div class="flex px-4 py-3.5 border-b border-accented gap-2 items-center">
           <UInput
-            v-model="globalFilter"
+            v-model="searchInput"
             class="max-w-sm"
-            :placeholder="t('common.filter')"
+            :placeholder="t('common.search')"
+            :ui="{ trailing: 'pe-1' }"
+            @keyup.enter="onSearch"
+          >
+            <template
+              v-if="searchInput?.length"
+              #trailing
+            >
+              <UButton
+                color="neutral"
+                variant="link"
+                size="sm"
+                icon="i-lucide-circle-x"
+                aria-label="Clear input"
+                @click="clearSearch"
+              />
+            </template>
+          </UInput>
+          <UButton
+            icon="i-lucide-search"
+            color="primary"
+            variant="subtle"
+            class="shrink-0"
+            @click="onSearch"
           />
         </div>
-        <UTable
-          v-model:global-filter="globalFilter"
-          sticky
-          :data="data"
-          :columns="columns"
-          :loading="status === 'pending'"
-          class="flex-1 max-h-[600px]"
-        />
-        <div
-          v-if="pagination && pagination.totalPages > 1"
-          class="flex justify-center px-4 py-4 border-t border-accented"
-        >
-          <UPagination
-            v-model:page="page"
-            :total="pagination.total"
-            :items-per-page="limit"
-            show-edges
+        <div class="h-100 flex flex-col">
+          <UTable
+            sticky
+            :data="data"
+            :columns="columns"
+            :loading="status === 'pending'"
+            class="flex-1 max-h-150"
+            :empty="$t('common.noData')"
           />
         </div>
       </ClientOnly>
     </UCard>
+    <div
+      v-if="pagination && pagination.totalPages > 1"
+      class="flex justify-center px-4 py-4 border-t border-accented"
+    >
+      <UPagination
+        v-model:page="page"
+        :total="pagination.total"
+        :items-per-page="limit"
+        show-edges
+        variant="soft"
+        active-color="primary"
+        active-variant="subtle"
+      />
+    </div>
   </div>
 </template>

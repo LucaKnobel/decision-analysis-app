@@ -9,13 +9,21 @@ export interface AnalysisRepository {
 
   findAnalysesByUserId(
     userId: string,
-    offset: number,
-    limit: number,
-    sortBy: 'createdAt' | 'updatedAt' | 'title',
-    sortOrder: 'asc' | 'desc'
+    params: {
+      offset: number
+      limit: number
+      sortBy: 'createdAt' | 'updatedAt' | 'title'
+      sortOrder: 'asc' | 'desc'
+      search?: string
+    }
   ): Promise<Analysis[]>
 
-  countAnalysesByUserId(userId: string): Promise<number>
+  countAnalysesByUserId(
+    userId: string,
+    params?: {
+      search?: string
+    }
+  ): Promise<number>
 
   getAnalysisById(id: string): Promise<Analysis | null>
 

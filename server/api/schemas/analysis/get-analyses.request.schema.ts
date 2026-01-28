@@ -15,7 +15,12 @@ export const GetAnalysesRequestSchema = z.object({
     .default('createdAt'),
   sortOrder: z.enum(['asc', 'desc'])
     .optional()
-    .default('desc')
+    .default('desc'),
+  search: z.string()
+    .trim()
+    .min(1, 'Search must not be empty')
+    .max(100, 'Search must not exceed 100 characters')
+    .optional()
 })
 
 export type GetAnalysesRequestDTO = z.infer<typeof GetAnalysesRequestSchema>
