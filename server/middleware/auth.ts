@@ -1,3 +1,5 @@
+import { logger } from '../infrastructure/logging/logger.pino'
+
 export default defineEventHandler(async (event) => {
   const publicRoutes = [
     '/api/auth/register',
@@ -12,9 +14,10 @@ export default defineEventHandler(async (event) => {
   if (event.path.startsWith('/api/')) {
     const session = await getUserSession(event)
     if (!session.user) {
+      logger.warn('Unauthorized access attempt', { path: event.path })
       throw createError({
-        statusCode: 401,
-        message: 'Authentication required'
+        status: 401,
+        statusText: 'Authentication required'
       })
     }
   }
