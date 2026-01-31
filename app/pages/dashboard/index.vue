@@ -49,8 +49,8 @@ const columns: TableColumn<AnalysisItemDTO>[] = [
     cell: ({ row }) => row.original.title,
     meta: {
       class: {
-        th: 'w-24',
-        td: 'w-24 truncate'
+        th: 'w-48 max-w-[12rem] truncate',
+        td: 'w-48 max-w-[12rem] truncate whitespace-nowrap overflow-ellipsis overflow-hidden align-middle'
       }
     }
   },
