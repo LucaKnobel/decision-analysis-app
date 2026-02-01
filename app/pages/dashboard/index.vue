@@ -22,9 +22,13 @@ const {
   analyses,
   pagination,
   pending,
+  isDeleteOpen,
+  analysisToDelete,
   onPageChange,
   searchAnalyses,
-  clearSearch
+  clearSearch,
+  openDeleteModal,
+  confirmDelete
 } = useAnalyses()
 
 const columns: TableColumn<AnalysisItemDTO>[] = [
@@ -136,11 +140,7 @@ const getRowItems = (row: Row<AnalysisItemDTO>) => {
       icon: 'i-lucide-trash-2',
       color: 'error',
       onSelect() {
-        // TODO: Implement delete
-        toast.add({
-          title: t('common.comingSoon'),
-          color: 'info'
-        })
+        openDeleteModal(row.original)
       }
     }
   ]
@@ -224,4 +224,32 @@ const getRowItems = (row: Row<AnalysisItemDTO>) => {
       />
     </div>
   </div>
+  <UModal
+    v-model:open="isDeleteOpen"
+    :title="t('analysis.delete.title')"
+    :description="t('analysis.delete.description')"
+    :ui="{ footer: 'justify-end' }"
+  >
+    <template #body>
+      <div class="py-4">
+        <p class="text-sm text-gray-600 dark:text-gray-400 whitespace-normal wrap-break-word">
+          <strong>{{ analysisToDelete?.title }}</strong>
+        </p>
+      </div>
+    </template>
+
+    <template #footer="{ close }">
+      <UButton
+        :label="t('common.cancel')"
+        color="neutral"
+        variant="outline"
+        @click="close"
+      />
+      <UButton
+        :label="t('common.delete')"
+        color="error"
+        @click="confirmDelete"
+      />
+    </template>
+  </UModal>
 </template>

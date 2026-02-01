@@ -5,7 +5,8 @@
     "edit": "Bearbeiten",
     "delete": "Löschen",
     "search": "Suche",
-    "noData": "Keine Daten verfügbar"
+    "noData": "Keine Daten verfügbar",
+    "cancel": "Abbrechen"
   },
   "nav": {
     "demo": "Demo",
@@ -100,7 +101,11 @@
     },
     "analysis": {
       "title": "Analyseerstellung nicht möglich",
-      "text": "Die Erstellung der Analyse konnte nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen."
+      "text": "Die Erstellung der Analyse konnte nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen.",
+      "delete": {
+        "title": "Analyse-Löschung nicht möglich",
+        "description": "Die Löschung der Analyse konnte nicht abgeschlossen werden. Bitte später erneut versuchen."
+      }
     }
   },
   "analysis": {
@@ -110,6 +115,12 @@
       "title": "Analyse erstellen",
       "successTitle": "Analyse erfolgreich erstellt!",
       "successMessage": "Ihre Analyse wurde gespeichert."
+    },
+    "delete": {
+      "title": "Analyse löschen",
+      "description": "Möchten Sie diese Analyse wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "success": "Analyse erfolgreich gelöscht",
+      "notFound": "Analyse wurde nicht gefunden"
     },
     "dashboard": {
       "title": "Meine Analysen",

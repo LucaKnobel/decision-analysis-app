@@ -1,24 +1,27 @@
 export interface AnalysisApi {
   createAnalysis: (dto: CreateAnalysisRequestDTO) => Promise<CreateAnalysisResponseDTO>
   fetchAnalyses: (params: { page: number, limit: number, search?: string }) => Promise<GetAnalysesResponseDTO>
+  deleteAnalysis: (id: string) => Promise<void>
 }
 
 export const useAnalysisApi = (): AnalysisApi => {
   const requestFetch = useRequestFetch()
 
-  const createAnalysis: AnalysisApi['createAnalysis'] = async (dto) => {
-    return await $fetch('/api/analyses', {
-      method: 'POST',
-      body: dto
-    })
+  const createAnalysis = async (dto: CreateAnalysisRequestDTO) => {
+    return await $fetch('/api/analyses', { method: 'POST', body: dto })
   }
 
-  const fetchAnalyses: AnalysisApi['fetchAnalyses'] = async (params) => {
+  const fetchAnalyses = async (params: { page: number, limit: number, search?: string }) => {
     return await requestFetch('/api/analyses', { method: 'GET', query: params })
+  }
+
+  const deleteAnalysis = async (id: string) => {
+    await $fetch(`/api/analyses/${id}`, { method: 'DELETE' })
   }
 
   return {
     createAnalysis,
-    fetchAnalyses
+    fetchAnalyses,
+    deleteAnalysis
   }
 }

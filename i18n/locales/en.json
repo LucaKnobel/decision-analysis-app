@@ -5,7 +5,8 @@
     "edit": "Edit",
     "delete": "Delete",
     "search": "Search",
-    "noData": "No data available"
+    "noData": "No data available",
+    "cancel": "Cancel"
   },
   "nav": {
     "demo": "Demo",
@@ -100,8 +101,12 @@
       "text": "The service is currently unavailable. Please try again later."
     },
     "analysis": {
-      "title": "Analyseerstellung nicht möglich",
-      "text": "Die Erstellung der Analyse konnte nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen."
+      "title": "Analysis creation not possible",
+      "text": "The creation of the analysis could not be completed. Please check your inputs or try again later.",
+      "delete": {
+        "title": "Analysis deletion not possible",
+        "description": "The deletion of the analysis could not be completed. Please try again later."
+      }
     }
   },
   "analysis": {
@@ -111,6 +116,12 @@
       "title": "Create analysis",
       "successTitle": "Analysis successfully created!",
       "successMessage": "Your analysis has been saved."
+    },
+    "delete": {
+      "title": "Delete analysis",
+      "description": "Are you sure you want to delete this analysis? This action cannot be undone.",
+      "success": "Analysis successfully deleted",
+      "notFound": "Analysis not found"
     },
     "dashboard": {
       "title": "My Analyses",
