@@ -1,7 +1,14 @@
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
+export interface UseErrorHandlerComposable {
+  hasError: Ref<boolean>
+  errorTitle: Ref<string | undefined>
+  errorText: Ref<string | undefined>
+  resetError: () => void
+  handleRegistrationError: (error: unknown) => void
+  handleLoginError: (error: unknown) => void
+  handleAnalysisError: (error: unknown) => void
+}
 
-export const useErrorHandler = () => {
+export const useErrorHandler = (): UseErrorHandlerComposable => {
   const { t } = useI18n()
   const hasError = ref(false)
   const errorTitle = ref<string | undefined>(undefined)

@@ -1,6 +1,9 @@
-import { useI18n } from 'vue-i18n'
+export interface UseToastNotificationComposable {
+  showSuccess: (titleKey: string, messageKey: string) => void
+  showError: (titleKey: string, messageKey: string) => void
+}
 
-export const useToastNotification = () => {
+export const useToastNotification = (): UseToastNotificationComposable => {
   const { t } = useI18n()
   const toast = useToast()
 

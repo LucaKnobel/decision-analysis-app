@@ -1,15 +1,20 @@
-export const useAnalysisApi = () => {
+export interface AnalysisApi {
+  createAnalysis: (dto: CreateAnalysisRequestDTO) => Promise<CreateAnalysisResponseDTO>
+  fetchAnalyses: (params: { page: number, limit: number, search?: string }) => Promise<GetAnalysesResponseDTO>
+}
+
+export const useAnalysisApi = (): AnalysisApi => {
   const requestFetch = useRequestFetch()
 
-  const createAnalysis = async (dto: CreateAnalysisRequestDTO): Promise<CreateAnalysisResponseDTO> => {
-    return await $fetch<CreateAnalysisResponseDTO>('/api/analyses', {
+  const createAnalysis: AnalysisApi['createAnalysis'] = async (dto) => {
+    return await $fetch('/api/analyses', {
       method: 'POST',
       body: dto
     })
   }
 
-  const fetchAnalyses = async (params: { page: number, limit: number, search?: string }): Promise<GetAnalysesResponseDTO> => {
-    return await requestFetch<GetAnalysesResponseDTO>('/api/analyses', { method: 'GET', query: params })
+  const fetchAnalyses: AnalysisApi['fetchAnalyses'] = async (params) => {
+    return await requestFetch('/api/analyses', { method: 'GET', query: params })
   }
 
   return {

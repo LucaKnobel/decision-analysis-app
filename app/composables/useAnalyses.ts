@@ -1,4 +1,20 @@
-export const useAnalyses = () => {
+export interface UseAnalysesComposable {
+  page: Ref<number>
+  limit: Ref<number>
+  searchInput: Ref<string>
+  activeSearch: Ref<string>
+  analyses: ComputedRef<AnalysisItemDTO[]>
+  pagination: ComputedRef<GetAnalysesResponseDTO['pagination'] | undefined>
+  pending: Ref<boolean>
+  error: Ref<unknown>
+
+  onPageChange: (newPage: number) => void
+  searchAnalyses: () => void
+  clearSearch: () => void
+  refresh: () => Promise<void>
+}
+
+export const useAnalyses = (): UseAnalysesComposable => {
   const page = ref(1)
   const limit = ref(10)
   const activeSearch = ref('')
