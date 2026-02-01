@@ -1,4 +1,4 @@
-import type { LoginUserRequestDTO } from '@server/api/schemas/auth/login-user.request.schema'
+import type { LoginUserBodyDTO } from '@server/api/schemas/auth/login-user.body.schema'
 import type { UserRepository } from '@contracts/repositories/user-repository'
 import type { PasswordHasher } from '@contracts/security/password-hasher'
 import type { Logger } from '@contracts/logging/logger'
@@ -12,7 +12,7 @@ export async function loginUser(
     passwordHasher: PasswordHasher
     logger: Logger
   },
-  input: LoginUserRequestDTO
+  input: LoginUserBodyDTO
 ): Promise<string> {
   deps.logger.debug('Login attempt started')
   const user = await deps.userRepository.getUserByEmail(input.email)

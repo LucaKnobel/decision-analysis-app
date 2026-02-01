@@ -16,13 +16,13 @@ npm run lint > /dev/null 2>&1 || {
 echo "### Lint OK"
 
 # 2) TypeScript Check
-# echo "### TypeScript typecheck..."
-# npm run typecheck > /dev/null 2>&1 || {
-    # echo "### TypeScript errors"
-    # echo "Commit failed — fix TypeScript errors and try again"
-    # exit 1
-#}
-# echo "### TypeScript OK"
+echo "### TypeScript typecheck..."
+npm run typecheck > /dev/null 2>&1 || {
+    echo "### TypeScript errors"
+    echo "Commit failed — fix TypeScript errors and try again"
+    exit 1
+}
+ echo "### TypeScript OK"
 
 # 3) Run tests but tolerate "no test files found"
 echo "### Running tests (if present)..."

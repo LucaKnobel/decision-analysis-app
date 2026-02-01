@@ -1,4 +1,4 @@
-import { LoginUserRequestSchema } from '@server/api/schemas/auth/login-user.request.schema'
+import { LoginUserBodySchema } from '@server/api/schemas/auth/login-user.body.schema'
 import { loginUser } from '@services/auth/login-user.service'
 import { InvalidCredentialsError } from '@services/auth/login-user.errors'
 import { userRepository } from '@infrastructure/repositories/user-repository.prisma'
@@ -6,7 +6,7 @@ import { bcryptHasher } from '@infrastructure/security/password-hasher.bcrypt'
 import { logger } from '@infrastructure/logging/logger.pino'
 
 export default defineEventHandler(async (event) => {
-  const dto = await readValidatedBody(event, LoginUserRequestSchema.parse)
+  const dto = await readValidatedBody(event, LoginUserBodySchema.parse)
   try {
     const userId = await loginUser({ userRepository, passwordHasher: bcryptHasher, logger }, dto)
     await setUserSession(event, {

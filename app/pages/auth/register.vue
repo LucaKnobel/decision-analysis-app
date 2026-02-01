@@ -44,7 +44,7 @@ const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => 
   isSubmitting.value = true
 
   try {
-    const payload: RegisterUserRequestDTO = {
+    const payload: RegisterUserBodyDTO = {
       email: event.data.email,
       password: event.data.password
     }

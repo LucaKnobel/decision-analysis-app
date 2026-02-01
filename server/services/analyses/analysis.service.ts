@@ -1,6 +1,6 @@
 import { AnalysisNotFoundError, UnauthorizedAnalysisAccessError } from './analysis.errors'
-import type { CreateAnalysisRequestDTO } from '@server/api/schemas/analysis/create-analysis.request.schema'
-import type { GetAnalysesRequestDTO } from '@server/api/schemas/analysis/get-analyses.request.schema'
+import type { CreateAnalysisBodyDTO } from '@server/api/schemas/analysis/create-analysis.body.schema'
+import type { GetAnalysesQueryDTO } from '@server/api/schemas/analysis/get-analyses.query.schema'
 import type { GetAnalysesResponseDTO, AnalysisItemDTO } from '@server/api/schemas/analysis/get-analyses.response.schema'
 import type { AnalysisRepository } from '@contracts/repositories/analysis-repository'
 import type { Logger } from '@contracts/logging/logger'
@@ -14,7 +14,7 @@ export class AnalysisService {
 
   async createAnalysis(
     userId: string,
-    input: CreateAnalysisRequestDTO
+    input: CreateAnalysisBodyDTO
   ): Promise<Analysis> {
     this.logger.debug('Creating analysis', { userId, title: input.title })
 
@@ -34,7 +34,7 @@ export class AnalysisService {
 
   async getAnalysesPaginated(
     userId: string,
-    params: GetAnalysesRequestDTO
+    params: GetAnalysesQueryDTO
   ): Promise<GetAnalysesResponseDTO> {
     this.logger.debug('Fetching paginated analyses', {
       userId,
@@ -121,7 +121,7 @@ export class AnalysisService {
   async updateAnalysis(
     analysisId: string,
     requestingUserId: string,
-    input: Partial<CreateAnalysisRequestDTO>
+    input: Partial<CreateAnalysisBodyDTO>
   ): Promise<Analysis> {
     this.logger.debug('Updating analysis', { analysisId, requestingUserId })
 

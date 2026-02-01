@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { CreateAnalysisRequestSchema } from '../../server/api/schemas/analysis/create-analysis.request.schema'
+import { CreateAnalysisBodySchema } from '../../server/api/schemas/analysis/create-analysis.body.schema'
 
-describe('CreateAnalysisRequestSchema', () => {
+describe('CreateAnalysisBodySchema', () => {
   describe('Valid inputs', () => {
     it('should accept valid title and description', () => {
       const validInput = {
@@ -9,7 +9,7 @@ describe('CreateAnalysisRequestSchema', () => {
         description: 'This is a valid description'
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(validInput)
+      const result = CreateAnalysisBodySchema.safeParse(validInput)
 
       expect(result.success).toBe(true)
       if (result.success) {
@@ -23,7 +23,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: 'Valid Title Only'
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(validInput)
+      const result = CreateAnalysisBodySchema.safeParse(validInput)
 
       expect(result.success).toBe(true)
       if (result.success) {
@@ -38,7 +38,7 @@ describe('CreateAnalysisRequestSchema', () => {
         description: ''
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(validInput)
+      const result = CreateAnalysisBodySchema.safeParse(validInput)
 
       expect(result.success).toBe(true)
     })
@@ -48,7 +48,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: 'a'.repeat(100)
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(validInput)
+      const result = CreateAnalysisBodySchema.safeParse(validInput)
 
       expect(result.success).toBe(true)
     })
@@ -59,7 +59,7 @@ describe('CreateAnalysisRequestSchema', () => {
         description: 'a'.repeat(500)
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(validInput)
+      const result = CreateAnalysisBodySchema.safeParse(validInput)
 
       expect(result.success).toBe(true)
     })
@@ -69,7 +69,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: 'Analysis #1: Cost-Benefit & ROI (2026)'
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(validInput)
+      const result = CreateAnalysisBodySchema.safeParse(validInput)
 
       expect(result.success).toBe(true)
     })
@@ -80,7 +80,7 @@ describe('CreateAnalysisRequestSchema', () => {
         description: 'Beschreibung mit Émojis 🎯'
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(validInput)
+      const result = CreateAnalysisBodySchema.safeParse(validInput)
 
       expect(result.success).toBe(true)
     })
@@ -92,7 +92,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: ''
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
       if (!result.success) {
@@ -105,7 +105,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: 'a'.repeat(101)
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
       if (!result.success) {
@@ -118,7 +118,7 @@ describe('CreateAnalysisRequestSchema', () => {
         description: 'Only description provided'
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
     })
@@ -128,7 +128,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: null
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
     })
@@ -138,7 +138,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: 12345
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
     })
@@ -148,7 +148,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: ['Invalid', 'Title']
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
     })
@@ -158,7 +158,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: { value: 'Invalid' }
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
     })
@@ -171,7 +171,7 @@ describe('CreateAnalysisRequestSchema', () => {
         description: 'a'.repeat(501)
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
       if (!result.success) {
@@ -185,7 +185,7 @@ describe('CreateAnalysisRequestSchema', () => {
         description: 12345
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
     })
@@ -196,7 +196,7 @@ describe('CreateAnalysisRequestSchema', () => {
         description: null
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
     })
@@ -207,7 +207,7 @@ describe('CreateAnalysisRequestSchema', () => {
         description: ['Invalid', 'Description']
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
     })
@@ -218,7 +218,7 @@ describe('CreateAnalysisRequestSchema', () => {
         description: { text: 'Invalid' }
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
     })
@@ -233,7 +233,7 @@ describe('CreateAnalysisRequestSchema', () => {
         anotherField: 123
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(inputWithExtra)
+      const result = CreateAnalysisBodySchema.safeParse(inputWithExtra)
 
       expect(result.success).toBe(true)
       if (result.success) {
@@ -254,7 +254,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: '   '
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(invalidInput)
+      const result = CreateAnalysisBodySchema.safeParse(invalidInput)
 
       expect(result.success).toBe(false)
     })
@@ -264,7 +264,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: '  Valid Title  '
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(validInput)
+      const result = CreateAnalysisBodySchema.safeParse(validInput)
 
       expect(result.success).toBe(true)
       if (result.success) {
@@ -277,7 +277,7 @@ describe('CreateAnalysisRequestSchema', () => {
         title: 'Title\nWith\nNewlines'
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(validInput)
+      const result = CreateAnalysisBodySchema.safeParse(validInput)
 
       expect(result.success).toBe(true)
     })
@@ -288,7 +288,7 @@ describe('CreateAnalysisRequestSchema', () => {
         description: 'Line 1\nLine 2\nLine 3'
       }
 
-      const result = CreateAnalysisRequestSchema.safeParse(validInput)
+      const result = CreateAnalysisBodySchema.safeParse(validInput)
 
       expect(result.success).toBe(true)
     })

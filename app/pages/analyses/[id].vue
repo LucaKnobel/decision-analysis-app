@@ -30,7 +30,7 @@ onMounted(async () => {
               icon="i-lucide-arrow-left"
               variant="ghost"
               color="neutral"
-              :to="localePath('/dashboard')"
+              :to="$localePath('/dashboard')"
               aria-label="Zurück zum Dashboard"
             />
             <div>

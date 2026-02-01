@@ -1,4 +1,4 @@
-import { CreateAnalysisRequestSchema } from '@server/api/schemas/analysis/create-analysis.request.schema'
+import { CreateAnalysisBodySchema } from '@server/api/schemas/analysis/create-analysis.body.schema'
 import { CreateAnalysisResponseSchema } from '@server/api/schemas/analysis/create-analysis.response.schema'
 import { AnalysisService } from '@services/analyses/analysis.service'
 import { analysisRepository } from '@infrastructure/repositories/analysis-repository.prisma'
@@ -6,7 +6,7 @@ import { logger } from '@infrastructure/logging/logger.pino'
 
 export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)
-  const dto = await readValidatedBody(event, CreateAnalysisRequestSchema.parse)
+  const dto = await readValidatedBody(event, CreateAnalysisBodySchema.parse)
   try {
     const analysisService = new AnalysisService(analysisRepository, logger)
     const analysis = await analysisService.createAnalysis(user.id, dto)

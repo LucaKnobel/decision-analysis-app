@@ -1,4 +1,4 @@
-import type { RegisterUserRequestDTO } from '@server/api/schemas/auth/register-user.request.schema'
+import type { RegisterUserBodyDTO } from '@server/api/schemas/auth/register-user.body.schema'
 import type { UserRepository } from '@contracts/repositories/user-repository'
 import type { PasswordHasher } from '@contracts/security/password-hasher'
 import type { Logger } from '@contracts/logging/logger'
@@ -10,7 +10,7 @@ export async function registerUser(
     passwordHasher: PasswordHasher
     logger: Logger
   },
-  input: RegisterUserRequestDTO
+  input: RegisterUserBodyDTO
 ): Promise<void> {
   deps.logger.debug('Registration attempt started')
   const exists = await deps.userRepository.existsByEmail(input.email)

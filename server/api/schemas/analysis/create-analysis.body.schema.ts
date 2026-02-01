@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const CreateAnalysisRequestSchema = z.object({
+export const CreateAnalysisBodySchema = z.object({
   title: z.string()
     .trim()
     .min(1, 'Title is required')
@@ -10,4 +10,4 @@ export const CreateAnalysisRequestSchema = z.object({
     .optional()
 })
 
-export type CreateAnalysisRequestDTO = z.infer<typeof CreateAnalysisRequestSchema>
+export type CreateAnalysisBodyDTO = z.infer<typeof CreateAnalysisBodySchema>

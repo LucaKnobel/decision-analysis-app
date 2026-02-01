@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { LoginUserRequestSchema } from '../../server/api/schemas/auth/login-user.request.schema'
+import { LoginUserBodySchema } from '../../server/api/schemas/auth/login-user.body.schema'
 
-describe('LoginUserRequestSchema', () => {
+describe('LoginUserBodySchema', () => {
   describe('email validation', () => {
     it('should accept valid email addresses', () => {
       const validEmails = [
@@ -12,7 +12,7 @@ describe('LoginUserRequestSchema', () => {
       ]
 
       validEmails.forEach((email) => {
-        const result = LoginUserRequestSchema.safeParse({
+        const result = LoginUserBodySchema.safeParse({
           email,
           password: 'ValidPass123!'
         })
@@ -21,7 +21,7 @@ describe('LoginUserRequestSchema', () => {
     })
 
     it('should convert email to lowercase', () => {
-      const result = LoginUserRequestSchema.parse({
+      const result = LoginUserBodySchema.parse({
         email: 'User@Example.COM',
         password: 'ValidPass123!'
       })
@@ -40,7 +40,7 @@ describe('LoginUserRequestSchema', () => {
       ]
 
       invalidEmails.forEach((email) => {
-        const result = LoginUserRequestSchema.safeParse({
+        const result = LoginUserBodySchema.safeParse({
           email,
           password: 'ValidPass123!'
         })
@@ -49,7 +49,7 @@ describe('LoginUserRequestSchema', () => {
     })
 
     it('should trim whitespace from email', () => {
-      const result = LoginUserRequestSchema.parse({
+      const result = LoginUserBodySchema.parse({
         email: '  test@example.com  ',
         password: 'ValidPass123!'
       })
@@ -67,7 +67,7 @@ describe('LoginUserRequestSchema', () => {
       ]
 
       validPasswords.forEach((password) => {
-        const result = LoginUserRequestSchema.safeParse({
+        const result = LoginUserBodySchema.safeParse({
           email: 'user@example.com',
           password
         })
@@ -76,7 +76,7 @@ describe('LoginUserRequestSchema', () => {
     })
 
     it('should reject passwords shorter than 12 characters', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         email: 'user@example.com',
         password: 'Short1!'
       })
@@ -87,7 +87,7 @@ describe('LoginUserRequestSchema', () => {
     })
 
     it('should reject passwords longer than 256 characters', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         email: 'user@example.com',
         password: 'A'.repeat(257)
       })
@@ -98,7 +98,7 @@ describe('LoginUserRequestSchema', () => {
     })
 
     it('should accept passwords with special characters', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         email: 'user@example.com',
         password: '!@#$%^&*()_+-=[]{}|;:,.<>?ABC123abc'
       })
@@ -106,7 +106,7 @@ describe('LoginUserRequestSchema', () => {
     })
 
     it('should accept passwords with unicode characters', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         email: 'user@example.com',
         password: 'MyПароль🔐密码123!' // Has Latin characters
       })
@@ -116,7 +116,7 @@ describe('LoginUserRequestSchema', () => {
 
   describe('complete schema validation', () => {
     it('should validate both email and password together', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         email: 'test@example.com',
         password: 'ValidPassword123!'
       })
@@ -130,26 +130,26 @@ describe('LoginUserRequestSchema', () => {
     })
 
     it('should reject missing email', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         password: 'ValidPassword123!'
       })
       expect(result.success).toBe(false)
     })
 
     it('should reject missing password', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         email: 'test@example.com'
       })
       expect(result.success).toBe(false)
     })
 
     it('should reject empty object', () => {
-      const result = LoginUserRequestSchema.safeParse({})
+      const result = LoginUserBodySchema.safeParse({})
       expect(result.success).toBe(false)
     })
 
     it('should strip extra fields (default Zod behavior)', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         email: 'test@example.com',
         password: 'ValidPassword123!',
         extraField: 'should not be here'
@@ -166,7 +166,7 @@ describe('LoginUserRequestSchema', () => {
 
   describe('edge cases', () => {
     it('should handle minimum valid password length (12 chars)', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         email: 'test@example.com',
         password: '123456789012'
       })
@@ -174,7 +174,7 @@ describe('LoginUserRequestSchema', () => {
     })
 
     it('should handle maximum valid password length (256 chars)', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         email: 'test@example.com',
         password: 'A'.repeat(256)
       })
@@ -182,7 +182,7 @@ describe('LoginUserRequestSchema', () => {
     })
 
     it('should handle email with subdomain', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         email: 'user@mail.example.com',
         password: 'ValidPassword123!'
       })
@@ -190,7 +190,7 @@ describe('LoginUserRequestSchema', () => {
     })
 
     it('should handle email with plus addressing', () => {
-      const result = LoginUserRequestSchema.safeParse({
+      const result = LoginUserBodySchema.safeParse({
         email: 'user+tag@example.com',
         password: 'ValidPassword123!'
       })

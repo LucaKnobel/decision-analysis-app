@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const GetAnalysesRequestSchema = z.object({
+export const GetAnalysesQuerySchema = z.object({
   page: z.coerce.number()
     .int('Page must be an integer')
     .min(1, 'Page must be at least 1')
@@ -23,4 +23,4 @@ export const GetAnalysesRequestSchema = z.object({
     .optional()
 })
 
-export type GetAnalysesRequestDTO = z.infer<typeof GetAnalysesRequestSchema>
+export type GetAnalysesQueryDTO = z.infer<typeof GetAnalysesQuerySchema>

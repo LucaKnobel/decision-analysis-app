@@ -39,7 +39,7 @@ const onSubmit = async (event: FormSubmitEvent<LoginForm>): Promise<void> => {
   isSubmitting.value = true
 
   try {
-    const payload: LoginUserRequestDTO = {
+    const payload: LoginUserBodyDTO = {
       email: event.data.email,
       password: event.data.password
     }

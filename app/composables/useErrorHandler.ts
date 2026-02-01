@@ -1,3 +1,7 @@
+import { ref } from 'vue'
+import type { Ref } from 'vue'
+import { useI18n } from '#imports'
+
 export interface UseErrorHandlerComposable {
   hasError: Ref<boolean>
   errorTitle: Ref<string | undefined>

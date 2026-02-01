@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const RegisterUserRequestSchema = z.object({
+export const RegisterUserBodySchema = z.object({
   email: z.string()
     .trim()
     .toLowerCase()
@@ -14,4 +14,4 @@ export const RegisterUserRequestSchema = z.object({
     .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character')
 })
 
-export type RegisterUserRequestDTO = z.infer<typeof RegisterUserRequestSchema>
+export type RegisterUserBodyDTO = z.infer<typeof RegisterUserBodySchema>

@@ -28,7 +28,7 @@ const onSubmit = async (event: FormSubmitEvent<AnalysisForm>): Promise<void> => 
   isSubmitting.value = true
 
   try {
-    const payload: CreateAnalysisRequestDTO = {
+    const payload: CreateAnalysisBodyDTO = {
       title: event.data.title,
       description: event.data.description
     }
