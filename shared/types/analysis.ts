@@ -3,3 +3,4 @@ export type { CreateAnalysisResponseDTO } from '@server/api/schemas/analysis/cre
 export type { GetAnalysesRequestDTO } from '@server/api/schemas/analysis/get-analyses.request.schema'
 export type { GetAnalysesResponseDTO } from '@server/api/schemas/analysis/get-analyses.response.schema'
 export type { AnalysisItemDTO } from '@server/api/schemas/analysis/get-analyses.response.schema'
+export type { DeleteAnalysisParamsDTO } from '@server/api/schemas/analysis/delete-analysis.params.schema'
