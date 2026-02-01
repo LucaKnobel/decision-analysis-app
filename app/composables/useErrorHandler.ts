@@ -1,4 +1,18 @@
-export const useErrorHandler = () => {
+import { ref } from 'vue'
+import type { Ref } from 'vue'
+import { useI18n } from '#imports'
+
+export interface UseErrorHandlerComposable {
+  hasError: Ref<boolean>
+  errorTitle: Ref<string | undefined>
+  errorText: Ref<string | undefined>
+  resetError: () => void
+  handleRegistrationError: (error: unknown) => void
+  handleLoginError: (error: unknown) => void
+  handleAnalysisError: (error: unknown) => void
+}
+
+export const useErrorHandler = (): UseErrorHandlerComposable => {
   const { t } = useI18n()
   const hasError = ref(false)
   const errorTitle = ref<string | undefined>(undefined)
@@ -21,39 +35,42 @@ export const useErrorHandler = () => {
     return typeof statusCode === 'number' ? statusCode : undefined
   }
 
-  const handleRegistrationError = (error: unknown): void => {
-    const statusCode = getStatusCode(error)
-
+  const handleCommonErrors = (statusCode: number | undefined): boolean => {
     if (!statusCode) {
       setError('errors.network.title', 'errors.network.text')
-      return
+      return true
     }
 
     if (statusCode >= 500) {
       setError('errors.serviceUnavailable.title', 'errors.serviceUnavailable.text')
-      return
+      return true
     }
 
+    return false
+  }
+
+  const handleRegistrationError = (error: unknown): void => {
+    const statusCode = getStatusCode(error)
+    if (handleCommonErrors(statusCode)) {
+      return
+    }
     setError('errors.registration.title', 'errors.registration.text')
   }
 
   const handleLoginError = (error: unknown): void => {
     const statusCode = getStatusCode(error)
-
-    if (!statusCode) {
-      setError('errors.network.title', 'errors.network.text')
+    if (handleCommonErrors(statusCode)) {
       return
     }
+    setError('errors.login.title', 'errors.login.text')
+  }
 
-    if (statusCode >= 500) {
-      setError('errors.serviceUnavailable.title', 'errors.serviceUnavailable.text')
+  const handleAnalysisError = (error: unknown): void => {
+    const statusCode = getStatusCode(error)
+    if (handleCommonErrors(statusCode)) {
       return
     }
-
-    if (statusCode === 401) {
-      setError('errors.login.title', 'errors.login.text')
-      return
-    }
+    setError('errors.analysis.title', 'errors.analysis.text')
   }
 
   return {
@@ -62,6 +79,7 @@ export const useErrorHandler = () => {
     errorText,
     resetError,
     handleRegistrationError,
-    handleLoginError
+    handleLoginError,
+    handleAnalysisError
   }
 }

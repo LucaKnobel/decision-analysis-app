@@ -1,4 +1,5 @@
 import * as z from 'zod'
+import { useI18n } from '#imports'
 
 export const useValidation = () => {
   const { t } = useI18n()
@@ -30,8 +31,17 @@ export const useValidation = () => {
       .max(256, { error: t('validation.password.max') })
   })
 
-  return { createRegisterFormSchema, createLoginFormSchema }
+  const createAnalysisFormSchema = () => z.object({
+    title: z.string({ error: t('validation.analysis.title.required') })
+      .min(1, { error: t('validation.analysis.title.min') })
+      .max(100, { error: t('validation.analysis.title.max') }),
+    description: z.string()
+      .max(500, { error: t('validation.analysis.description.max') })
+      .optional()
+  })
+  return { createRegisterFormSchema, createLoginFormSchema, createAnalysisFormSchema }
 }
 
 export type RegisterForm = z.infer<ReturnType<ReturnType<typeof useValidation>['createRegisterFormSchema']>>
 export type LoginForm = z.infer<ReturnType<ReturnType<typeof useValidation>['createLoginFormSchema']>>
+export type AnalysisForm = z.infer<ReturnType<ReturnType<typeof useValidation>['createAnalysisFormSchema']>>

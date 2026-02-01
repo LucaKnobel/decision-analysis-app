@@ -1,7 +1,17 @@
 {
+  "common": {
+    "actions": "Aktionen",
+    "view": "Ansehen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "search": "Suche",
+    "noData": "Keine Daten verfügbar",
+    "cancel": "Abbrechen"
+  },
   "nav": {
     "demo": "Demo",
     "login": "Login",
+    "logout": "Abmelden",
     "register": "Registrieren"
   },
   "footer": {
@@ -55,7 +65,17 @@
     "passwordLowercase": "Muss mindestens einen Kleinbuchstaben enthalten",
     "passwordNumber": "Muss mindestens eine Zahl enthalten",
     "passwordSpecial": "Muss mindestens ein Sonderzeichen enthalten",
-    "passwordsMatch": "Passwörter müssen übereinstimmen"
+    "passwordsMatch": "Passwörter müssen übereinstimmen",
+    "analysis": {
+      "title": {
+        "required": "Titel ist erforderlich",
+        "min": "Titel muss mindestens 1 Zeichen lang sein",
+        "max": "Titel darf maximal 100 Zeichen lang sein"
+      },
+      "description": {
+        "max": "Beschreibung darf maximal 500 Zeichen lang sein"
+      }
+    }
   },
   "legal": {
     "privacyPolicy": "Datenschutzerklärung",
@@ -78,6 +98,45 @@
     "serviceUnavailable": {
       "title": "Dienst nicht verfügbar",
       "text": "Der Dienst ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut."
+    },
+    "analysis": {
+      "title": "Analyseerstellung nicht möglich",
+      "text": "Die Erstellung der Analyse konnte nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen.",
+      "delete": {
+        "title": "Analyse-Löschung nicht möglich",
+        "description": "Die Löschung der Analyse konnte nicht abgeschlossen werden. Bitte später erneut versuchen."
+      }
+    }
+  },
+  "analysis": {
+    "title": "Titel",
+    "description": "Beschreibung",
+    "create": {
+      "title": "Analyse erstellen",
+      "successTitle": "Analyse erfolgreich erstellt!",
+      "successMessage": "Ihre Analyse wurde gespeichert."
+    },
+    "delete": {
+      "title": "Analyse löschen",
+      "description": "Möchten Sie diese Analyse wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "success": "Analyse erfolgreich gelöscht",
+      "notFound": "Analyse wurde nicht gefunden"
+    },
+    "dashboard": {
+      "title": "Meine Analysen",
+      "totalCount": "{count} Analyse | {count} Analysen",
+      "filter": "Filtern...",
+      "empty": "Keine Analysen vorhanden",
+      "createFirst": "Erste Analyse erstellen",
+      "total": "insgesamt"
+    },
+    "detail": {
+      "title": "Analyse bearbeiten",
+      "placeholder": "Die Analyse-Bearbeitung wird hier implementiert."
+    },
+    "columns": {
+      "createdAt": "Erstellt am",
+      "updatedAt": "Aktualisiert"
     }
   }
 }

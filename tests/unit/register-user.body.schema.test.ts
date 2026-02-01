@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { RegisterUserRequestSchema } from '../../server/api/schemas/auth/register-user.request.schema'
+import { RegisterUserBodySchema } from '../../server/api/schemas/auth/register-user.body.schema'
 
-describe('RegisterUserRequestSchema', () => {
+describe('RegisterUserBodySchema', () => {
   /* TC-UT-02 & TC-UT-03 */
   describe('email validation', () => {
     it('should accept valid email addresses', () => {
@@ -13,7 +13,7 @@ describe('RegisterUserRequestSchema', () => {
       ]
 
       validEmails.forEach((email) => {
-        const result = RegisterUserRequestSchema.safeParse({
+        const result = RegisterUserBodySchema.safeParse({
           email,
           password: 'ValidPass123!'
         })
@@ -22,7 +22,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should convert email to lowercase', () => {
-      const result = RegisterUserRequestSchema.parse({
+      const result = RegisterUserBodySchema.parse({
         email: 'User@Example.COM',
         password: 'ValidPass123!'
       })
@@ -41,7 +41,7 @@ describe('RegisterUserRequestSchema', () => {
       ]
 
       invalidEmails.forEach((email) => {
-        const result = RegisterUserRequestSchema.safeParse({
+        const result = RegisterUserBodySchema.safeParse({
           email,
           password: 'ValidPass123!'
         })
@@ -50,7 +50,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should trim whitespace from email', () => {
-      const result = RegisterUserRequestSchema.parse({
+      const result = RegisterUserBodySchema.parse({
         email: '  test@example.com  ',
         password: 'ValidPass123!'
       })
@@ -58,7 +58,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should handle empty string email', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: '',
         password: 'ValidPass123!'
       })
@@ -75,7 +75,7 @@ describe('RegisterUserRequestSchema', () => {
       ]
 
       validPasswords.forEach((password) => {
-        const result = RegisterUserRequestSchema.safeParse({
+        const result = RegisterUserBodySchema.safeParse({
           email: 'user@example.com',
           password
         })
@@ -84,7 +84,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should reject passwords shorter than 12 characters', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'user@example.com',
         password: 'Short1!'
       })
@@ -95,7 +95,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should reject passwords longer than 256 characters', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'user@example.com',
         password: 'A'.repeat(257) + 'a1!'
       })
@@ -106,7 +106,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should reject passwords without uppercase letters', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'user@example.com',
         password: 'lowercasepass123!'
       })
@@ -117,7 +117,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should reject passwords without lowercase letters', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'user@example.com',
         password: 'UPPERCASEPASS123!'
       })
@@ -128,7 +128,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should reject passwords without numbers', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'user@example.com',
         password: 'NoNumbersHere!'
       })
@@ -139,7 +139,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should reject passwords without special characters', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'user@example.com',
         password: 'NoSpecialChars123'
       })
@@ -150,7 +150,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should accept password with exactly 12 characters', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'user@example.com',
         password: 'ValidPass12!' // Exactly 12 chars
       })
@@ -159,7 +159,7 @@ describe('RegisterUserRequestSchema', () => {
 
     it('should accept password with exactly 256 characters', () => {
       const validPassword = 'A' + 'a'.repeat(252) + '1!' // Exactly 256 chars
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'user@example.com',
         password: validPassword
       })
@@ -167,7 +167,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should accept passwords with unicode characters', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'user@example.com',
         password: 'MyПароль🔐密码1!' // Latin + Unicode
       })
@@ -175,7 +175,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should handle empty password', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'test@example.com',
         password: ''
       })
@@ -185,7 +185,7 @@ describe('RegisterUserRequestSchema', () => {
   /* TC-UT-01, TC-UT-02, TC-UT-03 */
   describe('complete validation', () => {
     it('should accept valid registration data', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'newuser@example.com',
         password: 'SecurePass123!'
       })
@@ -199,7 +199,7 @@ describe('RegisterUserRequestSchema', () => {
     })
 
     it('should reject when both fields are invalid', () => {
-      const result = RegisterUserRequestSchema.safeParse({
+      const result = RegisterUserBodySchema.safeParse({
         email: 'invalidemail',
         password: 'short'
       })

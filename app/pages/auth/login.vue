@@ -10,9 +10,9 @@ const { fetch: refreshSession } = useUserSession()
 const { createLoginFormSchema } = useValidation()
 const { loginUser } = useAuthApi()
 const { hasError, errorTitle, errorText, resetError, handleLoginError } = useErrorHandler()
-const { t } = useI18n()
 const localePath = useLocalePath()
-const toast = useToast()
+const { showSuccess } = useToastNotification()
+const { t } = useI18n()
 
 const schema = createLoginFormSchema()
 const isSubmitting = ref(false)
@@ -31,15 +31,6 @@ const fields: AuthFormField[] = [{
   required: true
 }]
 
-const handleSuccess = async (): Promise<void> => {
-  toast.add({
-    title: t('pages.login.successMessageTitle'),
-    description: t('pages.login.successMessage'),
-    color: 'success'
-  })
-  await navigateTo(localePath('/dashboard'))
-}
-
 const onSubmit = async (event: FormSubmitEvent<LoginForm>): Promise<void> => {
   if (isSubmitting.value) {
     return
@@ -48,13 +39,14 @@ const onSubmit = async (event: FormSubmitEvent<LoginForm>): Promise<void> => {
   isSubmitting.value = true
 
   try {
-    const payload: LoginUserRequestDTO = {
+    const payload: LoginUserBodyDTO = {
       email: event.data.email,
       password: event.data.password
     }
     await loginUser(payload)
     await refreshSession()
-    await handleSuccess()
+    showSuccess('pages.login.successMessageTitle', 'pages.login.successMessage')
+    await navigateTo(localePath('/dashboard'))
   } catch (error: unknown) {
     handleLoginError(error)
   } finally {

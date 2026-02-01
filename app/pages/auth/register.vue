@@ -9,9 +9,9 @@ definePageMeta({
 const { createRegisterFormSchema } = useValidation()
 const { registerUser } = useAuthApi()
 const { hasError, errorTitle, errorText, resetError, handleRegistrationError } = useErrorHandler()
+const { showSuccess } = useToastNotification()
 const { t } = useI18n()
 const localePath = useLocalePath()
-const toast = useToast()
 
 const schema = createRegisterFormSchema()
 const isSubmitting = ref(false)
@@ -36,15 +36,6 @@ const fields: AuthFormField[] = [{
   required: true
 }]
 
-const handleSuccess = async (): Promise<void> => {
-  toast.add({
-    title: t('pages.register.successMessageTitle'),
-    description: t('pages.register.successMessage'),
-    color: 'success'
-  })
-  await navigateTo(localePath('/auth/login'))
-}
-
 const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => {
   if (isSubmitting.value) {
     return
@@ -53,12 +44,13 @@ const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => 
   isSubmitting.value = true
 
   try {
-    const payload: RegisterUserRequestDTO = {
+    const payload: RegisterUserBodyDTO = {
       email: event.data.email,
       password: event.data.password
     }
     await registerUser(payload)
-    await handleSuccess()
+    showSuccess('pages.register.successMessageTitle', 'pages.register.successMessage')
+    await navigateTo(localePath('/auth/login'))
   } catch (error: unknown) {
     handleRegistrationError(error)
   } finally {

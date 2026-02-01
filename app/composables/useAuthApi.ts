@@ -1,16 +1,20 @@
-import type { RegisterUserRequestDTO } from '#shared/types/register-user'
-import type { LoginUserRequestDTO } from '#shared/types/login-user'
+import type { RegisterUserBodyDTO, LoginUserBodyDTO } from '#shared/types/user'
 
-export const useAuthApi = () => {
-  const registerUser = async (dto: RegisterUserRequestDTO) => {
-    return await $fetch('/api/auth/register', {
+export interface AuthApi {
+  registerUser: (dto: RegisterUserBodyDTO) => Promise<void>
+  loginUser: (dto: LoginUserBodyDTO) => Promise<void>
+}
+
+export const useAuthApi = (): AuthApi => {
+  const registerUser = async (dto: RegisterUserBodyDTO): Promise<void> => {
+    await $fetch('/api/auth/register', {
       method: 'POST',
       body: dto
     })
   }
 
-  const loginUser = async (dto: LoginUserRequestDTO) => {
-    return await $fetch('/api/auth/login', {
+  const loginUser = async (dto: LoginUserBodyDTO): Promise<void> => {
+    await $fetch('/api/auth/login', {
       method: 'POST',
       body: dto
     })

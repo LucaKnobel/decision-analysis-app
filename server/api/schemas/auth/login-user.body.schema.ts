@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const LoginUserRequestSchema = z.object({
+export const LoginUserBodySchema = z.object({
   email: z.string()
     .trim()
     .toLowerCase()
@@ -10,4 +10,4 @@ export const LoginUserRequestSchema = z.object({
     .max(256, 'Password must not exceed 256 characters')
 })
 
-export type LoginUserRequestDTO = z.infer<typeof LoginUserRequestSchema>
+export type LoginUserBodyDTO = z.infer<typeof LoginUserBodySchema>
