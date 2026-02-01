@@ -9,8 +9,9 @@ definePageMeta({
 const { createRegisterFormSchema } = useValidation()
 const { registerUser } = useAuthApi()
 const { hasError, errorTitle, errorText, resetError, handleRegistrationError } = useErrorHandler()
+const { showSuccess } = useToastNotification()
 const { t } = useI18n()
-const toast = useToast()
+const localePath = useLocalePath()
 
 const schema = createRegisterFormSchema()
 const isSubmitting = ref(false)
@@ -18,31 +19,22 @@ const isSubmitting = ref(false)
 const fields: AuthFormField[] = [{
   name: 'email',
   type: 'email',
-  label: t('pages.register.email'),
-  placeholder: t('pages.register.placeHolderEmail'),
+  label: t('pages.common.email'),
+  placeholder: t('pages.common.placeHolderEmail'),
   required: true
 }, {
   name: 'password',
-  label: t('pages.register.password'),
+  label: t('pages.common.password'),
   type: 'password',
-  placeholder: t('pages.register.placeHolderPassword'),
+  placeholder: t('pages.common.placeHolderPassword'),
   required: true
 }, {
   name: 'passwordConfirm',
-  label: t('pages.register.confirmPassword'),
+  label: t('pages.common.confirmPassword'),
   type: 'password',
-  placeholder: t('pages.register.placeHolderConfirmPassword'),
+  placeholder: t('pages.common.placeHolderConfirmPassword'),
   required: true
 }]
-
-const handleSuccess = async (): Promise<void> => {
-  toast.add({
-    title: t('pages.register.successMessageTitle'),
-    description: t('pages.register.successMessage'),
-    color: 'success'
-  })
-  await navigateTo('/auth/login')
-}
 
 const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => {
   if (isSubmitting.value) {
@@ -52,12 +44,13 @@ const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => 
   isSubmitting.value = true
 
   try {
-    const payload: RegisterUserRequestDTO = {
+    const payload: RegisterUserBodyDTO = {
       email: event.data.email,
       password: event.data.password
     }
     await registerUser(payload)
-    await handleSuccess()
+    showSuccess('pages.register.successMessageTitle', 'pages.register.successMessage')
+    await navigateTo(localePath('/auth/login'))
   } catch (error: unknown) {
     handleRegistrationError(error)
   } finally {
@@ -84,14 +77,6 @@ const onSubmit = async (event: FormSubmitEvent<RegisterForm>): Promise<void> => 
         class="text-primary font-medium"
       >
         {{ $t('nav.login') }}
-      </NuxtLinkLocale>
-    </template>
-    <template #password-hint>
-      <NuxtLinkLocale
-        to="/auth/forgot-password"
-        class="text-primary font-medium"
-      >
-        {{ $t('pages.register.forgotPassword') }}
       </NuxtLinkLocale>
     </template>
     <template #validation>

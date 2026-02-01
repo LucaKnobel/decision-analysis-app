@@ -1,6 +1,8 @@
 <template>
   <div>
-    <p>Dashboard</p>
-    <slot />
+    <DashboardHeader />
+    <UMain>
+      <slot />
+    </UMain>
   </div>
 </template>

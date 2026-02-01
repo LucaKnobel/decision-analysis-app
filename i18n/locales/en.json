@@ -1,39 +1,60 @@
 {
+  "common": {
+    "actions": "Actions",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "search": "Search",
+    "noData": "No data available",
+    "cancel": "Cancel"
+  },
   "nav": {
     "demo": "Demo",
     "login": "Sign in",
+    "logout": "Sign out",
     "register": "Sign up"
   },
   "footer": {
     "copyright": "Copyright"
   },
   "pages": {
+    "common": {
+      "email": "E-Mail",
+      "password": "Password",
+      "placeHolderEmail": "Enter your email",
+      "placeHolderPassword": "Enter your password",
+      "placeHolderConfirmPassword": "Confirm your password",
+      "confirmPassword": "Passwort bestätigen"
+    },
     "index": {
       "title": "Better decisions. Made systematically.",
       "description": "Dezizio supports structured decision-making through transparent value analysis – traceable, reproducible and clearly documented.",
       "getStarted": "Get Started",
       "learnMore": "Learn More"
     },
-     "register": {
+    "register": {
       "title": "Create an Account",
       "alreadyHaveAccount": "Already have an account?",
-      "bySigningUp": "By signing in, you agree to our",
       "forgotPassword": "Forgot password?",
-      "email": "E-Mail",
-      "password": "Password",
-      "confirmPassword": "Confirm Password",
-      "placeHolderEmail": "Enter your email",
-      "placeHolderPassword": "Enter your password",
       "placeHolderConfirmPassword": "Confirm your password",
-      "errorSigningUp": "Error signing up. Please try again.",
       "createAccount": "Create Account",
       "termsHint": "By signing up, you agree to our Terms of Service.",
       "successMessageTitle": "Account successfully created!",
       "successMessage": "You can now sign in."
+    },
+    "login": {
+      "title": "Welcome back!",
+      "dontHaveAccount": "Don't have an account?",
+      "forgotPassword": "Forgot password?",
+      "loginAccount": "Login",
+      "termsHint": "By signing in, you agree to our Terms of Service.",
+      "successMessageTitle": "Success!",
+      "successMessage": "You are now logged in."
     }
   },
   "validation": {
     "email": {
+      "required": "Email is required",
       "invalid": "Invalid email address"
     },
     "password": {
@@ -45,7 +66,17 @@
     "passwordLowercase": "Must contain at least one lowercase letter",
     "passwordNumber": "Must contain at least one number",
     "passwordSpecial": "Must contain at least one special character",
-    "passwordsMatch": "Passwords must match"
+    "passwordsMatch": "Passwords must match",
+    "analysis": {
+      "title": {
+        "required": "Title is required",
+        "min": "Title must be at least 1 character long",
+        "max": "Title must not exceed 100 characters"
+      },
+      "description": {
+        "max": "Description must not exceed 500 characters"
+      }
+    }
   },
   "legal": {
     "privacyPolicy": "Privacy Policy",
@@ -57,13 +88,56 @@
       "title": "Registration not possible",
       "text": "The registration could not be completed. Please check your inputs or try again later."
     },
-    "network": { 
+    "login": {
+      "title": "Login not possible",
+      "text": "Login could not be completed. Please check your inputs."
+    },
+    "network": {
       "title": "Connection unavailable",
       "text": "The connection to the server could not be established. Please check your internet connection and try again."
     },
     "serviceUnavailable": {
       "title": "Service unavailable",
       "text": "The service is currently unavailable. Please try again later."
+    },
+    "analysis": {
+      "title": "Analysis creation not possible",
+      "text": "The creation of the analysis could not be completed. Please check your inputs or try again later.",
+      "delete": {
+        "title": "Analysis deletion not possible",
+        "description": "The deletion of the analysis could not be completed. Please try again later."
+      }
+    }
+  },
+  "analysis": {
+    "title": "Title",
+    "description": "Description",
+    "create": {
+      "title": "Create analysis",
+      "successTitle": "Analysis successfully created!",
+      "successMessage": "Your analysis has been saved."
+    },
+    "delete": {
+      "title": "Delete analysis",
+      "description": "Are you sure you want to delete this analysis? This action cannot be undone.",
+      "success": "Analysis successfully deleted",
+      "notFound": "Analysis not found"
+    },
+    "dashboard": {
+      "title": "My Analyses",
+      "totalCount": "{count} Analysis | {count} Analyses",
+      "filter": "Filter...",
+      "empty": "No analyses available",
+      "createFirst": "Create first analysis",
+      "total": "total"
+    },
+    "detail": {
+      "title": "Edit Analysis",
+      "placeholder": "Analysis editing will be implemented here."
+    },
+    "columns": {
+      "createdAt": "Created at",
+      "updatedAt": "Updated"
     }
   }
 }

@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxtjs/i18n',
     '@nuxt/test-utils/module',
-    'nuxt-security'
+    'nuxt-security',
+    'nuxt-auth-utils'
   ],
   devtools: {
     enabled: true
@@ -15,7 +16,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   /* runtimeConfig: {
     // The private keys which are only available server-side
-    databaseUrl: ''
+    logLevel: 'info',
     // Keys within public are also exposed client-side
     public: {
       apiBase: ''
