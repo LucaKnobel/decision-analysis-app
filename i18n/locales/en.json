@@ -76,6 +76,20 @@
       "description": {
         "max": "Description must not exceed 500 characters"
       }
+    },
+    "criteria": {
+      "min": "At least one criterion is required",
+      "name": {
+        "required": "Name is required",
+        "max": "Name must not exceed 100 characters"
+      },
+      "weight": {
+        "required": "Weight is required",
+        "integer": "Weight must be an integer",
+        "min": "Weight must be >= 0",
+        "max": "Weight must be <= 100",
+        "sum": "Total weight must equal 100"
+      }
     }
   },
   "legal": {
@@ -107,6 +121,10 @@
         "title": "Analysis deletion not possible",
         "description": "The deletion of the analysis could not be completed. Please try again later."
       }
+    },
+    "criteria": {
+      "title": "Criterion creation not possible",
+      "text": "The creation of the criterion could not be completed. Please check your inputs or try again later."
     }
   },
   "analysis": {
@@ -139,5 +157,24 @@
       "createdAt": "Created at",
       "updatedAt": "Updated"
     }
+  },
+  "criteria": {
+    "create": {
+      "title": "Create criteria",
+      "submit": "Save criteria",
+      "successTitle": "Criteria created!",
+      "successMessage": "Your criteria have been saved.",
+      "helper": "Add criteria and distribute weights so the total equals 100. Weight important criteria higher to increase their influence on the decision."
+    },
+    "itemLabel": "Criterion {index}",
+    "fields": {
+      "name": "Name",
+      "weight": "Weight"
+    },
+    "actions": {
+      "add": "Add criterion",
+      "remove": "Remove"
+    },
+    "total": "Total"
   }
 }

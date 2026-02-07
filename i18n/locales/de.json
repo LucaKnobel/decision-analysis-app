@@ -75,6 +75,20 @@
       "description": {
         "max": "Beschreibung darf maximal 500 Zeichen lang sein"
       }
+    },
+    "criteria": {
+      "min": "Mindestens ein Kriterium ist erforderlich",
+      "name": {
+        "required": "Name ist erforderlich",
+        "max": "Name darf maximal 100 Zeichen lang sein"
+      },
+      "weight": {
+        "required": "Gewichtung ist erforderlich",
+        "integer": "Gewichtung muss eine ganze Zahl sein",
+        "min": "Gewichtung muss >= 0 sein",
+        "max": "Gewichtung muss <= 100 sein",
+        "sum": "Die Summe der Gewichtungen muss 100 ergeben"
+      }
     }
   },
   "legal": {
@@ -106,6 +120,10 @@
         "title": "Analyse-Löschung nicht möglich",
         "description": "Die Löschung der Analyse konnte nicht abgeschlossen werden. Bitte später erneut versuchen."
       }
+    },
+    "criteria": {
+      "title": "Kriteriumserstellung nicht möglich",
+      "text": "Die Erstellung des Kriteriums konnte nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen."
     }
   },
   "analysis": {
@@ -138,5 +156,24 @@
       "createdAt": "Erstellt am",
       "updatedAt": "Aktualisiert"
     }
-  }
+  },
+  "criteria": {
+      "create": {
+        "title": "Kriterien erstellen",
+        "submit": "Kriterien speichern",
+        "successTitle": "Kriterien erstellt!",
+        "successMessage": "Ihre Kriterien wurden gespeichert.",
+        "helper": "Fügen Sie Kriterien hinzu und verteilen Sie die Gewichtung so, dass die Summe 100 ergibt. Gewichten Sie wichtige Kriterien höher, um deren Einfluss auf die Entscheidung zu erhöhen."
+      },
+      "itemLabel": "Kriterium {index}",
+      "fields": {
+        "name": "Name",
+        "weight": "Gewichtung"
+      },
+      "actions": {
+        "add": "Kriterium hinzufügen",
+        "remove": "Entfernen"
+      },
+      "total": "Summe"
+    }
 }

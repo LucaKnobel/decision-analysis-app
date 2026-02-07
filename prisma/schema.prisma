@@ -40,7 +40,7 @@ model Criterion {
   analysisId  String
   analysis    Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
   name        String
-  weight      Float
+  weight      Int
   ratings     Rating[]
 
   @@index([analysisId])

@@ -5,12 +5,13 @@ export interface CriterionRepository {
     userId: string,
     analysisId: string,
     criterionTitle: string,
+    weight: number
   ): Promise<Criterion | null>
 
   createCriteria(
     userId: string,
     analysisId: string,
-    criterionTitles: string[],
+    criteria: Array<{ name: string, weight: number }>,
   ): Promise<Criterion[] | null>
 
   findCriteriaByUserId(
@@ -23,6 +24,7 @@ export interface CriterionRepository {
     analysisId: string
     criterionId: string
     criterionTitle: string
+    weight: number
   }): Promise<Criterion | null>
 
   deleteCriterion(
@@ -30,4 +32,10 @@ export interface CriterionRepository {
     analysisId: string,
     criterionId: string
   ): Promise<boolean>
+
+  replaceCriteria(
+    userId: string,
+    analysisId: string,
+    criteria: Array<{ id?: string, name: string, weight: number }>
+  ): Promise<Criterion[] | null>
 }

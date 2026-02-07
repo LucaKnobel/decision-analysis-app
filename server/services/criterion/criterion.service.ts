@@ -1,5 +1,6 @@
 import { CriterionNotFoundError, UnauthorizedCriterionAccessError } from './criterion.errors'
 import type { CreateCriteriaBodyDTO } from '~~/server/api/schemas/criteria/create-criteria.body.schema'
+import type { UpdateCriteriaBodyDTO } from '~~/server/api/schemas/criteria/update-criteria.body.schema'
 import type { CriterionRepository } from '@contracts/repositories/criterion-repository'
 import type { Logger } from '@contracts/logging/logger'
 import type { Criterion } from '@generated/prisma/client'
@@ -54,7 +55,8 @@ export class CriterionService {
     userId: string,
     analysisId: string,
     criterionId: string,
-    criterionTitle: string
+    criterionTitle: string,
+    weight: number
   ): Promise<Criterion> {
     this.logger.debug('Updating criterion', { userId, analysisId, criterionId })
 
@@ -62,7 +64,8 @@ export class CriterionService {
       userId,
       analysisId,
       criterionId,
-      criterionTitle
+      criterionTitle,
+      weight
     })
 
     this.assertFound(userId, analysisId, criterionId, updatedCriterion)
@@ -87,6 +90,46 @@ export class CriterionService {
     this.logger.info('Criterion deleted successfully', { userId, analysisId, criterionId })
   }
 
+  async replaceCriteria(
+    userId: string,
+    analysisId: string,
+    input: UpdateCriteriaBodyDTO
+  ): Promise<Criterion[]> {
+    this.logger.debug('Replacing criteria', {
+      userId,
+      analysisId,
+      count: input.criteria.length
+    })
+
+    const existing = await this.criterionRepository.findCriteriaByUserId(userId, analysisId)
+    const existingIds = new Set(existing.map((criterion) => criterion.id))
+
+    const unknownIds = input.criteria
+      .map((criterion) => criterion.id)
+      .filter((criterionId): criterionId is string => typeof criterionId === 'string')
+      .filter((criterionId) => !existingIds.has(criterionId))
+
+    if (unknownIds.length > 0) {
+      this.logger.warn('Criteria not found during replace', {
+        userId,
+        analysisId,
+        criterionIds: unknownIds
+      })
+      throw new CriterionNotFoundError()
+    }
+
+    const replaced = await this.criterionRepository.replaceCriteria(userId, analysisId, input.criteria)
+    this.assertAuthorizedCreate(userId, analysisId, replaced)
+
+    this.logger.info('Criteria replaced successfully', {
+      userId,
+      analysisId,
+      count: replaced.length
+    })
+
+    return replaced
+  }
+
   private async createCriteriaBatch(
     userId: string,
     analysisId: string,
@@ -95,7 +138,10 @@ export class CriterionService {
     return this.criterionRepository.createCriteria(
       userId,
       analysisId,
-      input.criteria.map(criterion => criterion.name)
+      input.criteria.map(criterion => ({
+        name: criterion.name,
+        weight: criterion.weight
+      }))
     )
   }
 

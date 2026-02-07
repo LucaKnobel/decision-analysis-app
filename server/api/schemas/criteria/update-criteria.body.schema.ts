@@ -1,8 +1,9 @@
 import * as z from 'zod'
 
-export const CreateCriteriaBodySchema = z.object({
+export const UpdateCriteriaBodySchema = z.object({
   criteria: z.array(
     z.object({
+      id: z.uuid().optional(),
       name: z.string()
         .trim()
         .min(1, 'Name is required')
@@ -21,4 +22,4 @@ export const CreateCriteriaBodySchema = z.object({
   path: ['criteria']
 })
 
-export type CreateCriteriaBodyDTO = z.infer<typeof CreateCriteriaBodySchema>
+export type UpdateCriteriaBodyDTO = z.infer<typeof UpdateCriteriaBodySchema>

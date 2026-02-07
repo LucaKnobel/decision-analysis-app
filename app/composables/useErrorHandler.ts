@@ -10,6 +10,7 @@ export interface UseErrorHandlerComposable {
   handleRegistrationError: (error: unknown) => void
   handleLoginError: (error: unknown) => void
   handleAnalysisError: (error: unknown) => void
+  handleCriteriaError: (error: unknown) => void
 }
 
 export const useErrorHandler = (): UseErrorHandlerComposable => {
@@ -73,6 +74,14 @@ export const useErrorHandler = (): UseErrorHandlerComposable => {
     setError('errors.analysis.title', 'errors.analysis.text')
   }
 
+  const handleCriteriaError = (error: unknown): void => {
+    const statusCode = getStatusCode(error)
+    if (handleCommonErrors(statusCode)) {
+      return
+    }
+    setError('errors.criteria.title', 'errors.criteria.text')
+  }
+
   return {
     hasError,
     errorTitle,
@@ -80,6 +89,7 @@ export const useErrorHandler = (): UseErrorHandlerComposable => {
     resetError,
     handleRegistrationError,
     handleLoginError,
-    handleAnalysisError
+    handleAnalysisError,
+    handleCriteriaError
   }
 }

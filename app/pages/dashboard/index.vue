@@ -13,7 +13,6 @@ definePageMeta({
 
 const localePath = useLocalePath()
 const { t } = useI18n()
-const toast = useToast()
 
 const {
   page,
@@ -125,11 +124,7 @@ const getRowItems = (row: Row<AnalysisItemDTO>) => {
       label: t('common.edit'),
       icon: 'i-lucide-pencil',
       onSelect() {
-        // TODO: Implement edit
-        toast.add({
-          title: t('common.comingSoon'),
-          color: 'info'
-        })
+        navigateTo(localePath(`/analyses/${row.original.id}/criteria`))
       }
     },
     {
