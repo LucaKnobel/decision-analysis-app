@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import type { FormSubmitEvent } from '@nuxt/ui'
-import type { CriteriaForm } from '~/composables/useValidation'
-
 definePageMeta({
   middleware: ['auth'],
   layout: 'focus'
@@ -10,95 +7,23 @@ definePageMeta({
 const route = useRoute()
 const analysisId = computed(() => route.params.id as string | undefined)
 
-const { createCriteriaFormSchema } = useValidation()
-const { getCriteria, updateCriteria } = useAnalysisApi()
-const { hasError, errorTitle, errorText, resetError, handleCriteriaError } = useErrorHandler()
-const localePath = useLocalePath()
-const { showSuccess } = useToastNotification()
-const isSubmitting = ref(false)
-const isLoading = ref(false)
-const schema = createCriteriaFormSchema()
-
-const state = reactive<CriteriaForm>({
-  criteria: [
-    {
-      name: '',
-      weight: 0
-    }
-  ]
-})
-
-const totalWeight = computed(() => {
-  return state.criteria.reduce((sum, criterion) => sum + (Number(criterion.weight) || 0), 0)
-})
-
-const isWeightValid = computed(() => totalWeight.value === 100)
-
-const addCriterion = () => {
-  state.criteria.push({ name: '', weight: 0 })
-}
-
-const removeCriterion = (index: number) => {
-  if (state.criteria.length <= 1) {
-    return
-  }
-  state.criteria.splice(index, 1)
-}
-
-const applyCriteria = (criteria: CriterionItemDTO[]) => {
-  if (criteria.length === 0) {
-    return
-  }
-  state.criteria = criteria.map(criterion => ({
-    id: criterion.id,
-    name: criterion.name,
-    weight: criterion.weight
-  }))
-}
-
-const loadCriteria = async () => {
-  const id = analysisId.value
-  if (!id) {
-    return
-  }
-  isLoading.value = true
-  try {
-    const response = await getCriteria(id)
-    applyCriteria(response.data)
-  } catch (error: unknown) {
-    handleCriteriaError(error)
-  } finally {
-    isLoading.value = false
-  }
-}
+const {
+  schema,
+  state,
+  totalWeight,
+  isWeightValid,
+  isSubmitting,
+  isLoading,
+  hasError,
+  errorTitle,
+  errorText,
+  addCriterion,
+  removeCriterion,
+  loadCriteria,
+  onSubmit
+} = useCriteria(analysisId)
 
 onMounted(loadCriteria)
-
-const onSubmit = async (event: FormSubmitEvent<CriteriaForm>): Promise<void> => {
-  if (isSubmitting.value) {
-    return
-  }
-  resetError()
-  isSubmitting.value = true
-
-  try {
-    const id = analysisId.value
-    if (!id) {
-      throw new Error('Missing analysis id')
-    }
-
-    const payload: UpdateCriteriaBodyDTO = {
-      criteria: event.data.criteria
-    }
-    await updateCriteria(id, payload)
-    showSuccess('criteria.create.successTitle', 'criteria.create.successMessage')
-    await navigateTo(localePath(`/analyses/${id}/alternatives`))
-  } catch (error: unknown) {
-    handleCriteriaError(error)
-  } finally {
-    isSubmitting.value = false
-  }
-}
 </script>
 
 <template>

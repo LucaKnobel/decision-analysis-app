@@ -102,12 +102,12 @@ export class CriterionService {
     })
 
     const existing = await this.criterionRepository.findCriteriaByUserId(userId, analysisId)
-    const existingIds = new Set(existing.map((criterion) => criterion.id))
+    const existingIds = new Set(existing.map(criterion => criterion.id))
 
     const unknownIds = input.criteria
-      .map((criterion) => criterion.id)
+      .map(criterion => criterion.id)
       .filter((criterionId): criterionId is string => typeof criterionId === 'string')
-      .filter((criterionId) => !existingIds.has(criterionId))
+      .filter(criterionId => !existingIds.has(criterionId))
 
     if (unknownIds.length > 0) {
       this.logger.warn('Criteria not found during replace', {
