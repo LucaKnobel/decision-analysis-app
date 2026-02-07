@@ -10,10 +10,8 @@
     "postinstall": "nuxt prepare && [ -d .git ] && git config core.hooksPath .githooks || true",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
-    "test": "vitest",
-    "test:unit": "vitest --project unit",
-    "test:nuxt": "vitest --project nuxt",
-    "test:watch": "vitest --watch"
+    "test": "nuxt test",
+    "test:unit": "vitest --project unit"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.82",

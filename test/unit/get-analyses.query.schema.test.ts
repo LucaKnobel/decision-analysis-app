@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { GetAnalysesQuerySchema } from '../../server/api/schemas/analysis/get-analyses.query.schema'
+import { GetAnalysesQuerySchema } from '../../server/api/schemas/analyses/get-analyses.query.schema'
 
 describe('GetAnalysesQuerySchema', () => {
   describe('Valid inputs', () => {

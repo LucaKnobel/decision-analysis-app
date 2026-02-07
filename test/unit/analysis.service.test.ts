@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { AnalysisService } from '../../server/services/analyses/analysis.service'
-import { AnalysisNotFoundError, UnauthorizedAnalysisAccessError } from '../../server/services/analyses/analysis.errors'
+import { AnalysisService } from '../../server/services/analysis/analysis.service'
+import { AnalysisNotFoundError, UnauthorizedAnalysisAccessError } from '../../server/services/analysis/analysis.errors'
 import type { AnalysisRepository } from '../../server/contracts/repositories/analysis-repository'
 import type { Logger } from '../../server/contracts/logging/logger'
 import type { AnalysisItemDTO } from '../../shared/types/analysis'

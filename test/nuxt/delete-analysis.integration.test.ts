@@ -1,11 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { setup, fetch } from '@nuxt/test-utils/e2e'
+import { fetch } from '@nuxt/test-utils/e2e'
 import { prisma } from '@infrastructure/db/prisma'
 import { createBcryptHasher } from '@infrastructure/security/password-hasher.bcrypt'
 
 describe('Integration Tests — Delete Analysis DELETE /api/analyses/:id', async () => {
-  await setup({ server: true })
-
   const hasher = createBcryptHasher(4)
   let sessionCookie: string
   let testUserId: string

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { GetAnalysesResponseSchema } from '../../server/api/schemas/analysis/get-analyses.response.schema'
+import { GetAnalysesResponseSchema } from '../../server/api/schemas/analyses/get-analyses.response.schema'
 
 describe('GetAnalysesResponseSchema', () => {
   const validAnalysisItem = {

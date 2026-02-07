@@ -1,13 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { setup, fetch } from '@nuxt/test-utils/e2e'
+import { fetch } from '@nuxt/test-utils/e2e'
 import { prisma } from '@infrastructure/db/prisma'
 
 describe('Integration Tests — User Registration /api/auth/register', async () => {
-  // Setup Nuxt test server
-  await setup({
-    server: true
-  })
-
   beforeEach(async () => {
     // Clean up users table before each test
     await prisma.user.deleteMany({})

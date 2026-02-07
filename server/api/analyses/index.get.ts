@@ -1,6 +1,6 @@
-import { GetAnalysesQuerySchema } from '@server/api/schemas/analysis/get-analyses.query.schema'
-import { GetAnalysesResponseSchema } from '@server/api/schemas/analysis/get-analyses.response.schema'
-import { AnalysisService } from '@services/analyses/analysis.service'
+import { GetAnalysesQuerySchema } from '~~/server/api/schemas/analyses/get-analyses.query.schema'
+import { GetAnalysesResponseSchema } from '~~/server/api/schemas/analyses/get-analyses.response.schema'
+import { AnalysisService } from '~~/server/services/analysis/analysis.service'
 import { analysisRepository } from '@infrastructure/repositories/analysis-repository.prisma'
 import { logger } from '@infrastructure/logging/logger.pino'
 

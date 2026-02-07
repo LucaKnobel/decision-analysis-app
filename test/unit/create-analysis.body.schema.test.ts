@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { CreateAnalysisBodySchema } from '../../server/api/schemas/analysis/create-analysis.body.schema'
+import { CreateAnalysisBodySchema } from '../../server/api/schemas/analyses/create-analysis.body.schema'
 
 describe('CreateAnalysisBodySchema', () => {
   describe('Valid inputs', () => {
