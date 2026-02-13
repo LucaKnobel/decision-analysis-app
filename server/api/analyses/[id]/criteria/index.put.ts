@@ -1,10 +1,10 @@
 import { AnalysisIdParamsSchema } from '@server/api/schemas/analyses/analysis-id.params.schema'
 import { UpdateCriteriaBodySchema } from '@server/api/schemas/criteria/update-criteria.body.schema'
 import { UpdateCriteriaResponseSchema } from '@server/api/schemas/criteria/update-criteria.response.schema'
-import { AnalysisService } from '@server/services/analysis/analysis.service'
-import { AnalysisNotFoundError, UnauthorizedAnalysisAccessError } from '@server/services/analysis/analysis.errors'
-import { CriterionNotFoundError, UnauthorizedCriterionAccessError } from '@server/services/criterion/criterion.errors'
-import { CriterionService } from '@server/services/criterion/criterion.service'
+import { AnalysisService } from '@services/analysis/analysis.service'
+import { AnalysisNotFoundError, UnauthorizedAnalysisAccessError } from '@services/analysis/analysis.errors'
+import { CriterionNotFoundError, UnauthorizedCriterionAccessError } from '@services/criterion/criterion.errors'
+import { CriterionService } from '@services/criterion/criterion.service'
 import { criterionRepository } from '@infrastructure/repositories/criterion-repository.prisma'
 import { analysisRepository } from '@infrastructure/repositories/analysis-repository.prisma'
 import { logger } from '@infrastructure/logging/logger.pino'
@@ -17,7 +17,6 @@ export default defineEventHandler(async (event) => {
   const dto = await readValidatedBody(event, UpdateCriteriaBodySchema.parse)
 
   try {
-    // hier auch für was nochmal analysis servci erufen?
     const analysisService = new AnalysisService(analysisRepository, logger)
     await analysisService.getAnalysisById(params.id, user.id)
 
