@@ -1,5 +1,5 @@
 import { useRequestFetch } from '#imports'
-import type { CreateAnalysisBodyDTO, CreateAnalysisResponseDTO, GetAnalysesResponseDTO } from '#shared/types/analysis'
+import type { CreateAnalysisBodyDTO, CreateAnalysisResponseDTO, GetAnalysesResponseDTO, GetAnalysisResponseDTO, UpdateAnalysisResponseDTO } from '#shared/types/analysis'
 import type {
   CreateCriteriaBodyDTO,
   CreateCriteriaResponseDTO,
@@ -10,7 +10,9 @@ import type {
 
 export interface AnalysisApi {
   createAnalysis: (dto: CreateAnalysisBodyDTO) => Promise<CreateAnalysisResponseDTO>
+  getAnalysis: (id: string) => Promise<GetAnalysisResponseDTO>
   fetchAnalyses: (params: { page: number, limit: number, search?: string }) => Promise<GetAnalysesResponseDTO>
+  updateAnalysis: (id: string, dto: CreateAnalysisBodyDTO) => Promise<UpdateAnalysisResponseDTO>
   deleteAnalysis: (id: string) => Promise<void>
   createCriteria: (analysisId: string, dto: CreateCriteriaBodyDTO) => Promise<CreateCriteriaResponseDTO>
   getCriteria: (analysisId: string) => Promise<GetCriteriaResponseDTO>
@@ -24,8 +26,16 @@ export const useAnalysisApi = (): AnalysisApi => {
     return await $fetch<CreateAnalysisResponseDTO>('/api/analyses', { method: 'POST', body: dto })
   }
 
+  const getAnalysis = async (id: string) => {
+    return await $fetch<GetAnalysisResponseDTO>(`/api/analyses/${id}`, { method: 'GET' })
+  }
+
   const fetchAnalyses = async (params: { page: number, limit: number, search?: string }) => {
     return await requestFetch<GetAnalysesResponseDTO>('/api/analyses', { method: 'GET', query: params })
+  }
+
+  const updateAnalysis = async (id: string, dto: CreateAnalysisBodyDTO) => {
+    return await $fetch<UpdateAnalysisResponseDTO>(`/api/analyses/${id}`, { method: 'PUT', body: dto })
   }
 
   const deleteAnalysis = async (id: string) => {
@@ -46,7 +56,9 @@ export const useAnalysisApi = (): AnalysisApi => {
 
   return {
     createAnalysis,
+    getAnalysis,
     fetchAnalyses,
+    updateAnalysis,
     deleteAnalysis,
     createCriteria,
     getCriteria,

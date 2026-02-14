@@ -115,7 +115,7 @@ onMounted(loadCriteria)
 
     <UButton
       type="submit"
-      :label="$t('criteria.create.submit')"
+      :label="$t('common.continue')"
       :disabled="!isWeightValid || isSubmitting || isLoading"
       :loading="isSubmitting || isLoading"
     />

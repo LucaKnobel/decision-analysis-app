@@ -6,7 +6,8 @@
     "delete": "Löschen",
     "search": "Suche",
     "noData": "Keine Daten verfügbar",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "continue": "Weiter"
   },
   "nav": {
     "demo": "Demo",
@@ -85,7 +86,7 @@
       "weight": {
         "required": "Gewichtung ist erforderlich",
         "integer": "Gewichtung muss eine ganze Zahl sein",
-        "min": "Gewichtung muss >= 0 sein",
+        "min": "Gewichtung muss >= 1 sein",
         "max": "Gewichtung muss <= 100 sein",
         "sum": "Die Summe der Gewichtungen muss 100 ergeben"
       }
@@ -114,8 +115,8 @@
       "text": "Der Dienst ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut."
     },
     "analysis": {
-      "title": "Analyseerstellung nicht möglich",
-      "text": "Die Erstellung der Analyse konnte nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen.",
+      "title": "Analyse nicht möglich",
+      "text": "Die Analyse konnte nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen.",
       "delete": {
         "title": "Analyse-Löschung nicht möglich",
         "description": "Die Löschung der Analyse konnte nicht abgeschlossen werden. Bitte später erneut versuchen."
@@ -133,6 +134,9 @@
       "title": "Analyse erstellen",
       "successTitle": "Analyse erfolgreich erstellt!",
       "successMessage": "Ihre Analyse wurde gespeichert."
+    },
+    "edit": {
+      "title": "Analyse bearbeiten"
     },
     "delete": {
       "title": "Analyse löschen",
@@ -160,7 +164,6 @@
   "criteria": {
       "create": {
         "title": "Kriterien erstellen",
-        "submit": "Kriterien speichern",
         "successTitle": "Kriterien erstellt!",
         "successMessage": "Ihre Kriterien wurden gespeichert.",
         "helper": "Fügen Sie Kriterien hinzu und verteilen Sie die Gewichtung so, dass die Summe 100 ergibt. Gewichten Sie wichtige Kriterien höher, um deren Einfluss auf die Entscheidung zu erhöhen."

@@ -1,5 +1,7 @@
 export type { CreateAnalysisBodyDTO } from '~~/server/api/schemas/analyses/create-analysis.body.schema'
 export type { CreateAnalysisResponseDTO } from '~~/server/api/schemas/analyses/create-analysis.response.schema'
+export type { GetAnalysisResponseDTO } from '~~/server/api/schemas/analyses/get-analysis.response.schema'
+export type { UpdateAnalysisResponseDTO } from '~~/server/api/schemas/analyses/update-analysis.response.schema'
 export type { GetAnalysesQueryDTO } from '~~/server/api/schemas/analyses/get-analyses.query.schema'
 export type { GetAnalysesResponseDTO } from '~~/server/api/schemas/analyses/get-analyses.response.schema'
 export type { AnalysisItemDTO } from '~~/server/api/schemas/analyses/get-analyses.response.schema'

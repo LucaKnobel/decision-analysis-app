@@ -9,7 +9,7 @@ export const CreateCriteriaBodySchema = z.object({
         .max(100, 'Name must not exceed 100 characters'),
       weight: z.number()
         .int('Weight must be an integer')
-        .min(0, 'Weight must be >= 0')
+        .min(1, 'Weight must be >= 1')
         .max(100, 'Weight must be <= 100')
     })
   ).min(1, 'At least one criterion is required')

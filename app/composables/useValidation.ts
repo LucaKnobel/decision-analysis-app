@@ -50,7 +50,7 @@ export const useValidation = () => {
           .max(100, { error: t('validation.criteria.name.max') }),
         weight: z.number({ error: t('validation.criteria.weight.required') })
           .int({ error: t('validation.criteria.weight.integer') })
-          .min(0, { error: t('validation.criteria.weight.min') })
+          .min(1, { error: t('validation.criteria.weight.min') })
           .max(100, { error: t('validation.criteria.weight.max') })
       })
     ).min(1, { error: t('validation.criteria.min') })

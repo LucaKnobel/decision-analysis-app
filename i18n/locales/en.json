@@ -6,7 +6,8 @@
     "delete": "Delete",
     "search": "Search",
     "noData": "No data available",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "continue": "Continue"
   },
   "nav": {
     "demo": "Demo",
@@ -86,7 +87,7 @@
       "weight": {
         "required": "Weight is required",
         "integer": "Weight must be an integer",
-        "min": "Weight must be >= 0",
+        "min": "Weight must be >= 1",
         "max": "Weight must be <= 100",
         "sum": "Total weight must equal 100"
       }
@@ -115,8 +116,8 @@
       "text": "The service is currently unavailable. Please try again later."
     },
     "analysis": {
-      "title": "Analysis creation not possible",
-      "text": "The creation of the analysis could not be completed. Please check your inputs or try again later.",
+      "title": "Analysis not possible",
+      "text": "The analysis could not be completed. Please check your inputs or try again later.",
       "delete": {
         "title": "Analysis deletion not possible",
         "description": "The deletion of the analysis could not be completed. Please try again later."
@@ -134,6 +135,9 @@
       "title": "Create analysis",
       "successTitle": "Analysis successfully created!",
       "successMessage": "Your analysis has been saved."
+    },
+    "edit": {
+      "title": "Edit analysis"
     },
     "delete": {
       "title": "Delete analysis",
@@ -161,7 +165,6 @@
   "criteria": {
     "create": {
       "title": "Create criteria",
-      "submit": "Save criteria",
       "successTitle": "Criteria created!",
       "successMessage": "Your criteria have been saved.",
       "helper": "Add criteria and distribute weights so the total equals 100. Weight important criteria higher to increase their influence on the decision."

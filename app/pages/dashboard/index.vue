@@ -124,7 +124,7 @@ const getRowItems = (row: Row<AnalysisItemDTO>) => {
       label: t('common.edit'),
       icon: 'i-lucide-pencil',
       onSelect() {
-        navigateTo(localePath(`/analyses/${row.original.id}/criteria`))
+        navigateTo(localePath(`/analyses/${row.original.id}/edit`))
       }
     },
     {
