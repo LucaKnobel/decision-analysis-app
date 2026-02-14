@@ -1,6 +1,7 @@
 import { useRequestFetch } from '#imports'
 import type { CreateAnalysisBodyDTO, CreateAnalysisResponseDTO, GetAnalysesResponseDTO, GetAnalysisResponseDTO, UpdateAnalysisResponseDTO } from '#shared/types/analysis'
 import type { GetAlternativesResponseDTO, UpdateAlternativesBodyDTO, UpdateAlternativesResponseDTO } from '#shared/types/alternative'
+import type { GetRatingsResponseDTO, UpdateRatingsBodyDTO, UpdateRatingsResponseDTO } from '#shared/types/rating'
 import type {
   CreateCriteriaBodyDTO,
   CreateCriteriaResponseDTO,
@@ -20,6 +21,8 @@ export interface AnalysisApi {
   updateCriteria: (analysisId: string, dto: UpdateCriteriaBodyDTO) => Promise<UpdateCriteriaResponseDTO>
   getAlternatives: (analysisId: string) => Promise<GetAlternativesResponseDTO>
   updateAlternatives: (analysisId: string, dto: UpdateAlternativesBodyDTO) => Promise<UpdateAlternativesResponseDTO>
+  getRatings: (analysisId: string) => Promise<GetRatingsResponseDTO>
+  updateRatings: (analysisId: string, dto: UpdateRatingsBodyDTO) => Promise<UpdateRatingsResponseDTO>
 }
 
 export const useAnalysisApi = (): AnalysisApi => {
@@ -65,6 +68,14 @@ export const useAnalysisApi = (): AnalysisApi => {
     return await $fetch<UpdateAlternativesResponseDTO>(`/api/analyses/${analysisId}/alternatives`, { method: 'PUT', body: dto })
   }
 
+  const getRatings = async (analysisId: string) => {
+    return await $fetch<GetRatingsResponseDTO>(`/api/analyses/${analysisId}/ratings`, { method: 'GET' })
+  }
+
+  const updateRatings = async (analysisId: string, dto: UpdateRatingsBodyDTO) => {
+    return await $fetch<UpdateRatingsResponseDTO>(`/api/analyses/${analysisId}/ratings`, { method: 'PUT', body: dto })
+  }
+
   return {
     createAnalysis,
     getAnalysis,
@@ -75,6 +86,8 @@ export const useAnalysisApi = (): AnalysisApi => {
     getCriteria,
     updateCriteria,
     getAlternatives,
-    updateAlternatives
+    updateAlternatives,
+    getRatings,
+    updateRatings
   }
 }

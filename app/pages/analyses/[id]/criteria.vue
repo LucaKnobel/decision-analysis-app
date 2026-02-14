@@ -51,7 +51,7 @@ onMounted(loadCriteria)
           :key="index"
           class="rounded-lg border border-accented/60 bg-muted/30 p-4 space-y-3"
         >
-          <p class="text-xs font-semibold uppercase tracking-wide text-muted">
+          <p class="text-xs font-semibold tracking-wide text-muted">
             {{ $t('criteria.itemLabel', { index: index + 1 }) }}
           </p>
           <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_96px_auto] items-end">

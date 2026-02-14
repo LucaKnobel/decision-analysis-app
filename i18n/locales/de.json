@@ -99,6 +99,16 @@
         "max": "Name darf maximal 200 Zeichen lang sein"
       },
       "unique": "Alternativnamen müssen eindeutig sein"
+    },
+    "ratings": {
+      "min": "Mindestens eine Bewertung ist erforderlich",
+      "unique": "Bewertungen müssen je Alternative und Kriterium eindeutig sein",
+      "value": {
+        "required": "Bewertung ist erforderlich",
+        "integer": "Bewertung muss eine ganze Zahl sein",
+        "min": "Bewertung muss >= 1 sein",
+        "max": "Bewertung muss <= 5 sein"
+      }
     }
   },
   "legal": {
@@ -138,6 +148,10 @@
     "alternatives": {
       "title": "Alternativen nicht möglich",
       "text": "Die Alternativen konnten nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen."
+    },
+    "ratings": {
+      "title": "Bewertungen nicht möglich",
+      "text": "Die Bewertungen konnten nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen."
     }
   },
   "analysis": {
@@ -210,6 +224,14 @@
     },
     "ratings": {
       "title": "Bewertungen",
+      "helper": "Bewerten Sie jede Alternative für jedes Kriterium.",
+      "scale": "1 = schlecht, 5 = sehr gut",
+      "table": {
+        "alternative": "Alternative"
+      }
+    },
+    "results": {
+      "title": "Ergebnisse",
       "placeholder": "Der nächste Schritt wird bald implementiert."
     }
 }

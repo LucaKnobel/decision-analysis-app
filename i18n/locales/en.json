@@ -100,6 +100,16 @@
         "max": "Name must not exceed 200 characters"
       },
       "unique": "Alternative names must be unique"
+    },
+    "ratings": {
+      "min": "At least one rating is required",
+      "unique": "Ratings must be unique per alternative and criterion",
+      "value": {
+        "required": "Rating is required",
+        "integer": "Rating must be an integer",
+        "min": "Rating must be >= 1",
+        "max": "Rating must be <= 5"
+      }
     }
   },
   "legal": {
@@ -139,6 +149,10 @@
     "alternatives": {
       "title": "Alternatives not possible",
       "text": "The alternatives could not be completed. Please check your inputs or try again later."
+    },
+    "ratings": {
+      "title": "Ratings not possible",
+      "text": "The ratings could not be completed. Please check your inputs or try again later."
     }
   },
   "analysis": {
@@ -211,6 +225,14 @@
   },
   "ratings": {
     "title": "Ratings",
+    "helper": "Rate each alternative for every criterion.",
+    "scale": "1 = poor, 5 = excellent",
+    "table": {
+      "alternative": "Alternative"
+    }
+  },
+  "results": {
+    "title": "Results",
     "placeholder": "The next step will be implemented soon."
   }
 }
