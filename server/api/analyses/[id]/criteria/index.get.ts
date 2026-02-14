@@ -6,6 +6,7 @@ import { CriterionService } from '@services/criterion/criterion.service'
 import { criterionRepository } from '@infrastructure/repositories/criterion-repository.prisma'
 import { analysisRepository } from '@infrastructure/repositories/analysis-repository.prisma'
 import { logger } from '@infrastructure/logging/logger.pino'
+import { DefaultAuthorizationService } from '@services/common/authorization.service'
 
 export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)
@@ -17,7 +18,8 @@ export default defineEventHandler(async (event) => {
     const analysisService = new AnalysisService(analysisRepository, logger)
     await analysisService.getAnalysisById(params.id, user.id)
 
-    const criterionService = new CriterionService(criterionRepository, logger)
+    const authorizationService = new DefaultAuthorizationService(logger)
+    const criterionService = new CriterionService(criterionRepository, logger, authorizationService)
     const criteria = await criterionService.getCriteria(user.id, params.id)
 
     return GetCriteriaResponseSchema.parse({ data: criteria })

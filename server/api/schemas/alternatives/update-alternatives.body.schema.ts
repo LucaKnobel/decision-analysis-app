@@ -1,8 +1,9 @@
 import * as z from 'zod'
 
-export const CreateAlternativesBodySchema = z.object({
+export const UpdateAlternativesBodySchema = z.object({
   alternatives: z.array(
     z.object({
+      id: z.uuid().optional(),
       name: z.string()
         .trim()
         .min(1, 'Name is required')
@@ -17,4 +18,4 @@ export const CreateAlternativesBodySchema = z.object({
   path: ['alternatives']
 })
 
-export type CreateAlternativesBodyDTO = z.infer<typeof CreateAlternativesBodySchema>
+export type UpdateAlternativesBodyDTO = z.infer<typeof UpdateAlternativesBodySchema>

@@ -14,6 +14,12 @@ export const CreateCriteriaBodySchema = z.object({
     })
   ).min(1, 'At least one criterion is required')
 }).refine((data) => {
+  const names = data.criteria.map(criterion => criterion.name.toLowerCase())
+  return new Set(names).size === names.length
+}, {
+  message: 'Criterion names must be unique',
+  path: ['criteria']
+}).refine((data) => {
   const total = data.criteria.reduce((sum, criterion) => sum + criterion.weight, 0)
   return total === 100
 }, {

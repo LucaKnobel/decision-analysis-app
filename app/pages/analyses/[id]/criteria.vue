@@ -44,59 +44,61 @@ onMounted(loadCriteria)
         {{ $t('criteria.total') }}: {{ totalWeight }}/100
       </p>
     </div>
-    <div class="space-y-4">
-      <div
-        v-for="(criterion, index) in state.criteria"
-        :key="index"
-        class="rounded-lg border border-accented/60 bg-muted/30 p-4 space-y-3"
-      >
-        <p class="text-xs font-semibold uppercase tracking-wide text-muted">
-          {{ $t('criteria.itemLabel', { index: index + 1 }) }}
-        </p>
-        <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_96px_auto] items-end">
-          <UFormField
-            :label="$t('criteria.fields.name')"
-            :name="`criteria.${index}.name`"
-          >
-            <UInput
-              v-model="criterion.name"
-              class="w-full"
-            />
-          </UFormField>
+    <UFormField name="criteria">
+      <div class="space-y-4">
+        <div
+          v-for="(criterion, index) in state.criteria"
+          :key="index"
+          class="rounded-lg border border-accented/60 bg-muted/30 p-4 space-y-3"
+        >
+          <p class="text-xs font-semibold uppercase tracking-wide text-muted">
+            {{ $t('criteria.itemLabel', { index: index + 1 }) }}
+          </p>
+          <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_96px_auto] items-end">
+            <UFormField
+              :label="$t('criteria.fields.name')"
+              :name="`criteria.${index}.name`"
+            >
+              <UInput
+                v-model="criterion.name"
+                class="w-full"
+              />
+            </UFormField>
 
-          <UFormField
-            :label="$t('criteria.fields.weight')"
-            :name="`criteria.${index}.weight`"
-          >
-            <UInput
-              v-model.number="criterion.weight"
-              type="number"
-              min="0"
-              max="100"
-              class="w-full"
-            />
-          </UFormField>
+            <UFormField
+              :label="$t('criteria.fields.weight')"
+              :name="`criteria.${index}.weight`"
+            >
+              <UInput
+                v-model.number="criterion.weight"
+                type="number"
+                min="0"
+                max="100"
+                class="w-full"
+              />
+            </UFormField>
 
-          <UButton
-            type="button"
-            :label="$t('criteria.actions.remove')"
-            color="error"
-            variant="outline"
-            class="mb-1"
-            :disabled="state.criteria.length <= 1"
-            @click="removeCriterion(index)"
-          />
+            <UButton
+              type="button"
+              :label="$t('criteria.actions.remove')"
+              color="error"
+              variant="outline"
+              class="mb-1"
+              :disabled="state.criteria.length <= 1"
+              @click="removeCriterion(index)"
+            />
+          </div>
         </div>
-      </div>
 
-      <UButton
-        type="button"
-        :label="$t('criteria.actions.add')"
-        icon="i-lucide-plus"
-        variant="subtle"
-        @click="addCriterion"
-      />
-    </div>
+        <UButton
+          type="button"
+          :label="$t('criteria.actions.add')"
+          icon="i-lucide-plus"
+          variant="subtle"
+          @click="addCriterion"
+        />
+      </div>
+    </UFormField>
 
     <UAlert
       v-if="hasError"

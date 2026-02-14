@@ -84,6 +84,7 @@
         "required": "Name is required",
         "max": "Name must not exceed 100 characters"
       },
+      "unique": "Criterion names must be unique",
       "weight": {
         "required": "Weight is required",
         "integer": "Weight must be an integer",
@@ -91,6 +92,14 @@
         "max": "Weight must be <= 100",
         "sum": "Total weight must equal 100"
       }
+    },
+    "alternatives": {
+      "min": "At least one alternative is required",
+      "name": {
+        "required": "Name is required",
+        "max": "Name must not exceed 200 characters"
+      },
+      "unique": "Alternative names must be unique"
     }
   },
   "legal": {
@@ -126,6 +135,10 @@
     "criteria": {
       "title": "Criterion creation not possible",
       "text": "The creation of the criterion could not be completed. Please check your inputs or try again later."
+    },
+    "alternatives": {
+      "title": "Alternatives not possible",
+      "text": "The alternatives could not be completed. Please check your inputs or try again later."
     }
   },
   "analysis": {
@@ -179,5 +192,25 @@
       "remove": "Remove"
     },
     "total": "Total"
+  },
+  "alternatives": {
+    "create": {
+      "title": "Create alternatives",
+      "successTitle": "Alternatives saved!",
+      "successMessage": "Your alternatives have been saved.",
+      "helper": "Add the alternatives you want to compare. Each alternative should be a clear, concise name."
+    },
+    "itemLabel": "Alternative {index}",
+    "fields": {
+      "name": "Name"
+    },
+    "actions": {
+      "add": "Add alternative",
+      "remove": "Remove"
+    }
+  },
+  "ratings": {
+    "title": "Ratings",
+    "placeholder": "The next step will be implemented soon."
   }
 }

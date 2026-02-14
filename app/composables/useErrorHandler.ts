@@ -11,6 +11,7 @@ export interface UseErrorHandlerComposable {
   handleLoginError: (error: unknown) => { titleKey: string, textKey: string }
   handleAnalysisError: (error: unknown) => { titleKey: string, textKey: string }
   handleCriteriaError: (error: unknown) => { titleKey: string, textKey: string }
+  handleAlternativesError: (error: unknown) => { titleKey: string, textKey: string }
 }
 
 export const useErrorHandler = (): UseErrorHandlerComposable => {
@@ -102,6 +103,18 @@ export const useErrorHandler = (): UseErrorHandlerComposable => {
     return { titleKey, textKey }
   }
 
+  const handleAlternativesError = (error: unknown): { titleKey: string, textKey: string } => {
+    const statusCode = getStatusCode(error)
+    const commonError = handleCommonErrors(statusCode)
+    if (commonError) {
+      return commonError
+    }
+    const titleKey = 'errors.alternatives.title'
+    const textKey = 'errors.alternatives.text'
+    setError(titleKey, textKey)
+    return { titleKey, textKey }
+  }
+
   return {
     hasError,
     errorTitle,
@@ -110,6 +123,7 @@ export const useErrorHandler = (): UseErrorHandlerComposable => {
     handleRegistrationError,
     handleLoginError,
     handleAnalysisError,
-    handleCriteriaError
+    handleCriteriaError,
+    handleAlternativesError
   }
 }

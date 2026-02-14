@@ -83,6 +83,7 @@
         "required": "Name ist erforderlich",
         "max": "Name darf maximal 100 Zeichen lang sein"
       },
+      "unique": "Kriteriumnamen müssen eindeutig sein",
       "weight": {
         "required": "Gewichtung ist erforderlich",
         "integer": "Gewichtung muss eine ganze Zahl sein",
@@ -90,6 +91,14 @@
         "max": "Gewichtung muss <= 100 sein",
         "sum": "Die Summe der Gewichtungen muss 100 ergeben"
       }
+    },
+    "alternatives": {
+      "min": "Mindestens eine Alternative ist erforderlich",
+      "name": {
+        "required": "Name ist erforderlich",
+        "max": "Name darf maximal 200 Zeichen lang sein"
+      },
+      "unique": "Alternativnamen müssen eindeutig sein"
     }
   },
   "legal": {
@@ -125,6 +134,10 @@
     "criteria": {
       "title": "Kriteriumserstellung nicht möglich",
       "text": "Die Erstellung des Kriteriums konnte nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen."
+    },
+    "alternatives": {
+      "title": "Alternativen nicht möglich",
+      "text": "Die Alternativen konnten nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen."
     }
   },
   "analysis": {
@@ -178,5 +191,25 @@
         "remove": "Entfernen"
       },
       "total": "Summe"
+    },
+    "alternatives": {
+      "create": {
+        "title": "Alternativen erstellen",
+        "successTitle": "Alternativen gespeichert!",
+        "successMessage": "Ihre Alternativen wurden gespeichert.",
+        "helper": "Fügen Sie die Alternativen hinzu, die Sie vergleichen möchten. Jede Alternative sollte kurz und eindeutig benannt sein."
+      },
+      "itemLabel": "Alternative {index}",
+      "fields": {
+        "name": "Name"
+      },
+      "actions": {
+        "add": "Alternative hinzufügen",
+        "remove": "Entfernen"
+      }
+    },
+    "ratings": {
+      "title": "Bewertungen",
+      "placeholder": "Der nächste Schritt wird bald implementiert."
     }
 }

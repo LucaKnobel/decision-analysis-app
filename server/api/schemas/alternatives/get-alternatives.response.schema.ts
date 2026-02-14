@@ -6,9 +6,9 @@ const AlternativeItemSchema = z.object({
   name: z.string()
 })
 
-export const CreateAlternativesResponseSchema = z.object({
+export const GetAlternativesResponseSchema = z.object({
   data: z.array(AlternativeItemSchema)
 })
 
-export type CreateAlternativesResponseDTO = z.infer<typeof CreateAlternativesResponseSchema>
+export type GetAlternativesResponseDTO = z.infer<typeof GetAlternativesResponseSchema>
 export type AlternativeItemDTO = z.infer<typeof AlternativeItemSchema>

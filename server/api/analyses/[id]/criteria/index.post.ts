@@ -8,6 +8,7 @@ import { logger } from '@infrastructure/logging/logger.pino'
 import { AnalysisService } from '@services/analysis/analysis.service'
 import { analysisRepository } from '@infrastructure/repositories/analysis-repository.prisma'
 import { AnalysisNotFoundError, UnauthorizedAnalysisAccessError } from '@services/analysis/analysis.errors'
+import { DefaultAuthorizationService } from '@services/common/authorization.service'
 
 export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)
@@ -20,7 +21,8 @@ export default defineEventHandler(async (event) => {
     const analysisService = new AnalysisService(analysisRepository, logger)
     await analysisService.getAnalysisById(params.id, user.id)
 
-    const criterionService = new CriterionService(criterionRepository, logger)
+    const authorizationService = new DefaultAuthorizationService(logger)
+    const criterionService = new CriterionService(criterionRepository, logger, authorizationService)
     const criteria = await criterionService.createCriteria(user.id, params.id, dto)
     setResponseStatus(event, 201)
     return CreateCriteriaResponseSchema.parse({ data: criteria })

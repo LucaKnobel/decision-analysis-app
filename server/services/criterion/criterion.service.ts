@@ -4,11 +4,13 @@ import type { UpdateCriteriaBodyDTO } from '~~/server/api/schemas/criteria/updat
 import type { CriterionRepository } from '@contracts/repositories/criterion-repository'
 import type { Logger } from '@contracts/logging/logger'
 import type { Criterion } from '@generated/prisma/client'
+import type { AuthorizationService } from '@contracts/security/authorization-service'
 
 export class CriterionService {
   constructor(
     private readonly criterionRepository: CriterionRepository,
-    private readonly logger: Logger
+    private readonly logger: Logger,
+    private readonly authorizationService: AuthorizationService
   ) {}
 
   async createCriteria(
@@ -23,7 +25,12 @@ export class CriterionService {
     })
 
     const createdCriteria = await this.createCriteriaBatch(userId, analysisId, input)
-    this.assertAuthorizedCreate(userId, analysisId, createdCriteria)
+    this.authorizationService.assertAuthorizedResult(
+      createdCriteria,
+      'Unauthorized criteria operation',
+      { userId, analysisId },
+      new UnauthorizedCriterionAccessError()
+    )
 
     this.logger.info('Criteria created successfully', {
       userId,
@@ -119,7 +126,12 @@ export class CriterionService {
     }
 
     const replaced = await this.criterionRepository.replaceCriteria(userId, analysisId, input.criteria)
-    this.assertAuthorizedCreate(userId, analysisId, replaced)
+    this.authorizationService.assertAuthorizedResult(
+      replaced,
+      'Unauthorized criteria operation',
+      { userId, analysisId },
+      new UnauthorizedCriterionAccessError()
+    )
 
     this.logger.info('Criteria replaced successfully', {
       userId,
@@ -143,17 +155,6 @@ export class CriterionService {
         weight: criterion.weight
       }))
     )
-  }
-
-  private assertAuthorizedCreate(
-    userId: string,
-    analysisId: string,
-    createdCriteria: Criterion[] | null
-  ): asserts createdCriteria is Criterion[] {
-    if (!createdCriteria) {
-      this.logger.warn('Unauthorized criteria creation attempt', { userId, analysisId })
-      throw new UnauthorizedCriterionAccessError()
-    }
   }
 
   private assertFound(

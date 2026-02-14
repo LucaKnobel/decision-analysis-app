@@ -1,4 +1,5 @@
 import { prisma } from '../db/prisma'
+import { isAnalysisOwner } from './analysis-ownership'
 import type { CriterionRepository } from '@contracts/repositories/criterion-repository'
 
 export const criterionRepository: CriterionRepository = {
@@ -150,16 +151,4 @@ export const criterionRepository: CriterionRepository = {
       where: { analysisId }
     })
   }
-}
-
-async function isAnalysisOwner(userId: string, analysisId: string): Promise<boolean> {
-  const analysis = await prisma.analysis.findFirst({
-    where: {
-      id: analysisId,
-      userId
-    },
-    select: { id: true }
-  })
-
-  return analysis !== null
 }

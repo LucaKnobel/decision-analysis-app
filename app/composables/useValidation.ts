@@ -55,6 +55,12 @@ export const useValidation = () => {
       })
     ).min(1, { error: t('validation.criteria.min') })
   }).refine((data) => {
+    const names = data.criteria.map(criterion => criterion.name.toLowerCase())
+    return new Set(names).size === names.length
+  }, {
+    error: t('validation.criteria.unique'),
+    path: ['criteria']
+  }).refine((data) => {
     const total = data.criteria.reduce((sum, criterion) => sum + (Number(criterion.weight) || 0), 0)
     return total === 100
   }, {
@@ -62,11 +68,30 @@ export const useValidation = () => {
     path: ['criteria']
   })
 
+  const createAlternativesFormSchema = () => z.object({
+    alternatives: z.array(
+      z.object({
+        id: z.uuid().optional(),
+        name: z.string()
+          .trim()
+          .min(1, { error: t('validation.alternatives.name.required') })
+          .max(200, { error: t('validation.alternatives.name.max') })
+      })
+    ).min(1, { error: t('validation.alternatives.min') })
+  }).refine((data) => {
+    const names = data.alternatives.map(alternative => alternative.name.toLowerCase())
+    return new Set(names).size === names.length
+  }, {
+    error: t('validation.alternatives.unique'),
+    path: ['alternatives']
+  })
+
   return {
     createRegisterFormSchema,
     createLoginFormSchema,
     createAnalysisFormSchema,
-    createCriteriaFormSchema
+    createCriteriaFormSchema,
+    createAlternativesFormSchema
   }
 }
 
@@ -74,3 +99,4 @@ export type RegisterForm = z.infer<ReturnType<ReturnType<typeof useValidation>['
 export type LoginForm = z.infer<ReturnType<ReturnType<typeof useValidation>['createLoginFormSchema']>>
 export type AnalysisForm = z.infer<ReturnType<ReturnType<typeof useValidation>['createAnalysisFormSchema']>>
 export type CriteriaForm = z.infer<ReturnType<ReturnType<typeof useValidation>['createCriteriaFormSchema']>>
+export type AlternativesForm = z.infer<ReturnType<ReturnType<typeof useValidation>['createAlternativesFormSchema']>>

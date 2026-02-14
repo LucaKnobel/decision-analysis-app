@@ -2,7 +2,6 @@ import { computed, reactive, ref } from 'vue'
 import { useLocalePath, navigateTo } from '#imports'
 import { useValidation } from './useValidation'
 import { useErrorHandler } from './useErrorHandler'
-import { useToastNotification } from './useToastNotification'
 import { useAnalysisApi } from './useAnalysisApi'
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type { CriteriaForm } from '~/composables/useValidation'
@@ -30,7 +29,6 @@ export const useCriteria = (analysisId: Ref<string | undefined>): UseCriteriaCom
   const { getCriteria, updateCriteria } = useAnalysisApi()
   const { hasError, errorTitle, errorText, resetError, handleCriteriaError } = useErrorHandler()
   const localePath = useLocalePath()
-  const { showSuccess } = useToastNotification()
 
   const isSubmitting = ref(false)
   const isLoading = ref(false)
@@ -106,7 +104,6 @@ export const useCriteria = (analysisId: Ref<string | undefined>): UseCriteriaCom
         criteria: event.data.criteria
       }
       await updateCriteria(id, payload)
-      showSuccess('criteria.create.successTitle', 'criteria.create.successMessage')
       await navigateTo(localePath(`/analyses/${id}/alternatives`))
     } catch (error: unknown) {
       handleCriteriaError(error)
