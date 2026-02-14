@@ -133,7 +133,10 @@ export const useRatings = (analysisId: Ref<string | undefined>): UseRatingsCompo
         ratings: event.data.ratings
       }
       await updateRatings(id, payload)
-      await navigateTo(localePath(`/analyses/${id}/results`))
+      await navigateTo(localePath({
+        path: `/analyses/${id}/results`,
+        query: { from: 'flow' }
+      }))
     } catch (error: unknown) {
       handleRatingsError(error)
     } finally {

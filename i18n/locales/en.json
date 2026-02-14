@@ -7,7 +7,8 @@
     "search": "Search",
     "noData": "No data available",
     "cancel": "Cancel",
-    "continue": "Continue"
+    "continue": "Continue",
+    "loading": "Loading..."
   },
   "nav": {
     "demo": "Demo",
@@ -153,6 +154,18 @@
     "ratings": {
       "title": "Ratings not possible",
       "text": "The ratings could not be completed. Please check your inputs or try again later."
+    },
+    "results": {
+      "title": "Results not possible",
+      "text": "The results could not be calculated. Please try again later.",
+      "weightSum": {
+        "title": "Invalid weights",
+        "text": "The criteria weights must sum to 100 before results can be calculated."
+      },
+      "missingRatings": {
+        "title": "Ratings incomplete",
+        "text": "Please rate every alternative for every criterion before viewing the results."
+      }
     }
   },
   "analysis": {
@@ -233,6 +246,24 @@
   },
   "results": {
     "title": "Results",
-    "placeholder": "The next step will be implemented soon."
+    "subtitle": "Weighted scoring based on your ratings.",
+    "backToDashboard": "Back to dashboard",
+    "bestLabel": "Best alternative",
+    "scoreLabel": "Total score",
+    "maxScoreLabel": "Max score",
+    "rankingTitle": "Ranking",
+    "breakdownTitle": "Breakdown",
+    "weightSum": "Weight sum: {sum}",
+    "empty": "No results available yet.",
+    "columns": {
+      "rank": "Rank",
+      "alternative": "Alternative",
+      "score": "Score",
+      "criterion": "Criterion",
+      "weight": "Weight",
+      "normalizedWeight": "Normalized weight",
+      "rating": "Rating",
+      "contribution": "Contribution"
+    }
   }
 }

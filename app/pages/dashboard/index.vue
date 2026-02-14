@@ -117,7 +117,10 @@ const getRowItems = (row: Row<AnalysisItemDTO>) => {
       label: t('common.view'),
       icon: 'i-lucide-eye',
       onSelect() {
-        navigateTo(localePath(`/analyses/${row.original.id}`))
+        navigateTo(localePath({
+          path: `/analyses/${row.original.id}/results`,
+          query: { from: 'dashboard' }
+        }))
       }
     },
     {

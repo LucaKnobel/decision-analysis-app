@@ -7,7 +7,8 @@
     "search": "Suche",
     "noData": "Keine Daten verfügbar",
     "cancel": "Abbrechen",
-    "continue": "Weiter"
+    "continue": "Weiter",
+    "loading": "Wird geladen..."
   },
   "nav": {
     "demo": "Demo",
@@ -152,6 +153,18 @@
     "ratings": {
       "title": "Bewertungen nicht möglich",
       "text": "Die Bewertungen konnten nicht abgeschlossen werden. Bitte Eingaben prüfen oder später erneut versuchen."
+    },
+    "results": {
+      "title": "Ergebnisse nicht möglich",
+      "text": "Die Ergebnisse konnten nicht berechnet werden. Bitte später erneut versuchen.",
+      "weightSum": {
+        "title": "Ungültige Gewichtung",
+        "text": "Die Kriteriengewichte müssen in Summe 100 ergeben, bevor die Ergebnisse berechnet werden können."
+      },
+      "missingRatings": {
+        "title": "Bewertungen unvollständig",
+        "text": "Bitte bewerten Sie jede Alternative für jedes Kriterium, bevor die Ergebnisse angezeigt werden."
+      }
     }
   },
   "analysis": {
@@ -232,6 +245,24 @@
     },
     "results": {
       "title": "Ergebnisse",
-      "placeholder": "Der nächste Schritt wird bald implementiert."
+      "subtitle": "Gewichtete Bewertung basierend auf Ihren Eingaben.",
+      "backToDashboard": "Zurueck zum Dashboard",
+      "bestLabel": "Beste Alternative",
+      "scoreLabel": "Gesamtscore",
+      "maxScoreLabel": "Max-Score",
+      "rankingTitle": "Rangliste",
+      "breakdownTitle": "Detailansicht",
+      "weightSum": "Gewichtungssumme: {sum}",
+      "empty": "Noch keine Ergebnisse verfügbar.",
+      "columns": {
+        "rank": "Rang",
+        "alternative": "Alternative",
+        "score": "Score",
+        "criterion": "Kriterium",
+        "weight": "Gewichtung",
+        "normalizedWeight": "Normierte Gewichtung",
+        "rating": "Bewertung",
+        "contribution": "Beitrag"
+      }
     }
 }
