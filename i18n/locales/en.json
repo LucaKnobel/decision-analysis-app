@@ -116,7 +116,16 @@
   "legal": {
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
-    "imprint": "Imprint"
+    "imprint": "Imprint",
+    "imprintDetails": {
+      "title": "Imprint",
+      "responsible": "Responsible",
+      "name": "Luca Knobel",
+      "street": "Mühlerain 14",
+      "postal": "3210 Kerzers",
+      "country": "Switzerland",
+      "email": "knobel.luca(at)gmail.com"
+    }
   },
   "errors": {
     "registration": {
