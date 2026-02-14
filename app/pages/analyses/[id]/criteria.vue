@@ -44,7 +44,10 @@ onMounted(loadCriteria)
         {{ $t('criteria.total') }}: {{ totalWeight }}/100
       </p>
     </div>
-    <UFormField name="criteria">
+    <UFormField
+      name="criteria"
+      :ui="{ error: 'text-sm text-red-600 mt-2' }"
+    >
       <div class="space-y-4">
         <div
           v-for="(criterion, index) in state.criteria"
@@ -54,10 +57,11 @@ onMounted(loadCriteria)
           <p class="text-xs font-semibold tracking-wide text-muted">
             {{ $t('criteria.itemLabel', { index: index + 1 }) }}
           </p>
-          <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_96px_auto] items-end">
+          <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_96px_auto] items-start">
             <UFormField
               :label="$t('criteria.fields.name')"
               :name="`criteria.${index}.name`"
+              :ui="{ error: 'text-xs text-red-600 mt-1 min-h-[2.5rem]' }"
             >
               <UInput
                 v-model="criterion.name"
@@ -68,6 +72,7 @@ onMounted(loadCriteria)
             <UFormField
               :label="$t('criteria.fields.weight')"
               :name="`criteria.${index}.weight`"
+              :ui="{ error: 'text-xs text-red-600 mt-1 min-h-[2.5rem]' }"
             >
               <UInput
                 v-model.number="criterion.weight"
@@ -83,7 +88,7 @@ onMounted(loadCriteria)
               :label="$t('criteria.actions.remove')"
               color="error"
               variant="outline"
-              class="mb-1"
+              class="md:mt-6"
               :disabled="state.criteria.length <= 1"
               @click="removeCriterion(index)"
             />

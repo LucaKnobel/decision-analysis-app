@@ -40,7 +40,10 @@ onMounted(loadAlternatives)
       </p>
     </div>
 
-    <UFormField name="alternatives">
+    <UFormField
+      name="alternatives"
+      :ui="{ error: 'text-sm text-red-600 mt-2' }"
+    >
       <div class="space-y-4">
         <div
           v-for="(alternative, index) in state.alternatives"
@@ -50,10 +53,11 @@ onMounted(loadAlternatives)
           <p class="text-xs font-semibold tracking-wide text-muted">
             {{ $t('alternatives.itemLabel', { index: index + 1 }) }}
           </p>
-          <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] items-end">
+          <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] items-start">
             <UFormField
               :label="$t('alternatives.fields.name')"
               :name="`alternatives.${index}.name`"
+              :ui="{ error: 'text-xs text-red-600 mt-1 min-h-[2.5rem]' }"
             >
               <UInput
                 v-model="alternative.name"
@@ -66,7 +70,7 @@ onMounted(loadAlternatives)
               :label="$t('alternatives.actions.remove')"
               color="error"
               variant="outline"
-              class="mb-1"
+              class="md:mt-6"
               :disabled="state.alternatives.length <= 1"
               @click="removeAlternative(index)"
             />

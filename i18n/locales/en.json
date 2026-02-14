@@ -88,7 +88,7 @@
       "unique": "Criterion names must be unique",
       "weight": {
         "required": "Weight is required",
-        "integer": "Weight must be an integer",
+        "integer": "Weight must be a whole number",
         "min": "Weight must be >= 1",
         "max": "Weight must be <= 100",
         "sum": "Total weight must equal 100"
