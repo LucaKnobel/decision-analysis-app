@@ -9,7 +9,8 @@
     "noData": "No data available",
     "cancel": "Cancel",
     "continue": "Continue",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "backToHome": "Back to Home"
   },
   "nav": {
     "demo": "Demo",
@@ -177,6 +178,20 @@
       "delete": {
         "title": "Account deletion not possible",
         "text": "The account could not be deleted. Please try again later."
+      }
+    },
+    "page": {
+      "404": {
+        "title": "Page not found",
+        "description": "The page you are looking for does not exist or has been moved."
+      },
+      "500": {
+        "title": "Server error",
+        "description": "An unexpected error occurred. Please try again later."
+      },
+      "default": {
+        "title": "Something went wrong",
+        "description": "An error occurred while processing your request. Please try again."
       }
     },
     "criteria": {

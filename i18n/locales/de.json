@@ -9,7 +9,8 @@
     "noData": "Keine Daten verfügbar",
     "cancel": "Abbrechen",
     "continue": "Weiter",
-    "loading": "Wird geladen..."
+    "loading": "Wird geladen...",
+    "backToHome": "Zurück zur Startseite"
   },
   "nav": {
     "demo": "Demo",
@@ -176,6 +177,20 @@
       "delete": {
         "title": "Konto-Löschung nicht möglich",
         "text": "Das Konto konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut."
+      }
+    },
+    "page": {
+      "404": {
+        "title": "Seite nicht gefunden",
+        "description": "Die gesuchte Seite existiert nicht oder wurde verschoben."
+      },
+      "500": {
+        "title": "Serverfehler",
+        "description": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
+      },
+      "default": {
+        "title": "Etwas ist schiefgelaufen",
+        "description": "Bei der Verarbeitung Ihrer Anfrage ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
       }
     },
     "criteria": {
