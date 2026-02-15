@@ -75,14 +75,14 @@ const onSubmit = async (event: FormSubmitEvent<LoginForm>): Promise<void> => {
         {{ $t('nav.register') }}
       </NuxtLinkLocale>
     </template>
-    <template #password-hint>
+    <!-- <template #password-hint>
       <NuxtLinkLocale
         to="/auth/forgot-password"
         class="text-primary font-medium"
       >
         {{ $t('pages.login.forgotPassword') }}
       </NuxtLinkLocale>
-    </template>
+    </template> -->
     <template #validation>
       <UAlert
         v-if="hasError"
