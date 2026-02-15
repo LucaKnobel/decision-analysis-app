@@ -5,7 +5,8 @@ export default defineEventHandler(async (event) => {
     '/api/auth/register',
     '/api/auth/login',
     '/api/_auth/session',
-    '/api/content/'
+    '/api/content/',
+    '/api/_nuxt_icon'
   ]
 
   if (publicRoutes.some(route => event.path.startsWith(route))) {
