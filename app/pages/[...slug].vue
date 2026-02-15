@@ -3,6 +3,7 @@ import { withLeadingSlash } from 'ufo'
 
 const route = useRoute()
 const { locale } = useI18n()
+const localePath = useLocalePath()
 
 const slug = computed(() => {
   const value = Array.isArray(route.params.slug)
@@ -37,13 +38,26 @@ const { data: page } = await useAsyncData(
     >
       <ContentRenderer :value="page" />
     </div>
-    <div v-else>
+    <div
+      v-else
+      class="min-h-[50vh] flex flex-col items-center justify-center text-center"
+    >
       <h1 class="text-2xl font-semibold tracking-tight">
         {{ $t('content.notFound.title') }}
       </h1>
       <p class="text-muted mt-2">
-        {{ $t('content.notFound.text', { locale }) }}
+        {{ $t('content.notFound.text') }}
       </p>
+      <div class="mt-6">
+        <UButton
+          :to="localePath('/')"
+          icon="i-lucide-home"
+          color="primary"
+          variant="soft"
+        >
+          {{ $t('common.backToHome') }}
+        </UButton>
+      </div>
     </div>
   </UContainer>
 </template>

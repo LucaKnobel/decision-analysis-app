@@ -127,7 +127,7 @@
   "content": {
     "notFound": {
       "title": "Seite nicht gefunden",
-      "text": "Diese Seite existiert nicht in dieser Sprache."
+      "text": "Die gesuchte Seite konnte nicht gefunden werden."
     }
   },
   "legal": {

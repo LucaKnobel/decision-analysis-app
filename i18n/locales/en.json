@@ -128,7 +128,7 @@
   "content": {
     "notFound": {
       "title": "Page not found",
-      "text": "This page doesn't exist in this language."
+      "text": "The page you are looking for could not be found."
     }
   },
   "legal": {
