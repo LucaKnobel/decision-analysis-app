@@ -65,16 +65,12 @@ jobs:
       # Validate TypeScript types to prevent runtime errors
       - run: npm run typecheck
 
-      # Run unit tests (fast, no DB needed)
-      - name: Run unit tests
-        run: npm run test:unit
-
-      # Run integration tests (with database)
-      - name: Run integration tests
+      # Run tests
+      - name: Run tests
         env:
           DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
           NUXT_SESSION_PASSWORD: ${{ secrets.CI_NUXT_SESSION_PASSWORD }}
-        run: npm run test:nuxt
+        run: npm run test
 
   semgrep:
     name: Semgrep Security Scan
