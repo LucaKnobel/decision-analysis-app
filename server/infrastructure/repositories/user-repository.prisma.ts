@@ -25,5 +25,12 @@ export const userRepository: UserRepository = {
       where: { email }
     })
     return user
+  },
+
+  async deleteUserById(id) {
+    const result = await prisma.user.deleteMany({
+      where: { id }
+    })
+    return result.count > 0
   }
 }

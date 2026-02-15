@@ -1,12 +1,12 @@
-import { DeleteAnalysisParamsSchema } from '@server/api/schemas/analysis/delete-analysis.params.schema'
-import { AnalysisService } from '@services/analyses/analysis.service'
+import { AnalysisIdParamsSchema } from '~~/server/api/schemas/analyses/analysis-id.params.schema'
+import { AnalysisService } from '~~/server/services/analysis/analysis.service'
 import { analysisRepository } from '@infrastructure/repositories/analysis-repository.prisma'
 import { logger } from '@infrastructure/logging/logger.pino'
-import { AnalysisNotFoundError, UnauthorizedAnalysisAccessError } from '~~/server/services/analyses/analysis.errors'
+import { AnalysisNotFoundError, UnauthorizedAnalysisAccessError } from '~~/server/services/analysis/analysis.errors'
 
 export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)
-  const params = DeleteAnalysisParamsSchema.parse({
+  const params = AnalysisIdParamsSchema.parse({
     id: getRouterParam(event, 'id')
   })
   try {

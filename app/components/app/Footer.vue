@@ -5,8 +5,8 @@ const { t } = useI18n()
 const route = useRoute()
 const footerItems = computed(() => [{
   label: t('legal.privacyPolicy'),
-  to: localePath('/legal/privacy-policy'),
-  active: route.path.startsWith('/legal/privacy-policy')
+  to: localePath('/legal/privacy'),
+  active: route.path.startsWith('/legal/privacy')
 },
 {
   label: t('legal.imprint'),

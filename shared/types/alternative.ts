@@ -1,0 +1,5 @@
+export type { CreateAlternativesBodyDTO } from '~~/server/api/schemas/alternatives/create-alternatives.body.schema'
+export type { CreateAlternativesResponseDTO, AlternativeItemDTO } from '~~/server/api/schemas/alternatives/create-alternatives.response.schema'
+export type { GetAlternativesResponseDTO } from '~~/server/api/schemas/alternatives/get-alternatives.response.schema'
+export type { UpdateAlternativesBodyDTO } from '~~/server/api/schemas/alternatives/update-alternatives.body.schema'
+export type { UpdateAlternativesResponseDTO } from '~~/server/api/schemas/alternatives/update-alternatives.response.schema'

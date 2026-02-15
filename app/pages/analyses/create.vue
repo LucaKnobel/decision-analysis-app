@@ -32,9 +32,9 @@ const onSubmit = async (event: FormSubmitEvent<AnalysisForm>): Promise<void> => 
       title: event.data.title,
       description: event.data.description
     }
-    await createAnalysis(payload)
+    const response = await createAnalysis(payload)
     showSuccess('analysis.create.successTitle', 'analysis.create.successMessage')
-    await navigateTo(localePath('/dashboard'))
+    await navigateTo(localePath(`/analyses/${response.id}/criteria`))
   } catch (error: unknown) {
     handleAnalysisError(error)
   } finally {

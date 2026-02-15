@@ -29,8 +29,42 @@ model Analysis {
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  criteria     Criterion[]
+  alternatives Alternative[]
 
   @@index([userId])
 }
 
+model Criterion {
+  id          String   @id @default(uuid())
+  analysisId  String
+  analysis    Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  name        String
+  weight      Int
+  ratings     Rating[]
 
+  @@index([analysisId])
+}
+
+model Alternative {
+  id          String   @id @default(uuid())
+  analysisId  String
+  analysis    Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  name        String
+  ratings     Rating[]
+
+  @@index([analysisId])
+}
+
+model Rating {
+  id            String      @id @default(uuid())
+  alternativeId String
+  criterionId   String
+  alternative   Alternative @relation(fields: [alternativeId], references: [id], onDelete: Cascade)
+  criterion     Criterion   @relation(fields: [criterionId], references: [id], onDelete: Cascade)
+  value         Float
+
+  @@unique([alternativeId, criterionId])
+  @@index([alternativeId])
+  @@index([criterionId])
+}
