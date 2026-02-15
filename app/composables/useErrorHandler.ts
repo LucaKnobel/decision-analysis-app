@@ -14,6 +14,7 @@ export interface UseErrorHandlerComposable {
   handleAlternativesError: (error: unknown) => { titleKey: string, textKey: string }
   handleRatingsError: (error: unknown) => { titleKey: string, textKey: string }
   handleResultsError: (error: unknown) => { titleKey: string, textKey: string }
+  handleAccountDeleteError: (error: unknown) => { titleKey: string, textKey: string }
 }
 
 export const useErrorHandler = (): UseErrorHandlerComposable => {
@@ -153,6 +154,18 @@ export const useErrorHandler = (): UseErrorHandlerComposable => {
     return { titleKey, textKey }
   }
 
+  const handleAccountDeleteError = (error: unknown): { titleKey: string, textKey: string } => {
+    const statusCode = getStatusCode(error)
+    const commonError = handleCommonErrors(statusCode)
+    if (commonError) {
+      return commonError
+    }
+    const titleKey = 'errors.account.delete.title'
+    const textKey = 'errors.account.delete.text'
+    setError(titleKey, textKey)
+    return { titleKey, textKey }
+  }
+
   return {
     hasError,
     errorTitle,
@@ -164,6 +177,7 @@ export const useErrorHandler = (): UseErrorHandlerComposable => {
     handleCriteriaError,
     handleAlternativesError,
     handleRatingsError,
-    handleResultsError
+    handleResultsError,
+    handleAccountDeleteError
   }
 }

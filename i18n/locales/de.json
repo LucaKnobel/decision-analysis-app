@@ -1,6 +1,7 @@
 {
   "common": {
     "actions": "Aktionen",
+    "language": "Sprache",
     "view": "Ansehen",
     "edit": "Bearbeiten",
     "delete": "Löschen",
@@ -15,6 +16,16 @@
     "login": "Login",
     "logout": "Abmelden",
     "register": "Registrieren"
+  },
+  "account": {
+    "delete": {
+      "action": "Konto löschen",
+      "title": "Konto löschen",
+      "description": "Ihr Konto und alle Analysen werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "confirm": "Konto löschen",
+      "successTitle": "Konto gelöscht",
+      "successText": "Ihr Konto wurde dauerhaft entfernt."
+    }
   },
   "footer": {
     "copyright": "Copyright"
@@ -159,6 +170,12 @@
       "delete": {
         "title": "Analyse-Löschung nicht möglich",
         "description": "Die Löschung der Analyse konnte nicht abgeschlossen werden. Bitte später erneut versuchen."
+      }
+    },
+    "account": {
+      "delete": {
+        "title": "Konto-Löschung nicht möglich",
+        "text": "Das Konto konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut."
       }
     },
     "criteria": {

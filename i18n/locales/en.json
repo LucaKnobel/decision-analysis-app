@@ -1,6 +1,7 @@
 {
   "common": {
     "actions": "Actions",
+    "language": "Language",
     "view": "View",
     "edit": "Edit",
     "delete": "Delete",
@@ -15,6 +16,16 @@
     "login": "Sign in",
     "logout": "Sign out",
     "register": "Sign up"
+  },
+  "account": {
+    "delete": {
+      "action": "Delete account",
+      "title": "Delete account",
+      "description": "This will permanently delete your account and all analyses. This action cannot be undone.",
+      "confirm": "Delete account",
+      "successTitle": "Account deleted",
+      "successText": "Your account has been permanently removed."
+    }
   },
   "footer": {
     "copyright": "Copyright"
@@ -160,6 +171,12 @@
       "delete": {
         "title": "Analysis deletion not possible",
         "description": "The deletion of the analysis could not be completed. Please try again later."
+      }
+    },
+    "account": {
+      "delete": {
+        "title": "Account deletion not possible",
+        "text": "The account could not be deleted. Please try again later."
       }
     },
     "criteria": {
