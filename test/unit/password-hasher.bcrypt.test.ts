@@ -3,7 +3,6 @@ import { createBcryptHasher } from '../../server/infrastructure/security/passwor
 
 describe('BcryptPasswordHasher', () => {
   const hasher = createBcryptHasher(4) // Lower rounds for faster tests
-  /* TC-UT-04 */
   describe('hash', () => {
     it('should hash a password', async () => {
       const password = 'MySecurePassword123!'
@@ -41,7 +40,6 @@ describe('BcryptPasswordHasher', () => {
     })
   })
 
-  /* TC-UT-05 */
   describe('verify', () => {
     it('should verify a correct password', async () => {
       const password = 'CorrectPassword123!'
@@ -102,7 +100,6 @@ describe('BcryptPasswordHasher', () => {
     })
   })
 
-  /* TC-UT-04 */
   describe('salt rounds', () => {
     it('should use custom salt rounds', async () => {
       const customHasher = createBcryptHasher(4)
