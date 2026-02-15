@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ['auth'],
-  layout: 'focus'
+  layout: 'ratings'
 })
 
 const route = useRoute()
@@ -75,47 +75,49 @@ onMounted(loadRatings)
         </div>
       </div>
 
-      <div class="hidden md:block overflow-x-auto rounded-lg border border-accented/60">
-        <table class="min-w-full text-sm">
-          <thead class="bg-muted/40">
-            <tr>
-              <th class="p-3 text-left font-semibold text-muted">
-                {{ $t('ratings.table.alternative') }}
-              </th>
-              <th
-                v-for="criterion in criteria"
-                :key="criterion.id"
-                class="p-3 text-left font-semibold text-muted"
+      <div class="hidden md:block w-full min-w-0 overflow-x-auto">
+        <div class="inline-block min-w-max align-top rounded-lg border border-accented/60">
+          <table class="table-auto text-sm">
+            <thead class="bg-muted/40">
+              <tr>
+                <th class="p-3 text-left font-semibold text-muted">
+                  {{ $t('ratings.table.alternative') }}
+                </th>
+                <th
+                  v-for="criterion in criteria"
+                  :key="criterion.id"
+                  class="p-3 text-left font-semibold text-muted"
+                >
+                  {{ criterion.name }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(alternative, alternativeIndex) in alternatives"
+                :key="alternative.id"
+                class="border-t border-accented/60"
               >
-                {{ criterion.name }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(alternative, alternativeIndex) in alternatives"
-              :key="alternative.id"
-              class="border-t border-accented/60"
-            >
-              <td class="p-3 font-medium">
-                {{ alternative.name }}
-              </td>
-              <td
-                v-for="(criterion, criterionIndex) in criteria"
-                :key="criterion.id"
-                class="p-3"
-              >
-                <UInput
-                  v-model.number="ratingAt(alternative.id, criterion.id, alternativeIndex, criterionIndex).value"
-                  type="number"
-                  min="1"
-                  max="5"
-                  class="w-20"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td class="p-3 font-medium">
+                  {{ alternative.name }}
+                </td>
+                <td
+                  v-for="(criterion, criterionIndex) in criteria"
+                  :key="criterion.id"
+                  class="p-3"
+                >
+                  <UInput
+                    v-model.number="ratingAt(alternative.id, criterion.id, alternativeIndex, criterionIndex).value"
+                    type="number"
+                    min="1"
+                    max="5"
+                    class="w-20"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </UFormField>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col px-4 pt-4 pb-6 md:items-center md:justify-center overflow-x-hidden">
+  <div class="min-h-screen flex flex-col px-2 pt-3 pb-5 md:items-center md:justify-center">
     <UButton
       icon="i-lucide-chevron-left"
       size="xl"
@@ -11,7 +11,7 @@
 
     <UPageCard
       variant="subtle"
-      class="w-full max-w-2xl"
+      class="inline-block w-auto max-w-screen-2xl overflow-x-auto mx-auto p-2 sm:p-6"
     >
       <slot />
     </UPageCard>
