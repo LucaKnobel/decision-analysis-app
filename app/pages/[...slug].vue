@@ -2,7 +2,7 @@
 import { withLeadingSlash } from 'ufo'
 
 const route = useRoute()
-const { locale, t } = useI18n()
+const { locale } = useI18n()
 
 const slug = computed(() => {
   const value = Array.isArray(route.params.slug)
@@ -39,10 +39,10 @@ const { data: page } = await useAsyncData(
     </div>
     <div v-else>
       <h1 class="text-2xl font-semibold tracking-tight">
-        {{ t('content.notFound.title') }}
+        {{ $t('content.notFound.title') }}
       </h1>
       <p class="text-muted mt-2">
-        {{ t('content.notFound.text', { locale }) }}
+        {{ $t('content.notFound.text', { locale }) }}
       </p>
     </div>
   </UContainer>
