@@ -13,7 +13,6 @@ definePageMeta({
 
 const localePath = useLocalePath()
 const { t } = useI18n()
-const toast = useToast()
 
 const {
   page,
@@ -118,18 +117,17 @@ const getRowItems = (row: Row<AnalysisItemDTO>) => {
       label: t('common.view'),
       icon: 'i-lucide-eye',
       onSelect() {
-        navigateTo(localePath(`/analyses/${row.original.id}`))
+        navigateTo(localePath({
+          path: `/analyses/${row.original.id}/results`,
+          query: { from: 'dashboard' }
+        }))
       }
     },
     {
       label: t('common.edit'),
       icon: 'i-lucide-pencil',
       onSelect() {
-        // TODO: Implement edit
-        toast.add({
-          title: t('common.comingSoon'),
-          color: 'info'
-        })
+        navigateTo(localePath(`/analyses/${row.original.id}/edit`))
       }
     },
     {

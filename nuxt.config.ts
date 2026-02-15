@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
+    '@nuxt/content',
     '@nuxt/ui',
     '@nuxtjs/i18n',
     '@nuxt/test-utils/module',

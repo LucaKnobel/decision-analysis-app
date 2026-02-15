@@ -1,18 +1,32 @@
 {
   "common": {
     "actions": "Actions",
+    "language": "Language",
     "view": "View",
     "edit": "Edit",
     "delete": "Delete",
     "search": "Search",
     "noData": "No data available",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "loading": "Loading...",
+    "backToHome": "Back to Home"
   },
   "nav": {
     "demo": "Demo",
     "login": "Sign in",
     "logout": "Sign out",
     "register": "Sign up"
+  },
+  "account": {
+    "delete": {
+      "action": "Delete account",
+      "title": "Delete account",
+      "description": "This will permanently delete your account and all analyses. This action cannot be undone.",
+      "confirm": "Delete account",
+      "successTitle": "Account deleted",
+      "successText": "Your account has been permanently removed."
+    }
   },
   "footer": {
     "copyright": "Copyright"
@@ -76,12 +90,64 @@
       "description": {
         "max": "Description must not exceed 500 characters"
       }
+    },
+    "criteria": {
+      "min": "At least one criterion is required",
+      "name": {
+        "required": "Name is required",
+        "max": "Name must not exceed 100 characters"
+      },
+      "unique": "Criterion names must be unique",
+      "weight": {
+        "required": "Weight is required",
+        "integer": "Weight must be a whole number",
+        "min": "Weight must be >= 1",
+        "max": "Weight must be <= 100",
+        "sum": "Total weight must equal 100"
+      }
+    },
+    "alternatives": {
+      "min": "At least one alternative is required",
+      "name": {
+        "required": "Name is required",
+        "max": "Name must not exceed 200 characters"
+      },
+      "unique": "Alternative names must be unique"
+    },
+    "ratings": {
+      "min": "At least one rating is required",
+      "unique": "Ratings must be unique per alternative and criterion",
+      "value": {
+        "required": "Rating is required",
+        "integer": "Rating must be an integer",
+        "min": "Rating must be >= 1",
+        "max": "Rating must be <= 5"
+      }
+    }
+  },
+  "content": {
+    "notFound": {
+      "title": "Page not found",
+      "text": "The page you are looking for could not be found."
     }
   },
   "legal": {
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
-    "imprint": "Imprint"
+    "imprint": "Imprint",
+    "privacyMeta": {
+      "version": "Version",
+      "updatedAt": "Last updated"
+    },
+    "imprintDetails": {
+      "title": "Imprint",
+      "responsible": "Responsible",
+      "name": "Luca Knobel",
+      "street": "Mühlerain 14",
+      "postal": "3210 Kerzers",
+      "country": "Switzerland",
+      "email": "knobel.luca(at)gmail.com"
+    }
   },
   "errors": {
     "registration": {
@@ -101,11 +167,55 @@
       "text": "The service is currently unavailable. Please try again later."
     },
     "analysis": {
-      "title": "Analysis creation not possible",
-      "text": "The creation of the analysis could not be completed. Please check your inputs or try again later.",
+      "title": "Analysis not possible",
+      "text": "The analysis could not be completed. Please check your inputs or try again later.",
       "delete": {
         "title": "Analysis deletion not possible",
         "description": "The deletion of the analysis could not be completed. Please try again later."
+      }
+    },
+    "account": {
+      "delete": {
+        "title": "Account deletion not possible",
+        "text": "The account could not be deleted. Please try again later."
+      }
+    },
+    "page": {
+      "404": {
+        "title": "Page not found",
+        "description": "The page you are looking for does not exist or has been moved."
+      },
+      "500": {
+        "title": "Server error",
+        "description": "An unexpected error occurred. Please try again later."
+      },
+      "default": {
+        "title": "Something went wrong",
+        "description": "An error occurred while processing your request. Please try again."
+      }
+    },
+    "criteria": {
+      "title": "Criterion creation not possible",
+      "text": "The creation of the criterion could not be completed. Please check your inputs or try again later."
+    },
+    "alternatives": {
+      "title": "Alternatives not possible",
+      "text": "The alternatives could not be completed. Please check your inputs or try again later."
+    },
+    "ratings": {
+      "title": "Ratings not possible",
+      "text": "The ratings could not be completed. Please check your inputs or try again later."
+    },
+    "results": {
+      "title": "Results not possible",
+      "text": "The results could not be calculated. Please try again later.",
+      "weightSum": {
+        "title": "Invalid weights",
+        "text": "The criteria weights must sum to 100 before results can be calculated."
+      },
+      "missingRatings": {
+        "title": "Ratings incomplete",
+        "text": "Please rate every alternative for every criterion before viewing the results."
       }
     }
   },
@@ -116,6 +226,9 @@
       "title": "Create analysis",
       "successTitle": "Analysis successfully created!",
       "successMessage": "Your analysis has been saved."
+    },
+    "edit": {
+      "title": "Edit analysis"
     },
     "delete": {
       "title": "Delete analysis",
@@ -138,6 +251,70 @@
     "columns": {
       "createdAt": "Created at",
       "updatedAt": "Updated"
+    }
+  },
+  "criteria": {
+    "create": {
+      "title": "Create criteria",
+      "successTitle": "Criteria created!",
+      "successMessage": "Your criteria have been saved.",
+      "helper": "Add criteria and distribute weights so the total equals 100. Weight important criteria higher to increase their influence on the decision."
+    },
+    "itemLabel": "Criterion {index}",
+    "fields": {
+      "name": "Name",
+      "weight": "Weight"
+    },
+    "actions": {
+      "add": "Add criterion",
+      "remove": "Remove"
+    },
+    "total": "Total"
+  },
+  "alternatives": {
+    "create": {
+      "title": "Create alternatives",
+      "successTitle": "Alternatives saved!",
+      "successMessage": "Your alternatives have been saved.",
+      "helper": "Add the alternatives you want to compare. Each alternative should be a clear, concise name."
+    },
+    "itemLabel": "Alternative {index}",
+    "fields": {
+      "name": "Name"
+    },
+    "actions": {
+      "add": "Add alternative",
+      "remove": "Remove"
+    }
+  },
+  "ratings": {
+    "title": "Ratings",
+    "helper": "Rate each alternative for every criterion.",
+    "scale": "1 = poor, 5 = excellent",
+    "table": {
+      "alternative": "Alternative"
+    }
+  },
+  "results": {
+    "title": "Results",
+    "subtitle": "Weighted scoring based on your ratings.",
+    "backToDashboard": "Back to dashboard",
+    "bestLabel": "Best alternative",
+    "scoreLabel": "Total score",
+    "maxScoreLabel": "Max score",
+    "rankingTitle": "Ranking",
+    "breakdownTitle": "Breakdown",
+    "weightSum": "Weight sum: {sum}",
+    "empty": "No results available yet.",
+    "columns": {
+      "rank": "Rank",
+      "alternative": "Alternative",
+      "score": "Score",
+      "criterion": "Criterion",
+      "weight": "Weight",
+      "normalizedWeight": "Normalized weight",
+      "rating": "Rating",
+      "contribution": "Contribution"
     }
   }
 }

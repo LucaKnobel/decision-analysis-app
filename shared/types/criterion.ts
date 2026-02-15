@@ -1,0 +1,5 @@
+export type { CreateCriteriaBodyDTO } from '~~/server/api/schemas/criteria/create-criteria.body.schema'
+export type { CreateCriteriaResponseDTO } from '~~/server/api/schemas/criteria/create-criteria.response.schema'
+export type { GetCriteriaResponseDTO, CriterionItemDTO } from '~~/server/api/schemas/criteria/get-criteria.response.schema'
+export type { UpdateCriteriaBodyDTO } from '~~/server/api/schemas/criteria/update-criteria.body.schema'
+export type { UpdateCriteriaResponseDTO } from '~~/server/api/schemas/criteria/update-criteria.response.schema'

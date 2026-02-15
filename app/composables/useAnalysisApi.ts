@@ -1,10 +1,30 @@
 import { useRequestFetch } from '#imports'
-import type { CreateAnalysisBodyDTO, CreateAnalysisResponseDTO, GetAnalysesResponseDTO } from '#shared/types/analysis'
+import type { CreateAnalysisBodyDTO, CreateAnalysisResponseDTO, GetAnalysesResponseDTO, GetAnalysisResponseDTO, UpdateAnalysisResponseDTO } from '#shared/types/analysis'
+import type { GetAlternativesResponseDTO, UpdateAlternativesBodyDTO, UpdateAlternativesResponseDTO } from '#shared/types/alternative'
+import type { GetRatingsResponseDTO, UpdateRatingsBodyDTO, UpdateRatingsResponseDTO } from '#shared/types/rating'
+import type { GetResultsResponseDTO } from '#shared/types/results'
+import type {
+  CreateCriteriaBodyDTO,
+  CreateCriteriaResponseDTO,
+  GetCriteriaResponseDTO,
+  UpdateCriteriaBodyDTO,
+  UpdateCriteriaResponseDTO
+} from '#shared/types/criterion'
 
 export interface AnalysisApi {
   createAnalysis: (dto: CreateAnalysisBodyDTO) => Promise<CreateAnalysisResponseDTO>
+  getAnalysis: (id: string) => Promise<GetAnalysisResponseDTO>
   fetchAnalyses: (params: { page: number, limit: number, search?: string }) => Promise<GetAnalysesResponseDTO>
+  updateAnalysis: (id: string, dto: CreateAnalysisBodyDTO) => Promise<UpdateAnalysisResponseDTO>
   deleteAnalysis: (id: string) => Promise<void>
+  createCriteria: (analysisId: string, dto: CreateCriteriaBodyDTO) => Promise<CreateCriteriaResponseDTO>
+  getCriteria: (analysisId: string) => Promise<GetCriteriaResponseDTO>
+  updateCriteria: (analysisId: string, dto: UpdateCriteriaBodyDTO) => Promise<UpdateCriteriaResponseDTO>
+  getAlternatives: (analysisId: string) => Promise<GetAlternativesResponseDTO>
+  updateAlternatives: (analysisId: string, dto: UpdateAlternativesBodyDTO) => Promise<UpdateAlternativesResponseDTO>
+  getRatings: (analysisId: string) => Promise<GetRatingsResponseDTO>
+  updateRatings: (analysisId: string, dto: UpdateRatingsBodyDTO) => Promise<UpdateRatingsResponseDTO>
+  getResults: (analysisId: string) => Promise<GetResultsResponseDTO>
 }
 
 export const useAnalysisApi = (): AnalysisApi => {
@@ -14,17 +34,67 @@ export const useAnalysisApi = (): AnalysisApi => {
     return await $fetch<CreateAnalysisResponseDTO>('/api/analyses', { method: 'POST', body: dto })
   }
 
+  const getAnalysis = async (id: string) => {
+    return await $fetch<GetAnalysisResponseDTO>(`/api/analyses/${id}`, { method: 'GET' })
+  }
+
   const fetchAnalyses = async (params: { page: number, limit: number, search?: string }) => {
     return await requestFetch<GetAnalysesResponseDTO>('/api/analyses', { method: 'GET', query: params })
+  }
+
+  const updateAnalysis = async (id: string, dto: CreateAnalysisBodyDTO) => {
+    return await $fetch<UpdateAnalysisResponseDTO>(`/api/analyses/${id}`, { method: 'PUT', body: dto })
   }
 
   const deleteAnalysis = async (id: string) => {
     await $fetch(`/api/analyses/${id}`, { method: 'DELETE' })
   }
 
+  const createCriteria = async (analysisId: string, dto: CreateCriteriaBodyDTO) => {
+    return await $fetch<CreateCriteriaResponseDTO>(`/api/analyses/${analysisId}/criteria`, { method: 'POST', body: dto })
+  }
+
+  const getCriteria = async (analysisId: string) => {
+    return await $fetch<GetCriteriaResponseDTO>(`/api/analyses/${analysisId}/criteria`, { method: 'GET' })
+  }
+
+  const updateCriteria = async (analysisId: string, dto: UpdateCriteriaBodyDTO) => {
+    return await $fetch<UpdateCriteriaResponseDTO>(`/api/analyses/${analysisId}/criteria`, { method: 'PUT', body: dto })
+  }
+
+  const getAlternatives = async (analysisId: string) => {
+    return await $fetch<GetAlternativesResponseDTO>(`/api/analyses/${analysisId}/alternatives`, { method: 'GET' })
+  }
+
+  const updateAlternatives = async (analysisId: string, dto: UpdateAlternativesBodyDTO) => {
+    return await $fetch<UpdateAlternativesResponseDTO>(`/api/analyses/${analysisId}/alternatives`, { method: 'PUT', body: dto })
+  }
+
+  const getRatings = async (analysisId: string) => {
+    return await $fetch<GetRatingsResponseDTO>(`/api/analyses/${analysisId}/ratings`, { method: 'GET' })
+  }
+
+  const updateRatings = async (analysisId: string, dto: UpdateRatingsBodyDTO) => {
+    return await $fetch<UpdateRatingsResponseDTO>(`/api/analyses/${analysisId}/ratings`, { method: 'PUT', body: dto })
+  }
+
+  const getResults = async (analysisId: string) => {
+    return await $fetch<GetResultsResponseDTO>(`/api/analyses/${analysisId}/results`, { method: 'GET' })
+  }
+
   return {
     createAnalysis,
+    getAnalysis,
     fetchAnalyses,
-    deleteAnalysis
+    updateAnalysis,
+    deleteAnalysis,
+    createCriteria,
+    getCriteria,
+    updateCriteria,
+    getAlternatives,
+    updateAlternatives,
+    getRatings,
+    updateRatings,
+    getResults
   }
 }
