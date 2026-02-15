@@ -113,10 +113,20 @@
       }
     }
   },
+  "content": {
+    "notFound": {
+      "title": "Page not found",
+      "text": "This page doesn't exist in this language."
+    }
+  },
   "legal": {
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
     "imprint": "Imprint",
+    "privacyMeta": {
+      "version": "Version",
+      "updatedAt": "Last updated"
+    },
     "imprintDetails": {
       "title": "Imprint",
       "responsible": "Responsible",

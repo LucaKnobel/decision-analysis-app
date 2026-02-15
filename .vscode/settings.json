@@ -1,4 +1,5 @@
 {
     "snyk.advanced.organization": "37a5d848-3890-4758-bcf8-51ae0613b75f",
-    "snyk.advanced.autoSelectOrganization": true
+    "snyk.advanced.autoSelectOrganization": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

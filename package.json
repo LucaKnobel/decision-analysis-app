@@ -16,11 +16,13 @@
   "dependencies": {
     "@iconify-json/lucide": "^1.2.82",
     "@iconify-json/simple-icons": "^1.2.63",
+    "@nuxt/content": "^3.11.2",
     "@nuxt/ui": "^4.3.0",
     "@nuxtjs/i18n": "10.2.1",
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
     "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.6.2",
     "dotenv": "^17.2.3",
     "nuxt": "^4.3.0",
     "nuxt-auth-utils": "^0.5.26",

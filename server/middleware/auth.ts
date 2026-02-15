@@ -4,7 +4,8 @@ export default defineEventHandler(async (event) => {
   const publicRoutes = [
     '/api/auth/register',
     '/api/auth/login',
-    '/api/_auth/session'
+    '/api/_auth/session',
+    '/api/content/'
   ]
 
   if (publicRoutes.some(route => event.path.startsWith(route))) {

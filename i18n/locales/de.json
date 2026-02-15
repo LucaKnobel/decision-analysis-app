@@ -112,10 +112,20 @@
       }
     }
   },
+  "content": {
+    "notFound": {
+      "title": "Seite nicht gefunden",
+      "text": "Diese Seite existiert nicht in dieser Sprache."
+    }
+  },
   "legal": {
     "privacyPolicy": "Datenschutzerklärung",
     "termsOfService": "Nutzungsbedingungen",
     "imprint": "Impressum",
+    "privacyMeta": {
+      "version": "Version",
+      "updatedAt": "Stand"
+    },
     "imprintDetails": {
       "title": "Impressum",
       "responsible": "Verantwortlich",
