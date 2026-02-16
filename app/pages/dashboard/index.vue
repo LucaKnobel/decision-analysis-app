@@ -28,7 +28,7 @@ const {
   clearSearch,
   openDeleteModal,
   confirmDelete
-} = useAnalyses()
+} = useAnalysesList()
 
 const columns: TableColumn<AnalysisItemDTO>[] = [
   {

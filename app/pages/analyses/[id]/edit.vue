@@ -18,11 +18,11 @@ const {
   hasError,
   errorTitle,
   errorText
-} = useAnalyses()
+} = useAnalysisDetail()
 const localePath = useLocalePath()
 const schema = createAnalysisFormSchema()
 
-const analysisId = route.params.id as string
+const analysisId = computed(() => route.params.id as string)
 
 const state = reactive<Partial<AnalysisForm>>({
   title: undefined,
@@ -30,7 +30,7 @@ const state = reactive<Partial<AnalysisForm>>({
 })
 
 onMounted(async () => {
-  await loadAnalysis(analysisId)
+  await loadAnalysis(analysisId.value)
   if (currentAnalysis.value) {
     state.title = currentAnalysis.value.title
     state.description = currentAnalysis.value.description || undefined
@@ -45,8 +45,8 @@ const onSubmit = async (event: FormSubmitEvent<AnalysisForm>): Promise<void> => 
     title: event.data.title,
     description: event.data.description
   }
-  await saveAnalysis(analysisId, payload)
-  await navigateTo(localePath(`/analyses/${analysisId}/criteria`))
+  await saveAnalysis(analysisId.value, payload)
+  await navigateTo(localePath(`/analyses/${analysisId.value}/criteria`))
 }
 </script>
 
