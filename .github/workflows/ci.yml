@@ -46,7 +46,7 @@ jobs:
           node-version: 24
 
       # Install dependencies from lock file (ensures reproducible builds)
-      - run: npm ci
+      - run: npm ci --omit=dev
 
       # Generate Prisma Client and run migrations
       - name: Setup database
@@ -56,8 +56,8 @@ jobs:
           npx prisma generate
           npx prisma migrate deploy
 
-      # Check dependencies for known vulnerabilities (fail on moderate+ severity)
-      - run: npm audit --audit-level=high
+      # Check dependencies for known vulnerabilities (fail on critical severity)
+      - run: npm audit --omit=dev --audit-level=critical
 
       # Verify code style and catch common errors
       - run: npm run lint

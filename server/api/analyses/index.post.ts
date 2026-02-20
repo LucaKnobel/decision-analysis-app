@@ -1,6 +1,6 @@
-import { CreateAnalysisBodySchema } from '~~/server/api/schemas/analyses/create-analysis.body.schema'
-import { CreateAnalysisResponseSchema } from '~~/server/api/schemas/analyses/create-analysis.response.schema'
-import { AnalysisService } from '~~/server/services/analysis/analysis.service'
+import { CreateAnalysisBodySchema } from '@server/api/schemas/analyses/create-analysis.body.schema'
+import { CreateAnalysisResponseSchema } from '@server/api/schemas/analyses/create-analysis.response.schema'
+import { AnalysisService } from '@server/services/analysis/analysis.service'
 import { analysisRepository } from '@infrastructure/repositories/analysis-repository.prisma'
 import { logger } from '@infrastructure/logging/logger.pino'
 
