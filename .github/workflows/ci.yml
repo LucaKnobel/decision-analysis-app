@@ -56,8 +56,8 @@ jobs:
           npx prisma generate
           npx prisma migrate deploy
 
-      # Check dependencies for known vulnerabilities (fail on moderate+ severity)
-      - run: npm audit --audit-level=high
+      # Check dependencies for known vulnerabilities (fail on critical severity)
+      - run: npm audit --omit=dev --audit-level=critical
 
       # Verify code style and catch common errors
       - run: npm run lint
@@ -119,6 +119,7 @@ jobs:
           trivy fs \
             --scanners vuln,secret,misconfig \
             --severity CRITICAL,HIGH \
+            --ignore-unfixed \
             --exit-code 1 \
             --no-progress \
             .

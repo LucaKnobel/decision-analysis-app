@@ -1,0 +1,3 @@
+# minimatch - build-time dependency (Nuxt/ESLint toolchain)
+# Not part of runtime bundle
+CVE-2026-26996

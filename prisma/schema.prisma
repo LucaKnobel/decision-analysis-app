@@ -14,21 +14,24 @@ datasource db {
 }
 
 model User {
-  id    String     @id @default(uuid())
-  createdAt  DateTime   @default(now())
-  email String @unique
-  passwordHash  String
+  id           String   @id @default(uuid()) @db.Uuid
+  createdAt    DateTime @default(now())
+  email        String   @unique
+  passwordHash String
+
   analyses Analysis[]
 }
 
 model Analysis {
-  id          String   @id @default(uuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   title       String
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
   criteria     Criterion[]
   alternatives Alternative[]
 
@@ -36,33 +39,40 @@ model Analysis {
 }
 
 model Criterion {
-  id          String   @id @default(uuid())
-  analysisId  String
-  analysis    Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
-  name        String
-  weight      Int
-  ratings     Rating[]
+  id         String   @id @default(uuid()) @db.Uuid
+  analysisId String   @db.Uuid
+  analysis   Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  name   String
+  weight Int
+
+  ratings Rating[]
 
   @@index([analysisId])
 }
 
 model Alternative {
-  id          String   @id @default(uuid())
-  analysisId  String
-  analysis    Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
-  name        String
-  ratings     Rating[]
+  id         String   @id @default(uuid()) @db.Uuid
+  analysisId String   @db.Uuid
+  analysis   Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  name String
+
+  ratings Rating[]
 
   @@index([analysisId])
 }
 
 model Rating {
-  id            String      @id @default(uuid())
-  alternativeId String
-  criterionId   String
-  alternative   Alternative @relation(fields: [alternativeId], references: [id], onDelete: Cascade)
-  criterion     Criterion   @relation(fields: [criterionId], references: [id], onDelete: Cascade)
-  value         Float
+  id String @id @default(uuid()) @db.Uuid
+
+  alternativeId String @db.Uuid
+  criterionId   String @db.Uuid
+
+  alternative Alternative @relation(fields: [alternativeId], references: [id], onDelete: Cascade)
+  criterion   Criterion   @relation(fields: [criterionId], references: [id], onDelete: Cascade)
+
+  value Float
 
   @@unique([alternativeId, criterionId])
   @@index([alternativeId])
