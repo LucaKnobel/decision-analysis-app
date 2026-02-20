@@ -46,7 +46,7 @@ jobs:
           node-version: 24
 
       # Install dependencies from lock file (ensures reproducible builds)
-      - run: npm ci --omit=dev
+      - run: npm ci
 
       # Generate Prisma Client and run migrations
       - name: Setup database
