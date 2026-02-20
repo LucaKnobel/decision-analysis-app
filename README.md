@@ -1,228 +1,147 @@
-# Backend Architecture Overview (API · Services · Contracts · Infrastructure · Shared)
+# Compare Decisions Systematically
 
-This document describes a **generic, endpoint-agnostic backend architecture** for a Nuxt 4 full-stack application.  
-The goal is a **clear separation of concerns**, predictable dependencies, and a structure that is clean, maintainable, and not over-engineered.
+This application supports structured and traceable decision-making using a weighted utility analysis.
 
-The architecture follows a **layered model** with a **stable core (use cases)** and **replaceable outer layers (HTTP, infrastructure)**.
+Instead of making decisions purely intuitively, alternatives are evaluated systematically based on defined criteria.  
+Weighting ensures that personal priorities are properly reflected in the final result.
 
----
-
-## High-Level Layers
-
-From a conceptual point of view, the backend consists of the following areas:
-
-1. **API (Transport / HTTP)**
-2. **Services (Use Cases / Application Logic)**
-3. **Contracts (Interfaces / Stable Boundaries)**
-4. **Infrastructure (Technical Implementations)**
-5. **Shared (Cross-Boundary DTOs)**
-6. **Framework / Runtime Integration (Nuxt)**
-
-Each area has a **single responsibility** and **clear dependency rules**.
+The application creates transparency, comparability, and an objective decision-making foundation.
 
 ---
 
-## 1) `api/` — Transport / HTTP Layer
+## Requirements
 
-**Purpose:**  
-Handle incoming HTTP requests and outgoing HTTP responses.
+A user account is required to create and save analyses.
 
-**Responsibilities:**
-- Parse request data (body, params, query)
-- Validate input using schemas
-- Call the appropriate service (use case)
-- Map domain/application errors to HTTP status codes
-- Return response DTOs
-
-**Typical contents:**
-- HTTP endpoints (e.g. REST handlers)
-- API-specific schemas for request validation
-
-**What must NOT be here:**
-- Business logic
-- Database queries
-- Hashing, mailing, or other technical details
-
-**Dependencies:**
-- May depend on:
-  - `services/`
-  - `api/schemas/`
-  - `shared/` (DTOs)
-- Must NOT depend on:
-  - `infrastructure/`
-  - ORM clients or technical libraries
+1. Register  
+2. Log in  
+3. In the dashboard, select `+ Create Analysis` and get started  
 
 ---
 
-## 2) `services/` — Use Cases / Application Logic (Core)
+## Typical Use Cases
 
-**Purpose:**  
-Implement the actual **business use cases** of the application.
+The application is particularly suitable for:
 
-This is the **center of the architecture**.
+- Purchase decisions (e.g., laptop, car, smartphone)  
+- Choosing a holiday or travel destination  
+- Comparing service offers (insurance, hosting, subscriptions)  
+- Project or supplier selection  
+- Strategic or business decisions  
 
-**Responsibilities:**
-- Orchestrate workflows (e.g. create user, authenticate, create analysis)
-- Enforce business rules
-- Decide *what* needs to happen, not *how* it is technically done
-- Coordinate repositories and technical helpers via contracts
-
-**Typical contents:**
-- Use-case services (one per business action)
-- Application-level error types
-
-**What must NOT be here:**
-- HTTP concepts (requests, responses, status codes)
-- ORM / database logic
-- Framework-specific code (Nuxt, Prisma, etc.)
-
-**Dependencies:**
-- May depend on:
-  - `contracts/`
-  - `shared/` (DTOs, if appropriate)
-- Must NOT depend on:
-  - `api/`
-  - Concrete implementations in `infrastructure/`
+Whenever multiple options need to be evaluated against multiple criteria, utility analysis provides clear added value.
 
 ---
 
-## 3) `contracts/` — Interfaces / Stable Contracts
+# Example: Selecting a Ski Holiday Destination
 
-**Purpose:**  
-Define **what the services need**, without defining **how it is implemented**.
+Goal: Select the most suitable destination for a winter holiday week.
 
-This layer provides **stable boundaries** between business logic and technical details.
-
-**Responsibilities:**
-- Define repository interfaces
-- Define technical capability interfaces (hashing, mail, etc.)
-- Optionally define stable data types related to these contracts
-
-**Typical contents:**
-- Repository interfaces (e.g. persistence contracts)
-- Security or mail interfaces
-- Input/output types related to these contracts
-
-**What must NOT be here:**
-- Concrete implementations
-- Framework imports
-- Validation logic
-- ORM types
-
-**Dependencies:**
-- Should not depend on other layers
-- Used by:
-  - `services/`
-  - `infrastructure/` (for implementation)
+This example demonstrates the complete workflow of an analysis.
 
 ---
 
-## 4) `infrastructure/` — Technical Implementations
+## 1. Create a New Analysis
 
-**Purpose:**  
-Provide concrete, replaceable implementations of technical concerns.
+![Create Analysis](public/create-analysis.png)
 
-**Responsibilities:**
-- Database setup and access (ORM, queries)
-- Implement repository contracts
-- Implement security primitives (hashing)
-- Integrate external systems (mail, APIs, logging)
+In the dashboard, click `+ Create Analysis`.
 
-**Typical contents:**
-- DB client setup
-- Repository implementations
-- Hashing implementations
-- Mail provider integrations
+Example:
+- Title: `Ski Holiday 2030`
+- Description: `Comparison of different ski resorts`
 
-**What must NOT be here:**
-- Business rules
-- Use-case orchestration
-- HTTP request handling
-
-**Dependencies:**
-- May depend on:
-  - `contracts/`
-  - External libraries (ORM, crypto, mail)
-- Must NOT depend on:
-  - `services/`
-  - `api/`
+Click `Create Analysis`.
 
 ---
 
-## 5) `shared/` — Shared DTOs (Client ↔ Server Boundary)
+## 2. Define and Weight Criteria
 
-**Purpose:**  
-Provide **shared data transfer objects (DTOs)** used by **both frontend and backend**.
+![Define Criteria](public/criteria.png)
 
-This folder represents the **explicit contract between client and server**.
+Criteria define the aspects according to which alternatives are evaluated.  
+The weight (whole number) determines the relative importance of each criterion.
 
-**Responsibilities:**
-- Define request and response DTOs
-- Define shared types exchanged over the API
-- Remain framework-agnostic and serializable
+Important: The total sum of all weights must equal 100.  
+Only if the total weighting equals 100 is the analysis valid and can be calculated.
 
-**Typical contents:**
-- Request DTOs
-- Response DTOs
-- Shared enums or value types
+Example:
 
-**What must NOT be here:**
-- Business logic
-- Validation logic
-- ORM or infrastructure types
+| Criterion | Weight |
+|------------|--------|
+| Price | 20 |
+| Snow Reliability | 25 |
+| Variety of Slopes | 20 |
+| Travel Time | 15 |
+| Accommodation Options | 10 |
+| Leisure / Après-Ski | 10 |
 
-**Validation:**
-- DTOs are validated by schemas located in `api/schemas/`
-- DTOs themselves remain **pure data structures**
-
-**Dependencies:**
-- May be imported by:
-  - `api/`
-  - `services/`
-  - frontend code
-- Must NOT depend on:
-  - backend infrastructure
-  - frameworks
+The higher the weight, the stronger the influence of the criterion on the overall result.
 
 ---
 
-## 6) `api/schemas/` — Request Validation Schemas
+## 3. Add Alternatives
 
-**Purpose:**  
-Validate incoming API data before it enters the application logic.
+![Add Alternatives](public/alternatives.png)
 
-**Responsibilities:**
-- Define validation schemas (e.g. Zod)
-- Validate incoming request DTOs
-- Ensure only valid data reaches services
+Example destinations:
 
-**Important distinction:**
-- Schemas validate DTOs
-- DTOs do not contain validation logic themselves
+- Zermatt  
+- Davos  
+- Engelberg  
+- Laax  
 
-**Dependencies:**
-- May depend on:
-  - `shared/` DTOs
-- Must NOT depend on:
-  - `services/`
-  - `infrastructure/`
+Each alternative will later be evaluated individually for every criterion.
 
 ---
 
-## 7) Framework / Runtime Directories
+## 4. Enter Ratings
 
-Examples:
-- `middleware/`
-- `plugins/`
-- `routes/`
+![Enter Ratings](public/ratings.png)
 
-**Purpose:**
-- Nuxt runtime integration
-- Cross-cutting concerns (auth middleware, bootstrapping, etc.)
+Each alternative is rated per criterion on a scale from 1 to 5:
 
-These are **outside the core architecture** and may depend on API/services as needed.
+- 1 = very poor  
+- 3 = average  
+- 5 = excellent  
+
+Ratings should be assigned in a consistent and as objective a manner as possible.
 
 ---
 
+## 5. Analyze the Results
 
+![Result Overview](public/result.png)
 
+The application automatically calculates:
+
+Rating × Weight
+
+All weighted contributions are summed and displayed as a total score.  
+The ranking shows which alternative performs best according to the defined priorities.
+
+---
+
+## Added Value of the Application
+
+Utility analysis provides several advantages:
+
+- Structured decision-making  
+- Transparent prioritization  
+- Objective comparability  
+- Traceable results  
+- Reduction of purely intuitive decisions  
+
+If the result does not match expectations, criteria or weights can be adjusted and the impact can be analyzed immediately.  
+This enables an iterative and reflective decision-making process.
+
+---
+
+## Recommendations for Effective Use
+
+- Avoid too many criteria (3–10 are usually sufficient)  
+- Define criteria clearly and precisely  
+- Assign weights deliberately  
+- Apply ratings consistently  
+
+The application is a decision-support tool – it does not replace personal judgment, but makes it transparent and systematic.
