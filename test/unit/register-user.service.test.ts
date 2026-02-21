@@ -1,3 +1,4 @@
+// TC-ID: TC-UT-01
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { registerUser } from '../../server/services/auth/register-user.service'
 import { EmailAlreadyExistsError } from '../../server/services/auth/register-user.errors'

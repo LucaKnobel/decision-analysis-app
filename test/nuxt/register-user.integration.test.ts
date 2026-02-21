@@ -8,6 +8,7 @@ describe('Integration Tests — User Registration /api/auth/register', async () 
     await prisma.user.deleteMany({})
   })
 
+  /* TC-IT-01 */
   it('should successfully register a new user (201)', async () => {
     const payload = {
       email: `newuser-${Date.now()}@example.com`,

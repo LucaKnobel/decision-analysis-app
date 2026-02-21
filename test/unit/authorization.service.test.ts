@@ -1,3 +1,4 @@
+// TC-ID: TC-UT-01
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { DefaultAuthorizationService } from '../../server/services/common/authorization.service'
 import type { Logger } from '../../server/contracts/logging/logger'

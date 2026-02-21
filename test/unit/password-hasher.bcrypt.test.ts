@@ -1,3 +1,4 @@
+// TC-ID: TC-UT-02
 import { describe, it, expect } from 'vitest'
 import { createBcryptHasher } from '../../server/infrastructure/security/password-hasher.bcrypt'
 

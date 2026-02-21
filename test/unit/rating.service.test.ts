@@ -1,3 +1,4 @@
+// TC-ID: TC-UT-06
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { RatingService } from '../../server/services/rating/rating.service'
 import { RatingNotFoundError, UnauthorizedRatingAccessError } from '../../server/services/rating/rating.errors'

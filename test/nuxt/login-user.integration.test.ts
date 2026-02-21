@@ -10,6 +10,7 @@ describe('Integration Tests — User Login /api/auth/login', async () => {
     await prisma.user.deleteMany({})
   })
 
+  /* TC-IT-04 */
   it('should successfully login with valid credentials (204)', async () => {
     const email = `testuser-${Date.now()}@example.com`
     const password = 'SecurePassword123!'
@@ -43,6 +44,7 @@ describe('Integration Tests — User Login /api/auth/login', async () => {
     expect(setCookie).toContain('SameSite=Lax')
   })
 
+  /* TC-IT-05 */
   it('should reject login with incorrect password (401)', async () => {
     const email = `testuser-${Date.now()}@example.com`
     const passwordHash = await hasher.hash('CorrectPassword123!')
@@ -68,6 +70,7 @@ describe('Integration Tests — User Login /api/auth/login', async () => {
     expect(res.headers.get('set-cookie')).toBeNull()
   })
 
+  /* TC-IT-06 */
   it('should reject login with non-existent user (401)', async () => {
     const res = await fetch('/api/auth/login', {
       method: 'POST',
