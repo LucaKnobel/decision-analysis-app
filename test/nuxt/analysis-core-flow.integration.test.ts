@@ -32,6 +32,7 @@ describe('Integration Tests — Analysis Core Flow', async () => {
     expect(user.id).toBeDefined()
   })
 
+  /* TC-IT-08 */
   it('should run the core analysis flow end-to-end', async () => {
     const createRes = await fetch('/api/analyses', {
       method: 'POST',

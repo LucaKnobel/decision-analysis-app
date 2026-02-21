@@ -35,6 +35,7 @@ describe('Integration Tests — Delete User /api/auth/account', async () => {
     sessionCookie = loginRes.headers.get('set-cookie')?.split(';')[0] || ''
   })
 
+  /* TC-IT-07 */
   it('should delete the user account and related data (204)', async () => {
     const res = await fetch('/api/auth/account', {
       method: 'DELETE',
