@@ -297,7 +297,7 @@
     "results": {
       "title": "Ergebnisse",
       "subtitle": "Gewichtete Bewertung basierend auf Ihren Eingaben.",
-      "backToDashboard": "Zurueck zum Dashboard",
+      "backToDashboard": "Zurück zum Dashboard",
       "bestLabel": "Beste Alternative",
       "scoreLabel": "Gesamtscore",
       "maxScoreLabel": "Max-Score",
