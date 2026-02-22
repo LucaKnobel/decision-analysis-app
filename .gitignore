@@ -31,3 +31,5 @@ docker/proxy/certs/*.pem
 docker/proxy/certs/*.key
 
 /generated/prisma
+
+cookies.txt
