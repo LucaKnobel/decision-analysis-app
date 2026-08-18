@@ -24,7 +24,7 @@ jobs:
       packages: write
 
     env:
-      IMAGE: ghcr.io/lucaknobel/web-portfolio
+      IMAGE: ghcr.io/lucaknobel/decision-analysis-app
       IMAGE_TAG_SHA: ${{ github.sha }}
 
     steps:
@@ -57,13 +57,13 @@ jobs:
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            DATABASE_URL=postgresql://build:build@localhost:5432/build
           tags: |
             ${{ env.IMAGE }}:latest
             ${{ env.IMAGE }}:${{ env.IMAGE_TAG_SHA }}
 
-      # Informative security scan for the locally built image.
-      # This step does not fail deployment because the base image may contain
-      # known vulnerabilities that are handled separately.
+      # Security scan for the locally built image
       - name: Scan image with Trivy
         uses: aquasecurity/trivy-action@v0.36.0
         timeout-minutes: 10
@@ -72,22 +72,23 @@ jobs:
           image-ref: "${{ env.IMAGE }}:${{ env.IMAGE_TAG_SHA }}"
           format: "table"
           output: "trivy-report.txt"
-          severity: "CRITICAL,HIGH,MEDIUM"
+          severity: "CRITICAL,HIGH"
           ignore-unfixed: true
           vuln-type: "os,library"
           list-all-pkgs: false
-          exit-code: "0"
+          exit-code: "1"
 
-      # Print the scan result to the job log and the run summary.
-      - name: Trivy report
+      - name: Publish Trivy report
+        if: always()
         run: |
           set -euo pipefail
           if [ ! -s trivy-report.txt ]; then
-            echo "No CRITICAL, HIGH or MEDIUM findings." > trivy-report.txt
+            echo "No CRITICAL or HIGH findings." > trivy-report.txt
           fi
+          echo "Trivy scan for ${IMAGE}:${IMAGE_TAG_SHA}"
           cat trivy-report.txt
           {
-            echo "## Trivy Scan"
+            echo "## Container Security Scan"
             echo ""
             echo "Image: ${IMAGE}:${IMAGE_TAG_SHA}"
             echo ""

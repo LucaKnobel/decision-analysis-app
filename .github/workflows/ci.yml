@@ -1,125 +1,98 @@
-name: Pull Request CI Checks
+name: CI
 
-# Trigger: Run quality checks, security scans, and tests on PRs to main or dev
-# Ensures code meets standards before merging
 on:
   pull_request:
     branches:
-      - "main"
-      - "dev"
+      - main
+      - dev
 
-# Give read access to repository contents for jobs
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
   quality:
-    name: Code Quality
+    name: Quality, tests, and build
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
-    # Skip for Dependabot: Its PRs are dependency updates, already security-checked
-    if: github.actor != 'dependabot[bot]'
-
-    # PostgreSQL service for integration tests
     services:
       postgres:
-        image: postgres:17.7
+        image: postgres:17
         env:
-          POSTGRES_DB: ${{ secrets.CI_POSTGRES_DB }}
-          POSTGRES_USER: ${{ secrets.CI_POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.CI_POSTGRES_PASSWORD }}
+          POSTGRES_DB: decision_analysis_test
+          POSTGRES_USER: tester
+          POSTGRES_PASSWORD: test
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U tester -d decision_analysis_test"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
 
-    steps:
-      # Clone repository at PR commit
-      - uses: actions/checkout@v6
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://tester:test@localhost:5432/decision_analysis_test
 
-      # Install Node.js 24 for build tooling
+    steps:
+      - uses: actions/checkout@v7
+
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+          cache: npm
 
-      # Install dependencies from lock file (ensures reproducible builds)
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      # Generate Prisma Client and run migrations
-      - name: Setup database
-        env:
-          DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
-        run: |
-          npx prisma generate
-          npx prisma migrate deploy
+      - name: Apply database migrations
+        run: npx prisma migrate deploy
 
-      # Check dependencies for known vulnerabilities (fail on critical severity)
-      - run: npm audit --omit=dev --audit-level=critical
+      - name: Lint
+        run: npm run lint
 
-      # Verify code style and catch common errors
-      - run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
 
-      # Validate TypeScript types to prevent runtime errors
-      - run: npm run typecheck
+      - name: Test
+        run: npm test
 
-      # Run tests
-      - name: Run tests
-        env:
-          DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
-          NUXT_SESSION_PASSWORD: ${{ secrets.CI_NUXT_SESSION_PASSWORD }}
-        run: npm run test
+      - name: Build
+        run: npm run build
 
   semgrep:
-    name: Semgrep Security Scan
+    name: Semgrep scan
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-
-    # Skip for Dependabot: Semgrep analyzes first-party code, not dependencies
-    if: github.actor != 'dependabot[bot]'
-
-    # Run in official Semgrep container for consistent environment
-    container:
-      image: semgrep/semgrep
-
-    # Authenticate with Semgrep Cloud for rule updates and findings sync
-    env:
-      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+    timeout-minutes: 15
 
     steps:
-      # Clone code for static analysis
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      # Scan for security vulnerabilities and code quality issues
-      - run: semgrep ci
+      - name: Install Semgrep
+        run: python3 -m pip install --upgrade semgrep
 
-  trivy:
-    name: Trivy Security Scan
+      - name: Run Semgrep auto scan
+        run: semgrep scan --config auto .
+
+  security:
+    name: Security scan
     runs-on: ubuntu-latest
-
-    # Skip for Dependabot: Separate dependency scanning already covered
-    if: github.actor != 'dependabot[bot]'
+    timeout-minutes: 15
 
     steps:
-      # Clone repository for comprehensive security scan
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      # Install Trivy scanner from official source
-      - name: Install Trivy
-        run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
-
-      # Scan for vulnerabilities, leaked secrets, and IaC misconfigurations
-      # Fails CI on medium+ severity findings to enforce security standards
-      - name: Run Trivy scan
-        run: |
-          trivy fs \
-            --scanners vuln,secret,misconfig \
-            --severity CRITICAL,HIGH \
-            --ignore-unfixed \
-            --exit-code 1 \
-            --no-progress \
-            .
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret,misconfig
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+          format: table
