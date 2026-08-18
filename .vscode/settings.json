@@ -1,5 +1,18 @@
 {
     "snyk.advanced.organization": "37a5d848-3890-4758-bcf8-51ae0613b75f",
     "snyk.advanced.autoSelectOrganization": true,
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "js/ts.tsdk.path": "node_modules/typescript/lib",
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "editor.quickSuggestions": {
+        "strings": "on"
+    },
+    "tailwindCSS.classAttributes": [
+        "class",
+        "ui"
+    ],
+    "tailwindCSS.classFunctions": [
+        "defineAppConfig"
+    ]
 }
