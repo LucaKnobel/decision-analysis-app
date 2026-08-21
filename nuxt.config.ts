@@ -15,6 +15,9 @@ export default defineNuxtConfig({
     enabled: true
   },
   css: ['~/assets/css/main.css'],
+  ui: {
+    fonts: false
+  },
   /* runtimeConfig: {
     // The private keys which are only available server-side
     logLevel: 'info',

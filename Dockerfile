@@ -64,5 +64,5 @@ USER appuser
 # Expose port
 EXPOSE 3000
 
-# Run the app
-CMD ["node", ".output/server/index.mjs"]
+# Apply pending migrations, then run the app
+CMD ["sh", "-c", "./node_modules/.bin/prisma migrate deploy && exec node .output/server/index.mjs"]
