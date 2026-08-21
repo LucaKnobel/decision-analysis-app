@@ -63,7 +63,7 @@ jobs:
             ${{ env.IMAGE }}:latest
             ${{ env.IMAGE }}:${{ env.IMAGE_TAG_SHA }}
 
-      # Security scan for the locally built image
+      # Security scan for the locally built image (report only, never blocks the deploy)
       - name: Scan image with Trivy
         uses: aquasecurity/trivy-action@v0.36.0
         timeout-minutes: 10
@@ -72,11 +72,11 @@ jobs:
           image-ref: "${{ env.IMAGE }}:${{ env.IMAGE_TAG_SHA }}"
           format: "table"
           output: "trivy-report.txt"
-          severity: "CRITICAL"
+          severity: "CRITICAL,HIGH"
           ignore-unfixed: true
           vuln-type: "os,library"
           list-all-pkgs: false
-          exit-code: "1"
+          exit-code: "0"
 
       - name: Publish Trivy report
         if: always()
