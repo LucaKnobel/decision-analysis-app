@@ -5,9 +5,8 @@ FROM node:24-slim AS builder
 
 WORKDIR /app
 
-# Build argument for DATABASE_URL (used by prisma generate)
-ARG DATABASE_URL
-ENV DATABASE_URL=${DATABASE_URL}
+# Dummy URL only required so Prisma can load prisma.config.ts during build
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 
 # Prisma needs openssl
 RUN apt-get update -y \
