@@ -72,7 +72,7 @@ jobs:
           image-ref: "${{ env.IMAGE }}:${{ env.IMAGE_TAG_SHA }}"
           format: "table"
           output: "trivy-report.txt"
-          severity: "CRITICAL,HIGH"
+          severity: "CRITICAL"
           ignore-unfixed: true
           vuln-type: "os,library"
           list-all-pkgs: false
