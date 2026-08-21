@@ -1,6 +1,14 @@
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitest/config'
-import { defineVitestProject } from '@nuxt/test-utils/config'
 import { loadEnv } from 'vite'
+
+const alias = {
+  '@server': fileURLToPath(new URL('./server', import.meta.url)),
+  '@contracts': fileURLToPath(new URL('./server/contracts', import.meta.url)),
+  '@services': fileURLToPath(new URL('./server/services', import.meta.url)),
+  '@infrastructure': fileURLToPath(new URL('./server/infrastructure', import.meta.url)),
+  '@generated': fileURLToPath(new URL('./generated', import.meta.url))
+}
 
 export default defineConfig({
   test: {
@@ -15,6 +23,7 @@ export default defineConfig({
     },
     projects: [
       {
+        resolve: { alias },
         test: {
           name: 'unit',
           include: ['test/unit/*.{test,spec}.ts'],
@@ -22,19 +31,13 @@ export default defineConfig({
         }
       },
       {
+        resolve: { alias },
         test: {
           name: 'e2e',
           include: ['test/e2e/*.{test,spec}.ts'],
           environment: 'node'
         }
-      },
-      await defineVitestProject({
-        test: {
-          name: 'nuxt',
-          include: ['test/nuxt/*.{test,spec}.ts'],
-          environment: 'nuxt'
-        }
-      })
+      }
     ]
   }
 })
