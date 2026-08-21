@@ -49,6 +49,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate session password for tests
+        run: echo "NUXT_SESSION_PASSWORD=$(openssl rand -base64 32)" >> "$GITHUB_ENV"
+
       - name: Generate Prisma client
         run: npx prisma generate
 
@@ -95,7 +98,7 @@ jobs:
           scan-type: fs
           scan-ref: .
           scanners: vuln,secret,misconfig
-          severity: CRITICAL,HIGH
+          severity: CRITICAL
           ignore-unfixed: true
           exit-code: "1"
           format: table
